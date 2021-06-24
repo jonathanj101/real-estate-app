@@ -1,5 +1,11 @@
 # misc
 /env
+.env
+.gitignore
+
+
+## Client & React
+/client/node_modules
 
 ## DJANGO
 *.log
