@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import Home from "./Home";
+import { BrowserRouter as Router } from "react-router-dom";
+import Main from "./Main";
 
 export default class App extends Component {
     constructor(props) {
@@ -8,9 +9,9 @@ export default class App extends Component {
     }
     render() {
         return (
-            <div>
-                <Home />
-            </div>
+            <Router>
+                <Main />
+            </Router>
         );
     }
 }
