@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { AppBar, Tabs, Tab, Link, Typography, makeStyles } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
 
 function Navigation() {
     const [value, setValue] = useState("");
@@ -12,33 +11,29 @@ function Navigation() {
     const classes = useStyles();
     return (
         <div>
-            <AppBar className={classes.navBarWidth} position="static">
-                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab href="/" label="Home" />
-                    <Tab href="/about" label="About" />
-                    <Tab href="/example" label="Example" />
-                </Tabs>
+            <AppBar position="static">
+                <div className={classes.navTabsDiv}>
+                    <Tabs id="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
+                        <Tab href="/" label="Home" />
+                        <Tab href="/about" label="About" />
+                        <Tab href="/example" label="Example" />
+                    </Tabs>
+                    {/* <Tabs id="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
+                        <Tab href="/" label="Home" />
+                        <Tab href="/about" label="About" />
+                        <Tab href="/example" label="Example" />
+                    </Tabs> */}
+                </div>
             </AppBar>
         </div>
     );
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(1),
-        [theme.breakpoints.down("sm")]: {
-            backgroundColor: theme.palette.secondary.main,
-        },
-        [theme.breakpoints.up("md")]: {
-            backgroundColor: theme.palette.primary.main,
-        },
-        [theme.breakpoints.up("lg")]: {
-            backgroundColor: red[500],
-        },
+const useStyles = makeStyles({
+    navTabsDiv: {
+        display: "flex",
+        justifyContent: "space-around",
     },
-    navBarWidth: {
-        width: "100% !important",
-    },
-}));
+});
 
 export default Navigation;
