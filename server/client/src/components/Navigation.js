@@ -20,15 +20,13 @@ function Navigation() {
 
     const handleChange = (event, newValue) => {
         console.log(`event ${event} & newvalue ${newValue}`);
-        // console.log(value.currentTarget);
+        console.log(value.currentTarget);
         setValue(newValue);
     };
 
     const redirectToPage = (e) => {
-        e.preventDefault;
-        console.log(e);
-        // console.log(history);
-        const page = e.view.location.pathname;
+        // e.preventDefault;
+        const page = e.currentTarget.attributes[3].textContent;
         console.log(page);
         history.push(`${page}`);
     };
@@ -37,47 +35,21 @@ function Navigation() {
     return (
         <div>
             <AppBar position="static">
-                <div className={classes.navTabsDiv}>
-                    <Tabs value={value} id="tabs" onChange={handleChange} aria-label="simple tabs example">
-                        <Tab onClick={(e) => redirectToPage(e)} label="Home" />
-                        <Tab onClick={(e) => redirectToPage(e)} label="About" />
-                    </Tabs>
+                <div onChange={handleChange} className={classes.navTabsDiv}>
+                    <BottomNavigation>
+                        <Button value="/" endIcon onClick={(e) => redirectToPage(e)}>
+                            <Home />
+                        </Button>
+                    </BottomNavigation>
+                    <Button
+                        value="/about"
+                        endIcon
+                        onClick={(e) => console.log(e.currentTarget.attributes[3].textContent)}
+                    >
+                        <BusinessCenter />
+                    </Button>
                 </div>
             </AppBar>
-            <BottomNavigation onChange={handleChange}>
-                <BottomNavigationAction
-                    value="/"
-                    onClick={(e) => console.log(e)}
-                    className={classes.home}
-                    label="home"
-                    icon={<Home />}
-                />
-                <BottomNavigationAction
-                    value="about"
-                    onClick={(e) => console.log(e.currentTarget.parentElement)}
-                    className={classes.home}
-                    label="home"
-                    icon={<BusinessCenter />}
-                />
-                {/* <Button value="/about" endIcon onClick={(e) => console.log(e.currentTarget.attributes[3].textContent)}> */}
-                {/* <BusinessCenter /> */}
-                {/* <BottomNavigationAction
-                        // onClick={(e) => redirectToPage(e)}
-                        value="about"
-                        label="About Us"
-                        icon={<BusinessCenter />} */}
-                {/* /> */}
-                {/* </Button> */}
-                {/* <Button value="/" endIcon onClick={(e) => console.log(e.currentTarget.attributes[3].textContent)}> */}
-                {/* <Home /> */}
-                {/* <BottomNavigationAction
-                        // onClick={(e) => redirectToPage(e)}
-                        value="about"
-                        label="About Us"
-                        icon={<BusinessCenter />} */}
-                {/* /> */}
-                {/* </Button> */}
-            </BottomNavigation>
         </div>
     );
 }
@@ -85,7 +57,7 @@ function Navigation() {
 const useStyles = makeStyles({
     navTabsDiv: {
         display: "flex",
-        justifyContent: "space-around",
+        justifyContent: "center",
     },
     linkStyles: {
         border: "0",
