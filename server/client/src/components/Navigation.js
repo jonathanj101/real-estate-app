@@ -14,9 +14,8 @@ function Navigation() {
             <AppBar position="static">
                 <div className={classes.navTabsDiv}>
                     <Tabs id="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
-                        <Tab href="/" label="Home" />
-                        <Tab href="/about" label="About" />
-                        <Tab href="/example" label="Example" />
+                        <Tab path="/" label="Home" />
+                        <Tab path="/about" label="About" />
                     </Tabs>
                     {/* <Tabs id="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
                         <Tab href="/" label="Home" />
