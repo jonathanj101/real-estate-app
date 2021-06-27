@@ -1,20 +1,36 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
-import { AppBar, Tabs, Tab, Typography, makeStyles, BottomNavigation, Button } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import {
+    AppBar,
+    Tabs,
+    Tab,
+    Typography,
+    makeStyles,
+    BottomNavigation,
+    Button,
+    BottomNavigationAction,
+} from "@material-ui/core";
+import { Home, BusinessCenter } from "@material-ui/icons";
 
 function Navigation() {
     const [value, setValue] = useState("");
+    const [home, setHome] = useState("home");
+    const history = useHistory();
 
     const handleChange = (event, newValue) => {
         console.log(`event ${event} & newvalue ${newValue}`);
+        // console.log(value.currentTarget);
         setValue(newValue);
     };
 
-    const preventDefault = (e) => {
+    const redirectToPage = (e) => {
+        e.preventDefault;
         console.log(e);
-        // e.preventDefault();
-        console.log("prevented reload");
+        // console.log(history);
+        const page = e.view.location.pathname;
+        console.log(page);
+        history.push(`${page}`);
     };
 
     const classes = useStyles();
@@ -22,38 +38,46 @@ function Navigation() {
         <div>
             <AppBar position="static">
                 <div className={classes.navTabsDiv}>
-                    <Tabs
-                        value={value}
-                        id="tabs"
-                        value={value}
-                        onChange={handleChange}
-                        aria-label="simple tabs example"
-                    >
-                        <Tab label="Home" to="/home" />
-                        <Tab onClick={preventDefault} label="About" />
-                        <Button onClick={preventDefault}>About</Button>
-                        <Link onClick={preventDefault} to="/about">
-                            about
-                        </Link>
+                    <Tabs value={value} id="tabs" onChange={handleChange} aria-label="simple tabs example">
+                        <Tab onClick={(e) => redirectToPage(e)} label="Home" />
+                        <Tab onClick={(e) => redirectToPage(e)} label="About" />
                     </Tabs>
-                    {/* <BottomNavigation value={value} onChange={handleChange} className={classes.root}> */}
-                    {/* <Link to="/about">About</Link> */}
-                    {/* </BottomNavigation> */}
-                    {/* <Tabs>
-                        <Link className={classes.linkStyles} href="/" label="Home">
-                            Home
-                        </Link>
-                        <Link href="/about" label="About">
-                            About
-                        </Link>
-                    </Tabs> */}
-                    {/* <Tabs id="tabs" value={value} onChange={handleChange} aria-label="simple tabs example">
-                        <Tab href="/" label="Home" />
-                        <Tab href="/about" label="About" />
-                        <Tab href="/example" label="Example" />
-                    </Tabs> */}
                 </div>
             </AppBar>
+            <BottomNavigation onChange={handleChange}>
+                <BottomNavigationAction
+                    value="/"
+                    onClick={(e) => console.log(e)}
+                    className={classes.home}
+                    label="home"
+                    icon={<Home />}
+                />
+                <BottomNavigationAction
+                    value="about"
+                    onClick={(e) => console.log(e.currentTarget.parentElement)}
+                    className={classes.home}
+                    label="home"
+                    icon={<BusinessCenter />}
+                />
+                {/* <Button value="/about" endIcon onClick={(e) => console.log(e.currentTarget.attributes[3].textContent)}> */}
+                {/* <BusinessCenter /> */}
+                {/* <BottomNavigationAction
+                        // onClick={(e) => redirectToPage(e)}
+                        value="about"
+                        label="About Us"
+                        icon={<BusinessCenter />} */}
+                {/* /> */}
+                {/* </Button> */}
+                {/* <Button value="/" endIcon onClick={(e) => console.log(e.currentTarget.attributes[3].textContent)}> */}
+                {/* <Home /> */}
+                {/* <BottomNavigationAction
+                        // onClick={(e) => redirectToPage(e)}
+                        value="about"
+                        label="About Us"
+                        icon={<BusinessCenter />} */}
+                {/* /> */}
+                {/* </Button> */}
+            </BottomNavigation>
         </div>
     );
 }
@@ -70,6 +94,9 @@ const useStyles = makeStyles({
         borderRadius: "0",
         backgroundColor: "transparent",
         cursor: "pointer",
+    },
+    home: {
+        color: "red",
     },
 });
 
