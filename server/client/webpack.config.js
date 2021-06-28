@@ -16,6 +16,11 @@ module.exports = {
                     loader: "babel-loader",
                 },
             },
+            {
+                test: /\.(jpg|jpeg|svg|gif|png)$/,
+                exclude: /node_modules/,
+                use: ["raw-loader"],
+            },
         ],
     },
     optimization: {
