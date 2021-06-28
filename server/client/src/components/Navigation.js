@@ -1,21 +1,10 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import {
-    AppBar,
-    Tabs,
-    Tab,
-    Typography,
-    makeStyles,
-    BottomNavigation,
-    Button,
-    BottomNavigationAction,
-} from "@material-ui/core";
+import { AppBar, makeStyles, BottomNavigation, Button } from "@material-ui/core";
 import { Home, BusinessCenter } from "@material-ui/icons";
 
 function Navigation() {
     const [value, setValue] = useState("");
-    const [home, setHome] = useState("home");
     const history = useHistory();
 
     const handleChange = (event, newValue) => {
@@ -25,36 +14,40 @@ function Navigation() {
     };
 
     const redirectToPage = (e) => {
-        // e.preventDefault;
         const page = e.currentTarget.attributes[3].textContent;
-        console.log(page);
         history.push(`${page}`);
     };
 
-    const classes = useStyles();
+    const classes = styles();
     return (
         <div>
-            <AppBar position="static">
-                <div onChange={handleChange} className={classes.navTabsDiv}>
-                    <BottomNavigation>
+            <AppBar position="static" color="secondary">
+                <div className={classes.navTabsDiv}>
+                    <BottomNavigation className={classes.btnNavigation}>
                         <Button value="/" endIcon onClick={(e) => redirectToPage(e)}>
-                            <Home />
+                            <div className={classes.btnNavigationItems}>
+                                <div>
+                                    <Home />
+                                </div>
+                            </div>
+                            Home
+                        </Button>
+                        <Button value="/about" endIcon onClick={(e) => redirectToPage(e)}>
+                            <div className={classes.btnNavigationItems}>
+                                <div>
+                                    <BusinessCenter />
+                                </div>
+                                About us
+                            </div>
                         </Button>
                     </BottomNavigation>
-                    <Button
-                        value="/about"
-                        endIcon
-                        onClick={(e) => console.log(e.currentTarget.attributes[3].textContent)}
-                    >
-                        <BusinessCenter />
-                    </Button>
                 </div>
             </AppBar>
         </div>
     );
 }
 
-const useStyles = makeStyles({
+const styles = makeStyles({
     navTabsDiv: {
         display: "flex",
         justifyContent: "center",
@@ -67,8 +60,12 @@ const useStyles = makeStyles({
         backgroundColor: "transparent",
         cursor: "pointer",
     },
-    home: {
-        color: "red",
+    btnNavigation: {
+        backgroundColor: "inherit",
+    },
+    btnNavigationItems: {
+        display: "flex",
+        alignItems: "center",
     },
 });
 
