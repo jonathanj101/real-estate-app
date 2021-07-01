@@ -9,16 +9,27 @@ import {
     CardMedia,
     makeStyles,
 } from "@material-ui/core";
-import { Favorite, Share, ExpandMore, MoreVert } from "@material-ui/icons";
+import { Favorite, Share, ExpandMore } from "@material-ui/icons";
 // import house from "../../static/images/house.jpg";
 
 const Cards = () => {
     const [expanded, setExpanded] = useState(false);
+    const [isIconClick, setIconClick] = useState(false);
 
     const classes = styles();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
+    };
+    const handleIconOnClick = (e) => {
+        console.log(e);
+        if (!isIconClick) {
+            e.currentTarget.children[0].style.color = "red";
+            setIconClick(true);
+        } else {
+            e.currentTarget.children[0].style.color = "rgba(0, 0, 0, 0.54)";
+            setIconClick(false);
+        }
     };
 
     return (
@@ -31,7 +42,7 @@ const Cards = () => {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton aria-label="add to favorites" onClick={handleIconOnClick}>
                         <Favorite />
                     </IconButton>
                     <IconButton aria-label="share">
@@ -55,12 +66,11 @@ const Cards = () => {
 
 const styles = makeStyles({
     mainDiv: {
-        width: "50%",
-        height: "50%",
+        width: 345,
     },
+    cardStyles: {},
     image: {
-        height: "300px",
-        width: "300px",
+        height: 140,
     },
 });
 
