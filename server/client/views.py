@@ -21,3 +21,9 @@ def apiOverview(request):
         print(request.data)
         return Response("Hello world")
     return Response("get request")
+
+
+@api_view(["GET"])
+def user_Account(request):
+    print("user account route")
+    return Response("user accout route")
