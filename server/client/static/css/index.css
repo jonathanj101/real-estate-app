@@ -18,8 +18,6 @@ body {
     height: 100%;
 }
 
-header > #tabs > div > .MuiTabs-flexContainer {
-    justify-content: center;
-    font-size: 2rem !important;
-    background-color: red;
+.MuiBottomNavigation-root > .MuiBottomNavigationAction-root.Mui-selected {
+    color: white;
 }
