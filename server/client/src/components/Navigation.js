@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AppBar, makeStyles, BottomNavigation, BottomNavigationAction, Button } from "@material-ui/core";
-import { Home, BusinessCenter } from "@material-ui/icons";
+import {
+    Home,
+    BusinessCenter,
+    AccountBox,
+    AccountBoxOutlined,
+    AccountBoxRounded,
+    AccountBoxSharp,
+} from "@material-ui/icons";
 
 function Navigation() {
     const [value, setValue] = useState("");
@@ -14,23 +21,29 @@ function Navigation() {
 
     const redirectToPage = (e) => {
         const page = e.currentTarget.children[0].children[0].attributes[4].nodeValue;
-        // console.log(value);
-        // const page = e.currentTarget.attributes[3].textContent;
         history.push(`${page}`);
+        // fetchingData(page);
     };
 
-    const fetchingData = () => {
-        fetch("/example", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ something: "post request from react" }),
-        })
-            .then((resp) => resp.json())
-            .then((data) => console.log(data));
-    };
+    // const fetchingData = (route) => {
+    //     console.log(route);
+    //     fetch(`${route}`)
+    //         .then((resp) => resp.json())
+    //         .then((data) => console.log(data));
+    // };
+    // const fetchingData = (route) => {
+    //     console.log(route);
+    //     fetch(`${route}`, {
+    //         method: "Get",
+    //         headers: {
+    //             Accept: "application/json",
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify({ something: "post request from react" }),
+    //     })
+    //         .then((resp) => resp.json())
+    //         .then((data) => console.log(data));
+    // };
 
     const classes = styles();
     return (
@@ -57,31 +70,14 @@ function Navigation() {
                             label="About"
                             icon={<BusinessCenter value="/about" />}
                         />
-                        <BottomNavigationAction />
-                        {/* <Button value="/" endIcon onClick={(e) => redirectToPage(e)}>
-                            <div className={classes.btnNavigationItems}>
-                                <div>
-                                    <Home />
-                                </div>
-                                Home
-                            </div>
-                        </Button>
-                        <Button value="/about" endIcon onClick={(e) => redirectToPage(e)}>
-                            <div className={classes.btnNavigationItems}>
-                                <div>
-                                    <BusinessCenter />
-                                </div>
-                                About us
-                            </div>
-                        </Button>
-                        <Button value="/example" endIcon onClick={fetchingData}>
-                            <div className={classes.btnNavigationItems}>
-                                <div>
-                                    <BusinessCenter />
-                                </div>
-                                example
-                            </div>
-                        </Button> */}
+                        <BottomNavigationAction
+                            className={
+                                history.location.pathname == "/account" ? "Mui-selected" : classes.btnNavigationItems
+                            }
+                            onClick={redirectToPage}
+                            label="Account"
+                            icon={<AccountBox value="/account" />}
+                        />
                     </BottomNavigation>
                 </div>
             </AppBar>
@@ -108,12 +104,9 @@ const styles = makeStyles({
     btnNavigationItems: {
         display: "flex",
         alignItems: "center",
-        color: "white",
+        color: "black",
         "&:hover": {
-            color: "black",
-        },
-        ".Mui-selected": {
-            color: "black",
+            color: "white",
         },
     },
     nav: {
