@@ -14,7 +14,7 @@ import { Favorite, Share, ExpandMore } from "@material-ui/icons";
 // import house from "../../static/images/house.jpg";
 
 const Cards = () => {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(null);
     const [isIconClick, setIconClick] = useState(false);
     const [arr, setArr] = useState([]);
 
@@ -30,9 +30,12 @@ const Cards = () => {
 
     const classes = styles();
 
-    const handleExpandClick = (index) => {
-        console.log(index);
-        setExpanded(!expanded);
+    const toggle = (zpid) => {
+        if (expanded === zpid) {
+            setExpanded(null);
+        } else {
+            setExpanded(zpid);
+        }
     };
     const handleIconOnClick = (e) => {
         console.log(e);
@@ -44,20 +47,21 @@ const Cards = () => {
             setIconClick(false);
         }
     };
+
     const cardBody = arr.map((property, num) => {
         // console.log(index);
         return (
-            <Card key={num}>
+            <Card>
                 <CardMedia className={classes.image} image={property.imgSrc} />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary">
-                        <h2>{property.price}</h2>
+                        <h2>{property.price} </h2>
                     </Typography>
                     <Typography>
-                        <span>{property.bathrooms}</span>
-                        <span>{property.propertyType}</span>
+                        <span> bathrooms {property.bathrooms} | </span>
+                        <span>{property.propertyType} | </span>
                         <span>
-                            {property.lotAreaValue} | {property.lotAreaUnit}
+                            {property.lotAreaValue} {property.lotAreaUnit}
                         </span>
                     </Typography>
                 </CardContent>
@@ -68,11 +72,11 @@ const Cards = () => {
                     <IconButton aria-label="share">
                         <Share />
                     </IconButton>
-                    <IconButton aria-label="show more" aria-expanded={expanded} onClick={() => handleExpandClick()}>
+                    <IconButton aria-label="show more" aria-expanded={expanded} onClick={() => toggle(property.zpid)}>
                         <ExpandMore />
                     </IconButton>
                 </CardActions>
-                <Collapse key={num} in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={expanded === property.zpid} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography>
                             GOOGLE MINI-MAP MIGHT GO IN THIS PLACE! TO DISPLAY PROPERTIES LOCATION!!
