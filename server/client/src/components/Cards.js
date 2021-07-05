@@ -51,7 +51,7 @@ const Cards = () => {
     const cardBody = arr.map((property, num) => {
         // console.log(index);
         return (
-            <Card>
+            <Card className={classes.cardStyles}>
                 <CardMedia className={classes.image} image={property.imgSrc} />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary">
@@ -88,50 +88,31 @@ const Cards = () => {
     });
 
     return (
-        <div className={classes.mainDiv}>
-            <Button onClick={fetchingData}>click here</Button>
-            <Card>{cardBody}</Card>
-            {/* <Card>
-                <CardMedia className={classes.image} image="../../static/images/house.jpg" />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary">
-                        A beatiful modern house to enjoy with family!
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites" onClick={handleIconOnClick}>
-                        <Favorite />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <Share />
-                    </IconButton>
-                    <IconButton aria-label="show more" aria-expanded={expanded} onClick={handleExpandClick}>
-                        <ExpandMore />
-                    </IconButton>
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography>Review of the house</Typography>
-                        <Typography>History of the house</Typography>
-                        <Typography>Renovations if any</Typography>
-                    </CardContent>
-                </Collapse>
-            </Card> */}
+        <div className={classes.mainDiv} id="cards js">
+            <div>
+                <Button onClick={fetchingData}>click here</Button>
+            </div>
+            <div className={classes.cardDivStyles}>{cardBody}</div>
         </div>
     );
 };
 
 const styles = makeStyles({
     mainDiv: {
-        display: "flex",
-        flexWrap: "wrap",
-        border: "10px solid black",
-        height: "100%",
-        width: "100%",
+        height: "1500px",
     },
-    cardStyles: {},
+    cardDivStyles: {
+        display: "flex",
+        justifyContent: "space-around",
+        flexWrap: "wrap",
+    },
+    cardStyles: {
+        width: "15%",
+        marginTop: "5px",
+        marginBottom: "5px",
+    },
     image: {
-        height: 140,
+        height: "400px",
     },
 });
 
