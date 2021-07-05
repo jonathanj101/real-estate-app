@@ -14,9 +14,9 @@ function Home() {
     //             setArr(data.data.props);
     //         });
     // };
-
+    const classes = styles();
     return (
-        <div>
+        <div id="home js" className={classes.mainDiv}>
             <SearchComponent />
             <Cards />
             {/* <Button onClick={fetchingData}>click here</Button> */}
@@ -24,6 +24,11 @@ function Home() {
     );
 }
 
-// const styles = makeStyles({});
+const styles = makeStyles({
+    mainDiv: {
+        height: "1100px",
+        overflow: "overlay",
+    },
+});
 
 export default Home;
