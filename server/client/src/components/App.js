@@ -6,7 +6,7 @@ import Main from "./Main";
 function App() {
     return (
         <BrowserRouter>
-            <div>
+            <div id="app js">
                 <Main />
             </div>
         </BrowserRouter>
