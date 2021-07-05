@@ -6,7 +6,7 @@ import { LinkedIn, Instagram } from "@material-ui/icons";
 function Footer() {
     const classes = styles();
     return (
-        <div className={classes.mainDiv}>
+        <div id="footer js" className={classes.mainDiv}>
             <div className={classes.columnMainDiv}>
                 <div className={classes.columnItemsDiv}>
                     <h2 className={classes.columnTitle}>Jonathan Jimenez</h2>
@@ -58,6 +58,7 @@ function Footer() {
 
 const styles = makeStyles({
     mainDiv: {
+        height: "500px",
         backgroundColor: "rgb(102, 102, 102)",
     },
     columnMainDiv: {
