@@ -47,7 +47,7 @@ function Navigation() {
 
     const classes = styles();
     return (
-        <div>
+        <div id="navigation js">
             <AppBar position="static" className={classes.nav}>
                 <div className={classes.navTabsDiv}>
                     <BottomNavigation
