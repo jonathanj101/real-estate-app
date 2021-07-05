@@ -12,7 +12,7 @@ class Main extends Component {
     }
     render() {
         return (
-            <div>
+            <div id=" main js">
                 <Navigation />
                 <Switch>
                     <Route exact path="/" render={() => <Home />} />
