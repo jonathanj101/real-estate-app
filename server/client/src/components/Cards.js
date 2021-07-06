@@ -88,18 +88,21 @@ const Cards = () => {
     });
 
     return (
-        <div className={classes.mainDiv} id="cards js">
+        <div id="cards js">
             <div>
                 <Button onClick={fetchingData}>click here</Button>
             </div>
-            <div className={classes.cardDivStyles}>{cardBody}</div>
+            <div className={classes.cardMainDiv}>
+                <div className={classes.cardDivStyles}>{cardBody}</div>
+            </div>
         </div>
     );
 };
 
 const styles = makeStyles({
-    mainDiv: {
-        height: "1500px",
+    cardMainDiv: {
+        height: "920px",
+        overflowY: "overlay",
     },
     cardDivStyles: {
         display: "flex",
