@@ -2,9 +2,10 @@ from django.db import models
 
 # Create your models here.
 
+# need to modify user model
+
 
 class User(models.Model):
-    # need to modify user model
     first_name = models.CharField(max_length=20, default="", null=False)
     last_name = models.CharField(max_length=20, default="", null=False)
     username = models.CharField(
@@ -17,13 +18,14 @@ class User(models.Model):
         return self.username
 
 
-class Property(models.Model):
-    address =  # need to add model field
-    price =  # need to add model field
-    property_type =  # need to add model field
-    bathrooms =  # need to add model field
-    bedrooms =  # need to add model field
-    sqft =  # need to add model field
-    zpid =  # need to add model field
-    latitude =  # need to add model field
-    longitude =  # need to add model field
+#
+# class Property(models.Model):
+#     address =  # need to add model field
+#     price =  # need to add model field
+#     property_type =  # need to add model field
+#     bathrooms =  # need to add model field
+#     bedrooms =  # need to add model field
+#     sqft =  # need to add model field
+#     zpid =  # need to add model field
+#     latitude =  # need to add model field
+#     longitude =  # need to add model field
