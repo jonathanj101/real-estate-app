@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import UserView
+from .views import testing, test_zillow_api
 
 urlpatterns = [
-    path("user", UserView.as_view())
+    path("testing", test_zillow_api),
+    path("test", testing)
 ]
