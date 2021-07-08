@@ -1,11 +1,8 @@
 from django.db import models
-
-# Create your models here.
-# api dir will be deleted no longer needed
+from datetime import datetime
 
 
 class User(models.Model):
-    # need to modify user model
     first_name = models.CharField(max_length=20, default="", null=False)
     last_name = models.CharField(max_length=20, default="", null=False)
     username = models.CharField(
@@ -19,12 +16,29 @@ class User(models.Model):
 
 
 class Property(models.Model):
-    address =  # need to add model field
-    price =  # need to add model field
-    property_type =  # need to add model field
-    bathrooms =  # need to add model field
-    bedrooms =  # need to add model field
-    sqft =  # need to add model field
-    zpid =  # need to add model field
-    latitude =  # need to add model field
-    longitude =  # need to add model field
+    address = models.CharField(max_length=100, null=False, unique=True)
+    price = models.IntegerField()
+    property_type = models.CharField(max_length=30, null=False)
+    bathrooms = models.IntegerField()
+    bedrooms = models.IntegerField()
+    sqft = models.IntegerField()
+    zpid = models.IntegerField()
+    latitude = models.IntegerField()
+    longitude = models.IntegerField()
+    photo_main = models.ImageField(upload_to="static/images/%Y/%m/%d/")
+    photo_1 = models.ImageField(
+        upload_to="static/images/%Y/%m/%d/", blank=True)
+    photo_2 = models.ImageField(
+        upload_to="static/images/%Y/%m/%d/", blank=True)
+    photo_3 = models.ImageField(
+        upload_to="static/images/%Y/%m/%d/", blank=True)
+    photo_4 = models.ImageField(
+        upload_to="static/images/%Y/%m/%d/", blank=True)
+    photo_5 = models.ImageField(
+        upload_to="static/images/%Y/%m/%d/", blank=True)
+    photo_5 = models.ImageField(
+        upload_to="static/images/%Y/%m/%d/", blank=True)
+    list_date = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return f"Property ('{self.address}','{self.price}', '{self.property_type}', '{self.bathrooms}', '{self.bedrooms}, '{self.sqft}', '{self.zpid}', '{self.latitude}', '{self.longitude}', '{self.photo_main}', '{self.list_date}')"
