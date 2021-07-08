@@ -147,5 +147,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://pypi.org/project/django-cors-headers/
 
 CORS_ALLOWED_ORIGINS = [
-    "https://localhost:8000"
+    "http://localhost:8000"
 ]
