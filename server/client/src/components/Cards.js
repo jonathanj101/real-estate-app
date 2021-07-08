@@ -19,12 +19,17 @@ const Cards = () => {
     const [arr, setArr] = useState([]);
 
     const fetchingData = () => {
-        fetch("/testing")
+        fetch("http://127.0.0.1:8000/testing")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data.data);
-                setArr(data.data.props);
+                // setArr(data.data.props);
             });
+    };
+    const fetchingDataTesting = () => {
+        fetch("api/test")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
     };
     // console.log(arr.props);
 
@@ -91,6 +96,9 @@ const Cards = () => {
         <div id="cards js">
             <div>
                 <Button onClick={fetchingData}>click here</Button>
+            </div>
+            <div>
+                <Button onClick={fetchingDataTesting}>testing</Button>
             </div>
             <div className={classes.cardMainDiv}>
                 <div className={classes.cardDivStyles}>{cardBody}</div>
