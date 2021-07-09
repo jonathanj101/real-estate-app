@@ -21,7 +21,7 @@ class Property(models.Model):
     property_type = models.CharField(max_length=30, null=False)
     bathrooms = models.IntegerField()
     bedrooms = models.IntegerField()
-    lotAreaUnit = models.CharField(max_length=10, default="", null=False)
+    lotAreaUnit = models.CharField(max_length=20, default="", null=False)
     lotAreaValue = models.IntegerField()
     zpid = models.IntegerField()
     latitude = models.IntegerField()
