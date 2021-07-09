@@ -19,11 +19,11 @@ const Cards = () => {
     const [arr, setArr] = useState([]);
 
     const fetchingData = () => {
-        fetch("http://127.0.0.1:8000/testing")
+        fetch("api/testing")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data.data);
-                // setArr(data.data.props);
+                setArr(data.data.props);
             });
     };
     const fetchingDataTesting = () => {
@@ -63,7 +63,10 @@ const Cards = () => {
                         <h2>{property.price} </h2>
                     </Typography>
                     <Typography>
-                        <span> bathrooms {property.bathrooms} | </span>
+                        <span>
+                            {" "}
+                            {property.bedrooms} bd | {property.bathrooms} ba |{" "}
+                        </span>
                         <span>{property.propertyType} | </span>
                         <span>
                             {property.lotAreaValue} {property.lotAreaUnit}
