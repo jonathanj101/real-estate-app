@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from .serializer import UserSerializer, PropertySerializer
 from .models import User, Property
 
-# Create your views here.
+import requests
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -43,9 +43,32 @@ def test_zillow_api(request):
 
     response = requests.get(url=url, headers=headers, params=querystring)
     resp = response.json()
-    # print(resp)
 
-    # print(response.text)
+    def map_response(response):
+        properties_data = []
+        for key in response:
+
+            property_model = Property(address=key["address"], price=key["price"], property_type=key["propertyType"], bathrooms=key["bathrooms"], bedrooms=key["bedrooms"],
+                                      lotAreaUnit=key["lotAreaUnit"], lotAreaValue=key["lotAreaValue"], zpid=key["zpid"], latitude=key["latitude"], longitude=key["longitude"], photo_main=key["imgSrc"])
+            property_model.save()
+
+            data = {
+                "address": key["address"],
+                "price": key["price"],
+                "property_type": key["propertyType"],
+                "bathrooms": key["bathrooms"],
+                "bedrooms": key["bedrooms"],
+                "lotAreaUnit": key["lotAreaUnit"],
+                "lotAreaValue": key["lotAreaValue"],
+                "zpid": key["zpid"],
+                "latitude": key["latitude"],
+                "longitude": key["longitude"],
+                "photo_main": key["imgSrc"],
+            }
+            properties_data.append(data)
+        return properties_data
+
+    properties = map_response(resp["props"])
     return Response({"data": resp})
 
 
