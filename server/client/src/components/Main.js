@@ -4,6 +4,7 @@ import Navigation from "./Navigation";
 import Footer from "./Footer";
 import Home from "../pages/Home";
 import About from "../pages/About";
+import UserPage from "./UserPage";
 
 class Main extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class Main extends Component {
                 <Switch>
                     <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/about" render={() => <About />} />
+                    <Route exact path="/account" render={() => <UserPage />} />
                 </Switch>
                 <Footer />
             </div>
