@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Card,
     CardContent,
@@ -11,27 +11,24 @@ import {
     Button,
 } from "@material-ui/core";
 import { Favorite, Share, ExpandMore } from "@material-ui/icons";
-// import house from "../../static/images/house.jpg";
 
 const Cards = () => {
     const [expanded, setExpanded] = useState(null);
     const [isIconClick, setIconClick] = useState(false);
     const [arr, setArr] = useState([]);
 
+    useEffect(() => {
+        fetchingData();
+    }, []);
+
     const fetchingData = () => {
         fetch("api/testing")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data.data);
-                setArr(data.data.props);
+                setArr(data.data);
             });
     };
-    const fetchingDataTesting = () => {
-        fetch("api/test")
-            .then((response) => response.json())
-            .then((data) => console.log(data));
-    };
-    // console.log(arr.props);
 
     const classes = styles();
 
@@ -54,17 +51,15 @@ const Cards = () => {
     };
 
     const cardBody = arr.map((property, num) => {
-        // console.log(index);
         return (
             <Card className={classes.cardStyles}>
-                <CardMedia className={classes.image} image={property.imgSrc} />
+                <CardMedia className={classes.image} image={property.image} />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary">
                         <h2>{property.price} </h2>
                     </Typography>
                     <Typography>
                         <span>
-                            {" "}
                             {property.bedrooms} bd | {property.bathrooms} ba |{" "}
                         </span>
                         <span>{property.propertyType} | </span>
@@ -74,7 +69,7 @@ const Cards = () => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <IconButton aria-label="add to favorites" onClick={handleIconOnClick}>
+                    {/* <IconButton aria-label="add to favorites" onClick={handleIconOnClick}>
                         <Favorite />
                     </IconButton>
                     <IconButton aria-label="share">
@@ -82,27 +77,22 @@ const Cards = () => {
                     </IconButton>
                     <IconButton aria-label="show more" aria-expanded={expanded} onClick={() => toggle(property.zpid)}>
                         <ExpandMore />
-                    </IconButton>
+                    </IconButton> */}
                 </CardActions>
-                <Collapse in={expanded === property.zpid} timeout="auto" unmountOnExit>
+                {/* <Collapse in={expanded === property.zpid} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography>
                             GOOGLE MINI-MAP MIGHT GO IN THIS PLACE! TO DISPLAY PROPERTIES LOCATION!!
                         </Typography>
                     </CardContent>
-                </Collapse>
+                </Collapse> */}
             </Card>
         );
     });
 
     return (
         <div id="cards js">
-            <div>
-                <Button onClick={fetchingData}>click here</Button>
-            </div>
-            <div>
-                <Button onClick={fetchingDataTesting}>testing</Button>
-            </div>
+            <div>{/* <Button onClick={fetchingData}>click here</Button> */}</div>
             <div className={classes.cardMainDiv}>
                 <div className={classes.cardDivStyles}>{cardBody}</div>
             </div>
