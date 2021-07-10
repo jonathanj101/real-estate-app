@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,20 +6,6 @@ from .serializer import UserSerializer, PropertySerializer
 from .models import User, Property
 
 import requests
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-
-@api_view(["GET", "POST"])
-def apiOverview(request):
-    print("apioverview")
-    if request.method == "POST":
-        print(request)
-        print(request.data)
-        return Response("Hello world")
-    return Response("get request")
 
 
 @api_view(["GET"])
@@ -30,8 +15,7 @@ def user_Account(request):
 
 
 @api_view(["GET"])
-def test_zillow_api(request):
-
+def get_properties_data(request):
     url = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
 
     querystring = {"location": "santa monica, ca", "home_type": "Houses"}
@@ -47,11 +31,6 @@ def test_zillow_api(request):
     def map_response(response):
         properties_data = []
         for key in response:
-
-            property_model = Property(address=key["address"], price=key["price"], property_type=key["propertyType"], bathrooms=key["bathrooms"], bedrooms=key["bedrooms"],
-                                      lotAreaUnit=key["lotAreaUnit"], lotAreaValue=key["lotAreaValue"], zpid=key["zpid"], latitude=key["latitude"], longitude=key["longitude"], photo_main=key["imgSrc"])
-            property_model.save()
-
             data = {
                 "address": key["address"],
                 "price": key["price"],
@@ -63,13 +42,13 @@ def test_zillow_api(request):
                 "zpid": key["zpid"],
                 "latitude": key["latitude"],
                 "longitude": key["longitude"],
-                "photo_main": key["imgSrc"],
+                "image": key["imgSrc"],
             }
             properties_data.append(data)
         return properties_data
 
     properties = map_response(resp["props"])
-    return Response({"data": resp})
+    return Response({"data": properties})
 
 
 @api_view(["GET"])
