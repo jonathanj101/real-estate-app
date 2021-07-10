@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import testing, test_zillow_api
+from .views import testing, get_properties_data
 
 urlpatterns = [
-    path("testing", test_zillow_api),
+    path("testing", get_properties_data),
     path("test", testing)
 ]
