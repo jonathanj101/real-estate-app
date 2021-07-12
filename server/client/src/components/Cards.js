@@ -14,7 +14,7 @@ import { Favorite, Share, ExpandMore } from "@material-ui/icons";
 
 const Cards = () => {
     const [expanded, setExpanded] = useState(null);
-    const [isIconClick, setIconClick] = useState(false);
+    const [isIconClick, setIconClick] = useState(true);
     const [arr, setArr] = useState([]);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const Cards = () => {
     }, []);
 
     const fetchingData = () => {
-        fetch("api/testing")
+        fetch("api/show-properties")
             .then((response) => response.json())
             .then((data) => {
                 console.log(data.data);
@@ -30,29 +30,33 @@ const Cards = () => {
             });
     };
 
-    const classes = styles();
-
-    const toggle = (zpid) => {
-        if (expanded === zpid) {
-            setExpanded(null);
-        } else {
-            setExpanded(zpid);
-        }
+    const addProperty = () => {
+        fetch("/add_property", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({}),
+        });
     };
+    // const deleteProperty = () => {};
+
+    // const getPropertyDataOnClick = (e) => {};
+
     const handleIconOnClick = (e) => {
-        console.log(e);
-        if (!isIconClick) {
-            e.currentTarget.children[0].style.color = "red";
-            setIconClick(true);
-        } else {
+        const iconColor = e.currentTarget.children[0].style.color;
+        if (isIconClick && iconColor == "red") {
             e.currentTarget.children[0].style.color = "rgba(0, 0, 0, 0.54)";
             setIconClick(false);
+        } else {
+            e.currentTarget.children[0].style.color = "red";
+            setIconClick(true);
         }
     };
+
+    const classes = styles();
 
     const cardBody = arr.map((property, num) => {
         return (
-            <Card className={classes.cardStyles}>
+            <Card key={num} className={classes.cardStyles}>
                 <CardMedia className={classes.image} image={property.image} />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary">
@@ -69,23 +73,11 @@ const Cards = () => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    {/* <IconButton aria-label="add to favorites" onClick={handleIconOnClick}>
+                    <IconButton aria-label="add to favorites" onClick={(e) => handleIconOnClick(e)}>
                         <Favorite />
                     </IconButton>
-                    <IconButton aria-label="share">
-                        <Share />
-                    </IconButton>
-                    <IconButton aria-label="show more" aria-expanded={expanded} onClick={() => toggle(property.zpid)}>
-                        <ExpandMore />
-                    </IconButton> */}
                 </CardActions>
-                {/* <Collapse in={expanded === property.zpid} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography>
-                            GOOGLE MINI-MAP MIGHT GO IN THIS PLACE! TO DISPLAY PROPERTIES LOCATION!!
-                        </Typography>
-                    </CardContent>
-                </Collapse> */}
+                <Button>Save Property</Button>
             </Card>
         );
     });
