@@ -12,10 +12,12 @@ class User(models.Model):
     email = models.EmailField(max_length=50, null=False, unique=True)
 
     def __str__(self):
-        return self.username
+        return f"User ('{self.first_name}', '{self.last_name}', '{self.email}', '{self.username}' )"
 
 
 class Property(models.Model):
+    user = models.ForeignKey(User, default="",
+                             on_delete=models.DO_NOTHING)
     address = models.CharField(max_length=100, null=False, unique=True)
     price = models.IntegerField()
     property_type = models.CharField(max_length=30, null=False)
@@ -37,9 +39,7 @@ class Property(models.Model):
         upload_to="static/images/%Y/%m/%d/", blank=True)
     photo_5 = models.ImageField(
         upload_to="static/images/%Y/%m/%d/", blank=True)
-    photo_5 = models.ImageField(
-        upload_to="static/images/%Y/%m/%d/", blank=True)
     list_date = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return f"Property ('{self.address}','{self.price}', '{self.property_type}', '{self.bathrooms}', '{self.bedrooms}, '{self.sqft}', '{self.zpid}', '{self.latitude}', '{self.longitude}', '{self.photo_main}', '{self.list_date}')"
+        return f"Property ('{self.user.username}', '{self.address}','{self.price}', '{self.property_type}', '{self.bathrooms}', '{self.bedrooms}, '{self.lotAreaUnit}', '{self.lotAreaValue}' '{self.zpid}', '{self.latitude}', '{self.longitude}', '{self.photo_main}', '{self.list_date}')"
