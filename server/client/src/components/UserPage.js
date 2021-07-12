@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Avatar, makeStyles, IconButton } from "@material-ui/core";
-import { Favorite } from "@material-ui/icons";
+import {
+    Avatar,
+    makeStyles,
+    IconButton,
+    Collapse,
+    CardActions,
+    Card,
+    CardContent,
+    Typography,
+} from "@material-ui/core";
+import { Favorite, ExpandMore } from "@material-ui/icons";
 
 const UserPage = () => {
     const [isIconClicked, setIsIconClicked] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const handleIconOnClick = (e) => {
         console.log(e);
@@ -16,6 +26,11 @@ const UserPage = () => {
         }
     };
 
+    const toggle = (e) => {
+        setExpanded(!expanded);
+        handleIconOnClick(e);
+    };
+
     const classes = styles();
     return (
         <div className={classes.mainDiv}>
@@ -23,18 +38,27 @@ const UserPage = () => {
                 <div className={classes.userSubCont}>
                     <Avatar className={classes.avatarStyles} src="/broken-image.jpg" />
                     <div className={classes.userInfoDiv}>
-                        <p>Full Name</p>
-                        <p>Email</p>
-                        <p>Location</p>
+                        <div>
+                            <p>Full Name </p>
+                        </div>
+                        <div>
+                            <p>Email</p>
+                        </div>
+                        <div>
+                            <p>Location</p>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <IconButton aria-label="add to favorites">
-                        <Favorite color="secondary" />
-                    </IconButton>
-                </div>
-                <div>
-                    <h1>Saved properties list here</h1>
+                    <CardActions>
+                        <h1>Saved Properties</h1>
+                        <IconButton aria-label="show more" aria-expanded={expanded} onClick={toggle}>
+                            <Favorite />
+                        </IconButton>
+                    </CardActions>
+                    <Collapse in={expanded}>
+                        <h1>expanded</h1>
+                    </Collapse>
                 </div>
             </div>
         </div>
