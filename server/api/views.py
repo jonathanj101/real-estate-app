@@ -51,14 +51,10 @@ def get_properties_data(request):
     return Response({"data": properties})
 
 
-@api_view(["GET"])
-def testing(request):
-    data = {"address": "123 fort", "price": 5000, "property_type": "single family", "bathrooms": 5, "bedrooms": 5,
-            "sqft": 5000, "zpid": 10032, "latitude": 50083.9, "longitude": 5000.5, "photo_main": "image-src.png"}
-    property_model = Property(address=data["address"], price=data["price"], property_type=data["property_type"], bathrooms=data["bathrooms"], bedrooms=data["bedrooms"],
-                              sqft=data["sqft"], zpid=data["zpid"], latitude=data["latitude"], longitude=data["longitude"], photo_main=data["photo_main"])
-    property_model.save()
-    queryset = Property.objects.all()
-    print(queryset)
+@api_view(["POST"])
+def add_property(request):
+    url = "https://zillow-com1.p.rapidapi.com/images"
 
-    return Response({"data": "nope"})
+    querystring = {"zpid": {request.data.zpid}}
+
+    return Response({"data": "success"})
