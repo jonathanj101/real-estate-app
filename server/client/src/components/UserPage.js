@@ -7,9 +7,11 @@ import {
     CardActions,
     Card,
     CardContent,
+    CardMedia,
     Typography,
+    Button,
 } from "@material-ui/core";
-import { Favorite, ExpandMore } from "@material-ui/icons";
+import { Favorite, ExpandMore, Info } from "@material-ui/icons";
 
 const UserPage = () => {
     const [isIconClicked, setIsIconClicked] = useState(false);
@@ -50,15 +52,28 @@ const UserPage = () => {
                     </div>
                 </div>
                 <div>
-                    <CardActions>
+                    <div style={{ display: "flex" }}>
                         <h1>Saved Properties</h1>
                         <IconButton aria-label="show more" aria-expanded={expanded} onClick={toggle}>
                             <Favorite />
                         </IconButton>
-                    </CardActions>
-                    <Collapse in={expanded}>
-                        <h1>expanded</h1>
-                    </Collapse>
+                    </div>
+                    <div style={{ border: "2px solid red", height: "inherit" }}>
+                        <Collapse in={expanded}>
+                            <div style={{ border: "2px solid green" }}>
+                                <Card className={classes.cardStyles}>
+                                    <CardMedia
+                                        // onClick={() => console.log("open modal")}
+                                        className={classes.image}
+                                        image="../../static/images/house.jpg"
+                                    />
+                                    <CardContent>
+                                        <Button>More Info</Button>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </Collapse>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,6 +102,12 @@ const styles = makeStyles({
     avatarStyles: {
         width: "250px",
         height: "250px",
+    },
+    image: {
+        height: "200px",
+    },
+    cardStyles: {
+        width: "10%",
     },
 });
 
