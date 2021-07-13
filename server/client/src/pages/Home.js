@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles, Button } from "@material-ui/core";
-import Cards from "../components/Cards";
+import Properties from "../components/Properties";
 import SearchComponent from "../components/SearchComponent";
 
 function Home() {
@@ -18,7 +18,7 @@ function Home() {
     return (
         <div id="home js">
             <SearchComponent />
-            <Cards />
+            <Properties />
             {/* <Button onClick={fetchingData}>click here</Button> */}
         </div>
     );
