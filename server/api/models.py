@@ -12,7 +12,7 @@ class User(models.Model):
     email = models.EmailField(max_length=50, null=False, unique=True)
 
     def __str__(self):
-        return f"User ('{self.first_name}', '{self.last_name}', '{self.email}', '{self.username}' )"
+        return f"User ('{self.pk}','{self.first_name}', '{self.last_name}', '{self.email}', '{self.username}' )"
 
 
 class Property(models.Model):
