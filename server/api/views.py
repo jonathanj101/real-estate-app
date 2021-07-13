@@ -53,8 +53,28 @@ def get_properties_data(request):
 
 @api_view(["POST"])
 def add_property(request):
-    url = "https://zillow-com1.p.rapidapi.com/images"
 
-    querystring = {"zpid": {request.data.zpid}}
+    user_data = request.data
+
+    # url = "https://zillow-com1.p.rapidapi.com/images"
+
+    # querystring = {"zpid": {request.data["zpid"]}}
+
+    # headers = {
+    #     'x-rapidapi-key': "d9c46d06bcmsh8f8d34a1e32e159p124447jsna5a4785d45eb",
+    #     'x-rapidapi-host': "zillow-com1.p.rapidapi.com"
+    # }
+
+    # request = requests.get(url=url, headers=headers, params=querystring)
+    # response = request.json()
+
+    # images = response["images"]
+
+    user = User.objects.filter(id=1).first()
+
+    property_model = Property(user_id=user.id, address=user_data["address"], price=user_data["cost"], property_type=user_data["propertyType"], bathrooms=user_data["bathrooms"], bedrooms=user_data["bedrooms"],
+                              lotAreaUnit=user_data["lotAreaUnit"], lotAreaValue=user_data["lotAreaUnitValue"], zpid=user_data["zpid"], latitude=user_data["latitude"], longitude=user_data["longitude"], photo_main=user_data["image"])
+
+    property_model.save()
 
     return Response({"data": "success"})
