@@ -22,7 +22,6 @@ function Navigation() {
     const redirectToPage = (e) => {
         const page = e.currentTarget.children[0].children[0].attributes[4].nodeValue;
         history.push(`${page}`);
-        fetchingData(page);
     };
 
     // const fetchingData = (route) => {
