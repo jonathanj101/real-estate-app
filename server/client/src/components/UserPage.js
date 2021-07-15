@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Avatar,
     makeStyles,
@@ -16,6 +16,16 @@ import { Favorite, ExpandMore, Info } from "@material-ui/icons";
 const UserPage = () => {
     const [isIconClicked, setIsIconClicked] = useState(false);
     const [expanded, setExpanded] = useState(false);
+
+    useEffect(() => {
+        fetchPropertyData();
+    }, []);
+
+    const fetchPropertyData = () => {
+        fetch("api/favorites-properties")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+    };
 
     const handleIconOnClick = (e) => {
         console.log(e);
