@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -78,3 +79,16 @@ def add_property(request):
     property_model.save()
 
     return Response({"data": "success"})
+
+
+@api_view(["GET"])
+def favorites_properties(request):
+    user = User.objects.filter(id=1).first()
+    property_model = Property.objects.filter(user_id=1).all()
+    serializer = PropertySerializer(property_model, many=True)
+    # property_model = Property.objects.filter(user_id=1).values()
+    # print(property_model)
+    # return JsonResponse({"data": list(property_model)})
+    print(serializer)
+    print(serializer.data)
+    return Response({"data": serializer.data})
