@@ -1,8 +1,22 @@
 import React, { useState } from "react";
 import { Modal, Card, CardContent, CardActions, CardMedia, CardHeader, Collapse, Button } from "@material-ui/core";
 
-const PropertyModal = ({ open, handleClose }) => {
-    console.log(open);
+const PropertyModal = ({
+    open,
+    handleClose,
+    isUpdated,
+    address,
+    bathrooms,
+    bedrooms,
+    lotAreaUnit,
+    lotAreaValue,
+    latitude,
+    longitude,
+    price,
+    propertyType,
+    zpid,
+}) => {
+    console.log(open, isUpdated, address);
     return (
         <div>
             <Modal
