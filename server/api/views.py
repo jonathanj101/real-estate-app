@@ -80,30 +80,12 @@ def favorites_properties(request):
     user = User.objects.filter(id=1).first()
     property_model = Property.objects.filter(user_id=1).all()
     serializer = PropertySerializer(property_model, many=True)
-    print(serializer)
-    print(serializer.data)
     return Response({"data": serializer.data})
-
-
-@api_view(["GET"])
-def get_property_images_from_zillow(request):
-    property_model = Property.objects.filter(user_id=1).all()
-    property_zpid = [zpid.zpid for zpid in property_model]
-
-    url = "{}/images".format(MAIN_URL)
-    headers = {
-        "x-rapidapi-key": env("RAPIDAPI_KEY"),
-        "x-rapidapi-host": env("RAPIDAPI_HOST")
-    }
-
-    return Response({"data": "images"})
 
 
 @api_view(["POST"])
 def testing_virtual_tour(request):
-    print(request.data)
-    # property_model = Property.objects.filter(user_id=1).all()
-    # property_zpid = [zpid.zpid for zpid in property_model]
+    zpid = request.data["zpid"]
 
     url = "{}/property".format(MAIN_URL)
     headers = {
@@ -111,11 +93,11 @@ def testing_virtual_tour(request):
         "x-rapidapi-host": env("RAPIDAPI_HOST")
     }
 
-    querystring = {"zpid": 20473663}
+    querystring = {"zpid": zpid}
 
     request = requests.get(url=url, headers=headers, params=querystring)
     response = request.json()
 
-    print(response["resoFacts"]["virtualTour"])
+    virtual_tour_url = response["resoFacts"]["virtualTour"]
 
-    return Response({"data": "virtual tour"})
+    return Response({"data": virtual_tour_url})
