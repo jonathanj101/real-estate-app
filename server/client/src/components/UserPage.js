@@ -29,6 +29,7 @@ const UserPage = () => {
     const [price, setPrice] = useState("");
     const [propertyType, setPropertyType] = useState("");
     const [zpid, setZpid] = useState("");
+    const [isUpdated, setIsUpdated] = useState(false);
     const classes = styles();
 
     useEffect(() => {
@@ -36,23 +37,11 @@ const UserPage = () => {
     }, []);
 
     useEffect(() => {
-        if (address !== "") {
-            console.log(
-                address,
-                bedrooms,
-                bathrooms,
-                latitude,
-                longitude,
-                lotAreaUnit,
-                lotAreaValue,
-                price,
-                propertyType,
-                zpid
-            );
+        if (isUpdated) {
             fetchingZpid();
+            setIsUpdated(false);
         }
-        console.log("after if " + address);
-    }, [address]);
+    }, [isUpdated]);
 
     const fetchPropertyData = () => {
         fetch("api/favorites-properties")
@@ -95,6 +84,7 @@ const UserPage = () => {
         propertyType,
         zpid
     ) => {
+        setIsUpdated(true);
         setAddress(address);
         setBathrooms(bathrooms);
         setBedrooms(bedrooms);
@@ -107,15 +97,17 @@ const UserPage = () => {
         setZpid(zpid);
     };
     const fetchingZpid = () => {
-        fetch("api/test_virtual", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                zpid: zpid,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+        if (isUpdated) {
+            fetch("api/test_virtual", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    zpid: zpid,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => console.log(data));
+        }
     };
 
     const propertiesList = savedProperties.map((property, num) => {
@@ -145,7 +137,6 @@ const UserPage = () => {
                     <Button
                         onClick={() => {
                             setOpenModal(true);
-                            // fetchingZpid();
                         }}
                     >
                         More Info
@@ -186,7 +177,21 @@ const UserPage = () => {
                     >
                         open modal
                     </Button>
-                    <PropertyModal open={openModal} handleClose={handleCloseModal} />
+                    <PropertyModal
+                        address={address}
+                        bathrooms={bathrooms}
+                        bedrooms={bedrooms}
+                        lotAreaValue={lotAreaValue}
+                        lotAreaUnit={lotAreaUnit}
+                        latitude={latitude}
+                        longitude={longitude}
+                        price={price}
+                        propertyType={propertyType}
+                        zpid={zpid}
+                        isUpdated={isUpdated}
+                        open={openModal}
+                        handleClose={handleCloseModal}
+                    />
                     <div style={{ border: "2px solid red", height: "inherit" }}>
                         <Collapse in={favorites}>
                             <div style={{ border: "2px solid green", display: "flex" }}>{propertiesList}</div>
