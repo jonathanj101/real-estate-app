@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -6,7 +7,14 @@ from rest_framework.views import APIView
 from .serializer import UserSerializer, PropertySerializer
 from .models import User, Property
 
-import requests
+import environ
+import os
+
+env = environ.Env()
+
+environ.Env.read_env()
+
+MAIN_URL = "https://zillow-com1.p.rapidapi.com"
 
 
 @api_view(["GET"])
@@ -17,13 +25,13 @@ def user_Account(request):
 
 @api_view(["GET"])
 def get_properties_data(request):
-    url = "https://zillow-com1.p.rapidapi.com/propertyExtendedSearch"
+    url = "{}/propertyExtendedSearch".format(MAIN_URL)
 
     querystring = {"location": "santa monica, ca", "home_type": "Houses"}
 
     headers = {
-        'x-rapidapi-key': "d9c46d06bcmsh8f8d34a1e32e159p124447jsna5a4785d45eb",
-        'x-rapidapi-host': "zillow-com1.p.rapidapi.com"
+        'x-rapidapi-key': env("RAPIDAPI_KEY"),
+        'x-rapidapi-host': env("RAPIDAPI_HOST")
     }
 
     response = requests.get(url=url, headers=headers, params=querystring)
@@ -57,20 +65,6 @@ def add_property(request):
 
     user_data = request.data
 
-    # url = "https://zillow-com1.p.rapidapi.com/images"
-
-    # querystring = {"zpid": {request.data["zpid"]}}
-
-    # headers = {
-    #     'x-rapidapi-key': "d9c46d06bcmsh8f8d34a1e32e159p124447jsna5a4785d45eb",
-    #     'x-rapidapi-host': "zillow-com1.p.rapidapi.com"
-    # }
-
-    # request = requests.get(url=url, headers=headers, params=querystring)
-    # response = request.json()
-
-    # images = response["images"]
-
     user = User.objects.filter(id=1).first()
 
     property_model = Property(user_id=user.id, address=user_data["address"], price=user_data["cost"], property_type=user_data["propertyType"], bathrooms=user_data["bathrooms"], bedrooms=user_data["bedrooms"],
@@ -86,9 +80,42 @@ def favorites_properties(request):
     user = User.objects.filter(id=1).first()
     property_model = Property.objects.filter(user_id=1).all()
     serializer = PropertySerializer(property_model, many=True)
-    # property_model = Property.objects.filter(user_id=1).values()
-    # print(property_model)
-    # return JsonResponse({"data": list(property_model)})
     print(serializer)
     print(serializer.data)
     return Response({"data": serializer.data})
+
+
+@api_view(["GET"])
+def get_property_images_from_zillow(request):
+    property_model = Property.objects.filter(user_id=1).all()
+    property_zpid = [zpid.zpid for zpid in property_model]
+
+    url = "{}/images".format(MAIN_URL)
+    headers = {
+        "x-rapidapi-key": env("RAPIDAPI_KEY"),
+        "x-rapidapi-host": env("RAPIDAPI_HOST")
+    }
+
+    return Response({"data": "images"})
+
+
+@api_view(["POST"])
+def testing_virtual_tour(request):
+    print(request.data)
+    # property_model = Property.objects.filter(user_id=1).all()
+    # property_zpid = [zpid.zpid for zpid in property_model]
+
+    url = "{}/property".format(MAIN_URL)
+    headers = {
+        "x-rapidapi-key": env("RAPIDAPI_KEY"),
+        "x-rapidapi-host": env("RAPIDAPI_HOST")
+    }
+
+    querystring = {"zpid": 20473663}
+
+    request = requests.get(url=url, headers=headers, params=querystring)
+    response = request.json()
+
+    print(response["resoFacts"]["virtualTour"])
+
+    return Response({"data": "virtual tour"})
