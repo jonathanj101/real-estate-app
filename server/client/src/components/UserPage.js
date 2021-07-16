@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropertyModal from "./PropertyModal";
 import {
     Avatar,
     makeStyles,
@@ -11,20 +12,55 @@ import {
     Typography,
     Button,
 } from "@material-ui/core";
-import { Favorite, ExpandMore, Info } from "@material-ui/icons";
+import { Favorite } from "@material-ui/icons";
 
 const UserPage = () => {
     const [isIconClicked, setIsIconClicked] = useState(false);
-    const [expanded, setExpanded] = useState(false);
+    const [favorites, setFavorites] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [savedProperties, setSavedProperties] = useState([]);
+    const [address, setAddress] = useState("");
+    const [bathrooms, setBathrooms] = useState("");
+    const [bedrooms, setBedrooms] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
+    const [lotAreaValue, setLotAreaValue] = useState("");
+    const [lotAreaUnit, setLotAreaUnit] = useState("");
+    const [price, setPrice] = useState("");
+    const [propertyType, setPropertyType] = useState("");
+    const [zpid, setZpid] = useState("");
+    const classes = styles();
 
     useEffect(() => {
         fetchPropertyData();
     }, []);
 
+    useEffect(() => {
+        if (address !== "") {
+            console.log(
+                address,
+                bedrooms,
+                bathrooms,
+                latitude,
+                longitude,
+                lotAreaUnit,
+                lotAreaValue,
+                price,
+                propertyType,
+                zpid
+            );
+            fetchingZpid();
+        }
+        console.log("after if " + address);
+    }, [address]);
+
     const fetchPropertyData = () => {
         fetch("api/favorites-properties")
             .then((response) => response.json())
-            .then((data) => console.log(data));
+            .then((data) => {
+                console.log(data);
+                setSavedProperties(data.data);
+            });
     };
 
     const handleIconOnClick = (e) => {
@@ -38,12 +74,87 @@ const UserPage = () => {
         }
     };
 
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
     const toggle = (e) => {
-        setExpanded(!expanded);
+        setFavorites(!favorites);
         handleIconOnClick(e);
     };
 
-    const classes = styles();
+    const getPropertyData = (
+        address,
+        bathrooms,
+        bedrooms,
+        latitude,
+        longitude,
+        lotAreaUnit,
+        lotAreaValue,
+        price,
+        propertyType,
+        zpid
+    ) => {
+        setAddress(address);
+        setBathrooms(bathrooms);
+        setBedrooms(bedrooms);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setLotAreaValue(lotAreaValue);
+        setLotAreaUnit(lotAreaUnit);
+        setPrice(price);
+        setPropertyType(propertyType);
+        setZpid(zpid);
+    };
+    const fetchingZpid = () => {
+        fetch("api/test_virtual", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                zpid: zpid,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+    };
+
+    const propertiesList = savedProperties.map((property, num) => {
+        return (
+            <Card
+                key={num}
+                className={classes.cardStyles}
+                onClick={() => {
+                    getPropertyData(
+                        property.address,
+                        property.bathrooms,
+                        property.bedrooms,
+                        property.latitude,
+                        property.longitude,
+                        property.lotAreaUnit,
+                        property.lotAreaValue,
+                        property.price,
+                        property.property_type,
+                        property.zpid
+                    );
+                }}
+            >
+                <CardContent>
+                    <Typography>{property.price}</Typography>
+                </CardContent>
+                <CardContent>
+                    <Button
+                        onClick={() => {
+                            setOpenModal(true);
+                            // fetchingZpid();
+                        }}
+                    >
+                        More Info
+                    </Button>
+                </CardContent>
+            </Card>
+        );
+    });
+
     return (
         <div className={classes.mainDiv}>
             <div className={classes.container}>
@@ -64,24 +175,21 @@ const UserPage = () => {
                 <div>
                     <div style={{ display: "flex" }}>
                         <h1>Saved Properties</h1>
-                        <IconButton aria-label="show more" aria-expanded={expanded} onClick={toggle}>
+                        <IconButton aria-label="show more" aria-expanded={favorites} onClick={toggle}>
                             <Favorite />
                         </IconButton>
                     </div>
+                    <Button
+                        onClick={() => {
+                            setOpenModal(true);
+                        }}
+                    >
+                        open modal
+                    </Button>
+                    <PropertyModal open={openModal} handleClose={handleCloseModal} />
                     <div style={{ border: "2px solid red", height: "inherit" }}>
-                        <Collapse in={expanded}>
-                            <div style={{ border: "2px solid green" }}>
-                                <Card className={classes.cardStyles}>
-                                    <CardMedia
-                                        // onClick={() => console.log("open modal")}
-                                        className={classes.image}
-                                        image="../../static/images/house.jpg"
-                                    />
-                                    <CardContent>
-                                        <Button>More Info</Button>
-                                    </CardContent>
-                                </Card>
-                            </div>
+                        <Collapse in={favorites}>
+                            <div style={{ border: "2px solid green", display: "flex" }}>{propertiesList}</div>
                         </Collapse>
                     </div>
                 </div>
@@ -117,7 +225,7 @@ const styles = makeStyles({
         height: "200px",
     },
     cardStyles: {
-        width: "10%",
+        width: "5%",
     },
 });
 
