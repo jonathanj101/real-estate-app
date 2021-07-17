@@ -84,7 +84,7 @@ def favorites_properties(request):
 
 
 @api_view(["POST"])
-def testing_virtual_tour(request):
+def get_virtual_tour_url(request):
     zpid = request.data["zpid"]
 
     url = "{}/property".format(MAIN_URL)
@@ -101,3 +101,39 @@ def testing_virtual_tour(request):
     virtual_tour_url = response["resoFacts"]["virtualTour"]
 
     return Response({"data": virtual_tour_url})
+
+
+@api_view(["POST"])
+def get_property_images(request):
+    # property_model = Property.objects.filter(user_id=1).all()
+    # property_zpid = [zpid.zpid for zpid in property_model]
+
+    print(request.data)
+
+    url = "{}/images".format(MAIN_URL)
+
+    headers = {
+        "x-rapidapi-key": env("RAPIDAPI_KEY"),
+        "x-rapidapi-host": env("RAPIDAPI_HOST")
+    }
+    querystring = {"zpid": request.data["zpid"]}
+
+    request = requests.get(
+        url=url, headers=headers, params=querystring)
+    response = request.json()
+
+    # def map_zpid(arr):
+    #     images = []
+    #     for x in arr:
+    #         querystring = {"zpid": x}
+    #         print(querystring)
+    #         request = requests.get(
+    #             url=url, headers=headers, params=querystring)
+    #         response = request.json()
+    #         images.append(response["images"])
+    #     return images
+
+    # arr_images = map_zpid(property_zpid)
+
+    # return Response({"data": arr_images})
+    return Response({"data": response["images"]})
