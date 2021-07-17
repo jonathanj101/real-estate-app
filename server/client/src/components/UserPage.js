@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropertyModal from "./PropertyModal";
-import {
-    Avatar,
-    makeStyles,
-    IconButton,
-    Collapse,
-    CardActions,
-    Card,
-    CardContent,
-    CardMedia,
-    Typography,
-    Button,
-} from "@material-ui/core";
+import { Avatar, makeStyles, IconButton, Collapse, Card, CardContent, Typography, Button } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 
 const UserPage = () => {
@@ -29,6 +18,8 @@ const UserPage = () => {
     const [price, setPrice] = useState("");
     const [propertyType, setPropertyType] = useState("");
     const [zpid, setZpid] = useState("");
+    const [viewTourUrl, setViewTourUrl] = useState("");
+    const [imagesList, setImagesList] = useState([]);
     const [isUpdated, setIsUpdated] = useState(false);
     const classes = styles();
 
@@ -38,8 +29,9 @@ const UserPage = () => {
 
     useEffect(() => {
         if (isUpdated) {
-            fetchingZpid();
+            fetchViewTourUrl();
             setIsUpdated(false);
+            fetchImages();
         }
     }, [isUpdated]);
 
@@ -96,18 +88,37 @@ const UserPage = () => {
         setPropertyType(propertyType);
         setZpid(zpid);
     };
-    const fetchingZpid = () => {
-        if (isUpdated) {
-            fetch("api/test_virtual", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    zpid: zpid,
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => console.log(data));
-        }
+
+    const fetchViewTourUrl = () => {
+        fetch("api/test_virtual", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                zpid: zpid,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setViewTourUrl(data.data);
+            });
+    };
+
+    const fetchImages = () => {
+        fetch("api/get-images", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                zpid: zpid,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setImagesList(data.data);
+            });
     };
 
     const propertiesList = savedProperties.map((property, num) => {
@@ -164,7 +175,7 @@ const UserPage = () => {
                     </div>
                 </div>
                 <div>
-                    <div style={{ display: "flex" }}>
+                    <div className={classes.favoritesContainer}>
                         <h1>Saved Properties</h1>
                         <IconButton aria-label="show more" aria-expanded={favorites} onClick={toggle}>
                             <Favorite />
@@ -188,13 +199,14 @@ const UserPage = () => {
                         price={price}
                         propertyType={propertyType}
                         zpid={zpid}
-                        isUpdated={isUpdated}
                         open={openModal}
+                        viewTourUrl={viewTourUrl}
                         handleClose={handleCloseModal}
+                        imagesList={imagesList}
                     />
-                    <div style={{ border: "2px solid red", height: "inherit" }}>
+                    <div className={classes.collapseContainer}>
                         <Collapse in={favorites}>
-                            <div style={{ border: "2px solid green", display: "flex" }}>{propertiesList}</div>
+                            <div className={classes.propertiesListContainer}>{propertiesList}</div>
                         </Collapse>
                     </div>
                 </div>
@@ -225,6 +237,15 @@ const styles = makeStyles({
     avatarStyles: {
         width: "250px",
         height: "250px",
+    },
+    favoritesContainer: {
+        display: "flex",
+    },
+    collapseContainer: {
+        height: "inherit",
+    },
+    propertiesListContainer: {
+        display: "flex",
     },
     image: {
         height: "200px",
