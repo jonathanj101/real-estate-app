@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Modal, Card, CardContent, CardActions, CardMedia, CardHeader, Collapse, Button } from "@material-ui/core";
+import { Modal, Card, CardContent, Typography, Button, makeStyles } from "@material-ui/core";
 
 const PropertyModal = ({
     open,
     handleClose,
-    isUpdated,
     address,
     bathrooms,
     bedrooms,
@@ -14,9 +13,10 @@ const PropertyModal = ({
     longitude,
     price,
     propertyType,
-    zpid,
+    viewTourUrl,
+    imagesList,
 }) => {
-    console.log(open, isUpdated, address);
+    const classes = styles();
     return (
         <div>
             <Modal
@@ -27,13 +27,26 @@ const PropertyModal = ({
                 aria-describedby="simple-modal-description"
             >
                 <Card>
-                    <CardMedia style={{ height: "400px" }} image="../../static/images/house.jpg" />
-                    <CardContent>property info here</CardContent>
+                    <div className={classes.imagesListDiv}>
+                        {imagesList.map((image) => {
+                            console.log(image);
+                            return <img src={image} className={classes.imagesStyles} />;
+                        })}
+                    </div>
+                    <CardContent>
+                        <Typography variant="h3">${price}</Typography>
+                        <Typography variant="h5">{address}</Typography>
+                        <Typography variant="h5">
+                            {bathrooms} ba | {bedrooms} bds
+                        </Typography>
+                        <Typography variant="h5">{propertyType}</Typography>
+                        <Typography variant="h5">
+                            {lotAreaValue} {lotAreaUnit}
+                        </Typography>
+                    </CardContent>
                     <CardContent>map component here</CardContent>
                     <CardContent>
-                        <Button
-                        // href={url}
-                        >
+                        <Button target="_blank" href={viewTourUrl}>
                             view tour
                         </Button>
                     </CardContent>
@@ -42,5 +55,17 @@ const PropertyModal = ({
         </div>
     );
 };
+
+const styles = (makeStyles = {
+    imagesListDiv: {
+        width: "100%",
+        height: "100%",
+        overflow: "auto",
+    },
+    imagesStyles: {
+        height: "300px",
+        width: "300px",
+    },
+});
 
 export default PropertyModal;
