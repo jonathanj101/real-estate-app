@@ -99,7 +99,6 @@ const UserPage = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setViewTourUrl(data.data);
             });
     };
@@ -116,7 +115,6 @@ const UserPage = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setImagesList(data.data);
             });
     };
@@ -142,7 +140,8 @@ const UserPage = () => {
                 }}
             >
                 <CardContent>
-                    <Typography>{property.price}</Typography>
+                    <Typography>{property.address}</Typography>
+                    <Typography>${property.price}</Typography>
                 </CardContent>
                 <CardContent>
                     <Button
@@ -161,7 +160,7 @@ const UserPage = () => {
         <div className={classes.mainDiv}>
             <div className={classes.container}>
                 <div className={classes.userSubCont}>
-                    <Avatar className={classes.avatarStyles} src="/broken-image.jpg" />
+                    <Avatar className={classes.avatarStyles} src="../../static/images/house.jpg" />
                     <div className={classes.userInfoDiv}>
                         <div>
                             <p>Full Name </p>
@@ -181,13 +180,6 @@ const UserPage = () => {
                             <Favorite />
                         </IconButton>
                     </div>
-                    <Button
-                        onClick={() => {
-                            setOpenModal(true);
-                        }}
-                    >
-                        open modal
-                    </Button>
                     <PropertyModal
                         address={address}
                         bathrooms={bathrooms}
@@ -242,16 +234,22 @@ const styles = makeStyles({
         display: "flex",
     },
     collapseContainer: {
+        width: "90%",
         height: "inherit",
+        margin: "auto",
     },
     propertiesListContainer: {
-        display: "flex",
+        width: "100%",
     },
     image: {
         height: "200px",
     },
     cardStyles: {
-        width: "5%",
+        display: "flex",
+        justifyContent: "space-evenly",
+        width: "85%",
+        border: "1px solid black",
+        margin: "10px auto",
     },
 });
 
