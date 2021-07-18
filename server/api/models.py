@@ -26,8 +26,8 @@ class Property(models.Model):
     lotAreaUnit = models.CharField(max_length=20, default="", null=False)
     lotAreaValue = models.IntegerField()
     zpid = models.IntegerField()
-    latitude = models.IntegerField()
-    longitude = models.IntegerField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     photo_main = models.ImageField(upload_to="static/images/%Y/%m/%d/")
     photo_1 = models.ImageField(
         upload_to="static/images/%Y/%m/%d/", blank=True)
