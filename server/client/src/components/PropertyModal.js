@@ -20,19 +20,20 @@ const PropertyModal = ({
     return (
         <div>
             <Modal
-                style={{ width: "50%", margin: "auto", border: "2px solid green" }}
+                style={{ width: "75%", margin: "auto" }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
                 <Card>
-                    <div className={classes.imagesListDiv}>
-                        {imagesList.map((image) => {
-                            console.log(image);
-                            return <img src={image} className={classes.imagesStyles} />;
-                        })}
-                    </div>
+                    <CardContent>
+                        <div className={classes.imagesListDiv}>
+                            {imagesList.map((image) => {
+                                return <img src={image} className={classes.imagesStyles} />;
+                            })}
+                        </div>
+                    </CardContent>
                     <CardContent>
                         <Typography variant="h3">${price}</Typography>
                         <Typography variant="h5">{address}</Typography>
@@ -56,10 +57,10 @@ const PropertyModal = ({
     );
 };
 
-const styles = (makeStyles = {
+const styles = makeStyles({
     imagesListDiv: {
         width: "100%",
-        height: "100%",
+        height: "500px",
         overflow: "auto",
     },
     imagesStyles: {
