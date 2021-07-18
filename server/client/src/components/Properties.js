@@ -24,7 +24,6 @@ const Properties = () => {
         fetch("api/show-properties")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.data);
                 setPropertiesList(data.data);
             });
     };
@@ -42,7 +41,6 @@ const Properties = () => {
         propertyType,
         zpid
     ) => {
-        // debugger;
         fetch("api/add_property", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
