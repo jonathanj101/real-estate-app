@@ -137,3 +137,10 @@ def get_property_images(request):
 
     # return Response({"data": arr_images})
     return Response({"data": response["images"]})
+
+
+@api_view(["GET"])
+def google_api_key(request):
+    api_key = env("GOOGLE_API_KEY")
+    return Response({"data": api_key})
+    # return Response({"data": "api_key"})
