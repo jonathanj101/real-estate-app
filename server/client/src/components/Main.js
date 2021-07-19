@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import UserPage from "./UserPage";
+import GoogleMap from "./Map/Google-Map/GoogleMap";
 
 class Main extends Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class Main extends Component {
                     <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/about" render={() => <About />} />
                     <Route exact path="/account" render={() => <UserPage />} />
+                    <Route exact path="/map" render={() => <GoogleMap />} />
                 </Switch>
                 <Footer />
             </div>
