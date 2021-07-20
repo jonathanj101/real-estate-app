@@ -20,7 +20,7 @@ class Main extends Component {
                     <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/about" render={() => <About />} />
                     <Route exact path="/account" render={() => <UserPage />} />
-                    <Route exact path="/map" render={() => <GoogleMap />} />
+                    <Route exact path="/map" component={() => <GoogleMap />} />
                 </Switch>
                 <Footer />
             </div>
