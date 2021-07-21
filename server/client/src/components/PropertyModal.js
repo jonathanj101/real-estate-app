@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Modal, Card, CardContent, Typography, Button, makeStyles } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { Modal, Card, CardContent, CardMedia, Typography, Button, makeStyles } from "@material-ui/core";
+import Loading from "./LoadingComponent/Loading";
 
 const PropertyModal = ({
     open,
@@ -15,7 +16,47 @@ const PropertyModal = ({
     propertyType,
     viewTourUrl,
     imagesList,
+    image,
+    zpid,
 }) => {
+    const [propertyImagesForHomePage, setHomePagePropertyImages] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (zpid !== undefined && zpid !== "") {
+            fetchPropertyImages(zpid);
+            setIsLoading(false);
+        } else {
+            console.log("not reading it");
+        }
+    }, [zpid]);
+
+    const fetchPropertyImages = async (zpid) => {
+        const response = await fetch("api/get-images", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                zpid: zpid,
+            }),
+        });
+        const data = await response.json();
+        console.log(data);
+        // setHomePagePropertyImages(response.data.data);
+    };
+
+    // const imagesListComponent = () => {
+    //     return (
+    //         <CardContent>
+    //             <div className={classes.imagesListDiv}>
+    //                 {/* {imagesList.map((image) => { */}
+    //                 {propertyImagesForHomePage.map((image) => {
+    //                     return <img src={image} className={classes.imagesStyles} />;
+    //                 })}
+    //             </div>
+    //         </CardContent>
+    //     );
+    // };
+
     const classes = styles();
     return (
         <div>
@@ -27,13 +68,8 @@ const PropertyModal = ({
                 aria-describedby="simple-modal-description"
             >
                 <Card>
-                    <CardContent>
-                        <div className={classes.imagesListDiv}>
-                            {imagesList.map((image) => {
-                                return <img src={image} className={classes.imagesStyles} />;
-                            })}
-                        </div>
-                    </CardContent>
+                    {/* {isLoading ? <Loading /> : imagesListComponent} */}
+
                     <CardContent>
                         <Typography variant="h3">${price}</Typography>
                         <Typography variant="h5">{address}</Typography>
