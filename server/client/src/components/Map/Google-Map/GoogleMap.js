@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
-import { BottomNavigation, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Loading from "../../LoadingComponent/Loading";
 import LocationMarker from "../Location-Marker/LocationMarker";
 
