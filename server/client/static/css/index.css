@@ -21,3 +21,14 @@ body {
 .MuiBottomNavigation-root > .MuiBottomNavigationAction-root.Mui-selected {
     color: white;
 }
+
+/* .location-marker {
+    height: "500px";
+    font-size: "2rem";
+    color: "red";
+} */
+
+.location-icon {
+    font-size: "2rem";
+    color: "red";
+}
