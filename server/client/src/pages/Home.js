@@ -3,7 +3,7 @@ import { makeStyles, Button } from "@material-ui/core";
 import Properties from "../components/Properties";
 import SearchComponent from "../components/SearchComponent";
 
-function Home() {
+function Home({ googleApiKey }) {
     // const [arr, setArr] = useState([]);
 
     // const fetchingData = () => {
@@ -18,7 +18,7 @@ function Home() {
     return (
         <div id="home js">
             <SearchComponent />
-            <Properties />
+            <Properties googleApiKey={googleApiKey} />
             {/* <Button onClick={fetchingData}>click here</Button> */}
         </div>
     );
