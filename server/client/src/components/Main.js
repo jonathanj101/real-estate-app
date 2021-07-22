@@ -43,16 +43,9 @@ class Main extends Component {
             <div id=" main js">
                 <Navigation />
                 <Switch>
-                    <Route exact path="/" render={() => <Home />} />
+                    <Route exact path="/" render={() => <Home googleApiKey={this.state.googleApiKey} />} />
                     <Route exact path="/about" render={() => <About />} />
                     <Route exact path="/account" render={() => <UserPage />} />
-                    <Route
-                        exact
-                        path="/map"
-                        component={() => (
-                            <GoogleMap googleApiKey={this.state.googleApiKey} isLoading={this.state.isLoading} />
-                        )}
-                    />
                 </Switch>
                 <Footer />
             </div>
