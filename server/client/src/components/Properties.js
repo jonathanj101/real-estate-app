@@ -13,7 +13,7 @@ import {
 import { Favorite, Share, ExpandMore } from "@material-ui/icons";
 import PropertyModal from "./PropertyModal";
 
-const Properties = () => {
+const Properties = ({ googleApiKey }) => {
     const [propertiesList, setPropertiesList] = useState([]);
     const [isIconClick, setIconClick] = useState(true);
     const [openModal, setOpenModal] = useState(false);
@@ -138,7 +138,9 @@ const Properties = () => {
         lotAreaValue,
         property_type,
         price,
-        zpid
+        zpid,
+        latitude,
+        longitude
     ) => {
         console.log(image);
         setOpenModal(true);
@@ -152,6 +154,8 @@ const Properties = () => {
         setPrice(price);
         setImage(image);
         setZpid(zpid);
+        setLatitude(latitude);
+        setLongitude(longitude);
     };
 
     const cardBody = propertiesList.map((property, num) => {
@@ -219,7 +223,9 @@ const Properties = () => {
                                 property.lotAreaValue,
                                 property.propertyType,
                                 property.price,
-                                property.zpid
+                                property.zpid,
+                                property.latitude,
+                                property.longitude
                             );
                             setOpenModal(true);
                             console.log(address);
@@ -237,6 +243,7 @@ const Properties = () => {
             <div className={classes.cardMainDiv}>
                 <div className={classes.cardDivStyles}>{cardBody}</div>
                 <PropertyModal
+                    googleApiKey={googleApiKey}
                     open={openModal}
                     handleClose={handleCloseModal}
                     address={address}
@@ -249,6 +256,8 @@ const Properties = () => {
                     viewTourUrl={viewTourUrl}
                     image={image}
                     zpid={zpid}
+                    latitude={latitude}
+                    longitude={longitude}
                 />
             </div>
         </div>
