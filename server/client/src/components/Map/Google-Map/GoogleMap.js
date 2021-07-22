@@ -5,11 +5,11 @@ import { makeStyles } from "@material-ui/core";
 import Loading from "../../LoadingComponent/Loading";
 import LocationMarker from "../Location-Marker/LocationMarker";
 
-const GoogleMap = ({ googleApiKey, isLoading }) => {
-    const [center, setCenter] = useState({ lat: 59.955413, lng: 30.337844 });
+const GoogleMap = ({ googleApiKey, isLoading, latitude, longitude }) => {
+    const [center, setCenter] = useState({ lat: latitude, lng: longitude });
     const [zoom, setZoom] = useState(11);
 
-    console.log(googleApiKey, isLoading);
+    console.log(googleApiKey, isLoading, latitude, longitude);
     const classes = styles();
     return (
         <div className={classes.map}>
@@ -26,8 +26,8 @@ const GoogleMap = ({ googleApiKey, isLoading }) => {
 
 const styles = makeStyles({
     map: {
-        height: "75vh",
-        width: "100vw",
+        height: "100%",
+        width: "100%",
         position: "relative",
     },
 });
