@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import UserPage from "./UserPage";
-import GoogleMap from "./Map/Google-Map/GoogleMap";
+import RegisterForm from "./User-Auth/Registration/RegisterForm";
 
 class Main extends Component {
     constructor(props) {
@@ -46,6 +46,7 @@ class Main extends Component {
                     <Route exact path="/" render={() => <Home googleApiKey={this.state.googleApiKey} />} />
                     <Route exact path="/about" render={() => <About />} />
                     <Route exact path="/account" render={() => <UserPage />} />
+                    <Route exact path="/register" render={() => <RegisterForm />} />
                 </Switch>
                 <Footer />
             </div>
