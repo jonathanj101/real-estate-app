@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Card, CardContent, CardMedia, Typography, Button, makeStyles } from "@material-ui/core";
+import { Modal, Card, CardContent, Typography, Button, makeStyles } from "@material-ui/core";
 import Loading from "./LoadingComponent/Loading";
 import GoogleMap from "./Map/Google-Map/GoogleMap";
 
@@ -91,7 +91,7 @@ const PropertyModal = ({
                             </CardContent>
                         </div>
                         <div style={{ width: "100%" }}>
-                            <CardContent style={{ height: "100%", width: "100%" }}>
+                            <CardContent style={{ height: "100%", width: "100%", padding: "0" }}>
                                 <GoogleMap
                                     googleApiKey={googleApiKey}
                                     isLoading={isLoading}
