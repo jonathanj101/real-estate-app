@@ -32,3 +32,12 @@ body {
     font-size: "2rem";
     color: "red";
 }
+
+.form-container > form > .form-row > .MuiFormControl-root > .MuiInputBase-root > input {
+    font-size: 2rem !important;
+}
+
+#btn:hover {
+    background-color: red;
+    color: white;
+}
