@@ -144,3 +144,12 @@ def google_api_key(request):
     api_key = env("GOOGLE_API_KEY")
     return Response({"data": api_key})
     # return Response({"data": "api_key"})
+
+
+@api_view(["POST"])
+def registration(request):
+    # if registered:
+    #     pass
+    # else:
+    #     return Response("Looks like an error occured. Please try again!")
+    return Response({"data": "ok"})
