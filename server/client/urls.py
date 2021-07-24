@@ -5,5 +5,5 @@ urlpatterns = [
     path("", index),
     path("about", index),
     path("account", index),
-    path("map", index),
+    path("register", index),
 ]
