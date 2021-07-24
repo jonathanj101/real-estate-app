@@ -193,8 +193,9 @@ const Properties = ({ googleApiKey }) => {
                 <CardActions>
                     <IconButton
                         aria-label="add to favorites"
-                        onClick={() => {
+                        onClick={(e) => {
                             handleSubmit(
+                                e,
                                 property.address,
                                 property.bathrooms,
                                 property.bedrooms,
