@@ -3,7 +3,11 @@ import axios from "axios";
 import { TextField, makeStyles, Button } from "@material-ui/core";
 
 const RegisterForm = () => {
-    const [isError, setIsError] = useState(false);
+    const [isFirstNameValidated, setIsFirstNameValidated] = useState(false);
+    const [isLastNameValidated, setIsLastNameValidated] = useState(false);
+    const [isUsernameValidated, setIsUsernameValidated] = useState(false);
+    const [isPasswordValidated, setIsPasswordValidated] = useState(false);
+    const [isEmailValidated, setIsEmailValidated] = useState(false);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -11,21 +15,60 @@ const RegisterForm = () => {
     const [email, setEmail] = useState("");
     const classes = styles();
 
-    // const handleSubmit = (e) => {};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userInfoError = checkFormValidations(firstName, lastName, username, password, email);
+        if (userInfoError) {
+            e.stopPropagation();
+        } else {
+            handleRegistration(firstName, lastName, username, password, email);
+            clearForm();
+        }
+    };
+
+    const checkFormValidations = (firstName, lastName, username, password, email) => {
+        debugger;
+        const isEmailFormat = email.includes("@") && email.includes(".");
+        console.log(isEmailFormat);
+        if (firstName.length <= 5) {
+            setIsFirstNameValidated(true);
+            return true;
+        }
+        if (lastName.length <= 5) {
+            setIsLastNameValidated(true);
+            return true;
+        }
+        if (username.length <= 5) {
+            setIsUsernameValidated(true);
+            return true;
+        }
+        if (password.length <= 5) {
+            setIsPasswordValidated(true);
+            return true;
+        }
+        if (!isEmailFormat || email.length <= 5) {
+            setIsEmailValidated(true);
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     const handleRegistration = async (firstName, lastName, username, password, email) => {
-        // try {
-        //     const response = await axios.post("api/registration", {
-        //         firstName: firstName,
-        //         lastName: lastName,
-        //         username: username,
-        //         password: password,
-        //         email: email
-        //     })
-        //     const userId = response.data[0]
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        // debugger;
+        try {
+            const response = await axios.post("api/registration", {
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                password: password,
+                email: email,
+            });
+            console.log(response);
+            // const userId = response.data[0]
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const clearForm = () => {
@@ -44,7 +87,9 @@ const RegisterForm = () => {
         <div className={classes.mainDiv}>
             <div className="form-container" style={{ width: "25%", height: "50%", margin: "auto" }}>
                 <form
-                    // onSubmit={(e) => handleSubmit(e)}
+                    onSubmit={(e) => {
+                        handleSubmit(e);
+                    }}
                     className="form"
                     style={{ width: "100%", height: "100%" }}
                     noValidate
@@ -56,29 +101,34 @@ const RegisterForm = () => {
                     <div className="form-row" style={{ margin: "10px auto" }}>
                         <TextField
                             id="firstName"
-                            error={isError}
+                            error={isFirstNameValidated}
                             label="First name"
                             value={firstName}
-                            onChange={(e) => setFirstName(e.currentTarget.textContent)}
-                            helperText={isError ? "Incorrect entry." : ""}
+                            onChange={(e) => setFirstName(e.currentTarget.value)}
+                            helperText={
+                                isFirstNameValidated ? "First name should not be an empty and 5 letters long!" : ""
+                            }
                             style={{ margin: "10px", fontSize: "2rem" }}
                         />
                         <TextField
                             id="lastName"
                             value={lastName}
-                            onChange={(e) => setLastName(e.currentTarget.textContent)}
-                            error={isError}
+                            onChange={(e) => setLastName(e.currentTarget.value)}
+                            error={isLastNameValidated}
                             label="Last name"
-                            helperText={isError ? "Incorrect entry." : ""}
+                            helperText={
+                                isLastNameValidated ? "Last name should not be an empty and 5 letters long!" : ""
+                            }
                         />
                     </div>
                     <div className="form-row" style={{ margin: "10px auto" }}>
                         <TextField
                             id="email"
+                            error={isEmailValidated}
                             value={email}
-                            onChange={(e) => setEmail(e.currentTarget.textContent)}
+                            onChange={(e) => setEmail(e.currentTarget.value)}
                             label="Email"
-                            helperText={isError ? "Incorrect entry." : ""}
+                            helperText={isEmailValidated ? "Email should include '@' and '.'!" : ""}
                             type="email"
                         />
                     </div>
@@ -87,19 +137,19 @@ const RegisterForm = () => {
                             style={{ margin: "10px" }}
                             id="username"
                             value={username}
-                            onChange={(e) => setUsername(e.currentTarget.textContent)}
-                            error={isError}
+                            onChange={(e) => setUsername(e.currentTarget.value)}
+                            error={isUsernameValidated}
                             label="Username"
-                            helperText={isError ? "Incorrect entry." : ""}
+                            helperText={isUsernameValidated ? "Username should be more than 5 letters long!" : ""}
                         />
                         <TextField
                             style={{ margin: "10px" }}
                             id="password"
                             value={password}
-                            onChange={(e) => setPassword(e.currentTarget.textContent)}
-                            error={isError}
+                            onChange={(e) => setPassword(e.currentTarget.value)}
+                            error={isPasswordValidated}
                             label="Password"
-                            helperText={isError ? "Incorrect entry." : ""}
+                            helperText={isPasswordValidated ? "Password should be more than 5 letters long!" : ""}
                             type="password"
                         />
                     </div>
