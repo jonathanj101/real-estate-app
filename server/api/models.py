@@ -3,13 +3,14 @@ from datetime import datetime
 
 
 class User(models.Model):
-    first_name = models.CharField(max_length=20, default="", null=False)
-    last_name = models.CharField(max_length=20, default="", null=False)
+    first_name = models.CharField(max_length=50, default="", null=False)
+    last_name = models.CharField(max_length=50, default="", null=False)
     username = models.CharField(
-        max_length=20, default="", null=False, unique=True)
+        max_length=50, default="", null=False, unique=True)
     password = models.CharField(
-        max_length=20, default="", null=False, unique=False)
-    email = models.EmailField(max_length=50, null=False, unique=True)
+        max_length=256, default="", null=False, unique=False)
+    email = models.CharField(
+        max_length=50, default="", null=False)
 
     def __str__(self):
         return f"User ('{self.pk}','{self.first_name}', '{self.last_name}', '{self.email}', '{self.username}' )"
