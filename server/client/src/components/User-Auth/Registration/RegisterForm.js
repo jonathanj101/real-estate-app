@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { TextField, makeStyles, Button } from "@material-ui/core";
+import AlertMessage from "../../Alert-Message/AlertMessage";
 
 const RegisterForm = () => {
     const [isFirstNameValidated, setIsFirstNameValidated] = useState(false);
@@ -13,7 +15,11 @@ const RegisterForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [statusCode, setStatusCode] = useState();
+    const [responseMessage, setResponseMessage] = useState("");
+    const [isAlert, setIsAlert] = useState(false);
     const classes = styles();
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,12 +28,10 @@ const RegisterForm = () => {
             e.stopPropagation();
         } else {
             handleRegistration(firstName, lastName, username, password, email);
-            clearForm();
         }
     };
 
     const checkFormValidations = (firstName, lastName, username, password, email) => {
-        debugger;
         const isEmailFormat = email.includes("@") && email.includes(".");
         console.log(isEmailFormat);
         if (firstName.length <= 5) {
@@ -55,7 +59,6 @@ const RegisterForm = () => {
     };
 
     const handleRegistration = async (firstName, lastName, username, password, email) => {
-        // debugger;
         try {
             const response = await axios.post("api/registration", {
                 firstName: firstName,
@@ -64,8 +67,17 @@ const RegisterForm = () => {
                 password: password,
                 email: email,
             });
-            console.log(response);
-            // const userId = response.data[0]
+            const userId = response.data.id;
+            const message = response.data.message;
+            const statusCode = response.data.status;
+            setIsAlert(true);
+            setResponseMessage(message);
+            if (statusCode >= 400) {
+                setStatusCode(statusCode);
+            } else {
+                localStorage.setItem("id", JSON.stringify(userId));
+                redirectToHomePage();
+            }
         } catch (error) {
             console.log(error);
         }
@@ -80,11 +92,15 @@ const RegisterForm = () => {
     };
 
     const redirectToHomePage = () => {
-        // code to redirect user to home page
+        setTimeout(() => {
+            history.push("/");
+            clearForm();
+        }, 3000);
     };
 
     return (
         <div className={classes.mainDiv}>
+            <AlertMessage show={isAlert} statusCode={statusCode} responseMessage={responseMessage} />
             <div className="form-container" style={{ width: "25%", height: "50%", margin: "auto" }}>
                 <form
                     onSubmit={(e) => {
@@ -168,7 +184,7 @@ const styles = makeStyles({
     mainDiv: {
         width: "100%",
         height: "100%",
-        margin: "250px auto",
+        margin: "0 auto 250px auto",
         textAlign: "center",
     },
 });
