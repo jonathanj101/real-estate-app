@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import UserPage from "./UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
+import LogIn from "./User-Auth/Log-In/LogIn";
 
 class Main extends Component {
     constructor(props) {
@@ -47,6 +48,7 @@ class Main extends Component {
                     <Route exact path="/about" render={() => <About />} />
                     <Route exact path="/account" render={() => <UserPage />} />
                     <Route exact path="/register" render={() => <RegisterForm />} />
+                    <Route exact path="/login" render={() => <LogIn />} />
                 </Switch>
                 <Footer />
             </div>
