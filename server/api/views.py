@@ -1,4 +1,5 @@
 import requests
+from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -143,13 +144,34 @@ def get_property_images(request):
 def google_api_key(request):
     api_key = env("GOOGLE_API_KEY")
     return Response({"data": api_key})
-    # return Response({"data": "api_key"})
 
 
 @api_view(["POST"])
 def registration(request):
-    # if registered:
-    #     pass
-    # else:
-    #     return Response("Looks like an error occured. Please try again!")
-    return Response({"data": "ok"})
+    USER_DETAIL = request.data
+    username = User.objects.filter(username=USER_DETAIL["username"]).first()
+    registered = username is None
+
+    hashed_password = make_password(
+        USER_DETAIL["password"], salt=None, hasher="default")
+
+    if registered:
+        hashed_password = make_password(
+            USER_DETAIL["password"], salt=None, hasher='default')
+        USER = User(first_name=USER_DETAIL["firstName"], last_name=USER_DETAIL["lastName"],
+                    username=USER_DETAIL["username"], password=hashed_password, email=request.data["email"])
+        USER.save()
+        hashed_id = make_password(str(USER.id), salt=None, hasher="default")
+
+        response = {
+            "id": hashed_id,
+            "message": "Success! You will be redirected to the Home Page shortly!",
+            "status": 200
+        }
+        return Response(response)
+    else:
+        response = {
+            "message": "Looks like that username already exist within our database! Please try selecting different username!",
+            "status": 500
+        }
+        return Response(response)
