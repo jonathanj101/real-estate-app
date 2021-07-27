@@ -9,7 +9,6 @@ const LogIn = () => {
 
     return (
         <div style={{ width: "100%", height: "100%", margin: "0 auto 250px auto" }}>
-            {/* <div style={{ border: "2px solid black", textAlign: "center" }}> */}
             <Modal open={true} style={{ border: "2px solid black", textAlign: "center" }}>
                 <form style={{ width: "10%", margin: "250px auto", border: "2px solid red", backgroundColor: "white" }}>
                     <div>
@@ -43,7 +42,6 @@ const LogIn = () => {
                     </div>
                 </form>
             </Modal>
-            {/* </div> */}
         </div>
     );
 };
