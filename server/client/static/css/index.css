@@ -41,3 +41,7 @@ body {
     background-color: red;
     color: white;
 }
+
+#login-modal > div > form > .form-row > .MuiFormControl-root > .MuiInputBase-root > input {
+    font-size: 2rem;
+}
