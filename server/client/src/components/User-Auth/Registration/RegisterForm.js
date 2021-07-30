@@ -37,20 +37,16 @@ const RegisterForm = () => {
         if (firstName.length <= 5) {
             setIsFirstNameValidated(true);
             return true;
-        }
-        if (lastName.length <= 5) {
+        } else if (lastName.length <= 5) {
             setIsLastNameValidated(true);
             return true;
-        }
-        if (username.length <= 5) {
+        } else if (username.length <= 5) {
             setIsUsernameValidated(true);
             return true;
-        }
-        if (password.length <= 5) {
+        } else if (password.length <= 5) {
             setIsPasswordValidated(true);
             return true;
-        }
-        if (!isEmailFormat || email.length <= 5) {
+        } else if (!isEmailFormat || email.length <= 5) {
             setIsEmailValidated(true);
             return true;
         } else {
