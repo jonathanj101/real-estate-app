@@ -10,9 +10,10 @@ import {
     AccountBoxSharp,
 } from "@material-ui/icons";
 
-function Navigation() {
+function Navigation({ isLogged, handleLogIn }) {
     const [value, setValue] = useState("");
     const history = useHistory();
+    const classes = styles();
 
     const handleChange = (event, newValue) => {
         console.log(`event ${event} & newvalue ${newValue}`);
@@ -24,27 +25,6 @@ function Navigation() {
         history.push(`${page}`);
     };
 
-    // const fetchingData = (route) => {
-    //     console.log(route);
-    //     fetch(`${route}`)
-    //         .then((resp) => resp.json())
-    //         .then((data) => console.log(data));
-    // };
-    // const fetchingData = (route) => {
-    //     console.log(route);
-    //     fetch(`${route}`, {
-    //         method: "Get",
-    //         headers: {
-    //             Accept: "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({ something: "post request from react" }),
-    //     })
-    //         .then((resp) => resp.json())
-    //         .then((data) => console.log(data));
-    // };
-
-    const classes = styles();
     return (
         <div id="navigation js">
             <AppBar position="static" className={classes.nav}>
