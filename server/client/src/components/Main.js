@@ -15,9 +15,13 @@ class Main extends Component {
         this.state = {
             googleApiKey: "",
             isLoading: true,
+            userId: "",
+            username: "",
+            isLogged: false,
         };
 
         this.handleIsLoading = this.handleIsLoading.bind(this);
+        this.handleLogIn = this.handleLogIn.bind(this);
     }
 
     async componentDidMount() {
@@ -31,18 +35,32 @@ class Main extends Component {
         this.handleIsLoading(this.state.googleApiKey);
     }
 
-    handleIsLoading(googleApiKey) {
+    handleIsLoading = (googleApiKey) => {
         if (googleApiKey !== "") {
             this.setState({
                 isLoading: false,
             });
         }
-    }
+    };
+
+    handleLogIn = (userId, username) => {
+        console.log(username);
+        console.log(userId);
+        // if (userId) {
+        //     localStorage.setItem("userId", JSON.stringify(userId))
+        //     this.setState({
+        //         username:username,
+        //         userId: userId,
+        //         isLogged: true
+        //     })
+        // }
+        // return;
+    };
 
     render() {
         return (
             <div id=" main js">
-                <Navigation />
+                <Navigation isLogged={this.state.isLogged} handleLogIn={this.handleLogIn} />
                 <Switch>
                     <Route exact path="/" render={() => <Home googleApiKey={this.state.googleApiKey} />} />
                     <Route exact path="/about" render={() => <About />} />
