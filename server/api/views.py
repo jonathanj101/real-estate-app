@@ -175,3 +175,11 @@ def registration(request):
             "status": 500
         }
         return Response(response)
+
+
+@api_view(["PUT"])
+def log_in(request):
+    USER_DETAIL = request.data
+    print(USER_DETAIL)
+
+    return Response("ok")
