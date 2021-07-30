@@ -1,20 +1,63 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Button, TextField, Modal, makeStyles } from "@material-ui/core";
+import AlertMessage from "../../Alert-Message/AlertMessage";
 
 const LogIn = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [isUsernameValidated, setIsUsernameValidated] = useState("");
-    const [isPasswordValidated, setIsPasswordValidated] = useState("");
+    const [isUsernameValidated, setIsUsernameValidated] = useState(false);
+    const [isPasswordValidated, setIsPasswordValidated] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [responseMessage, setResponseMessage] = useState("");
+    const [statusCode, setStatusCode] = useState();
     const classes = styles();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const checkValidations = checkValidations(username, password);
+        if (checkValidations) {
+            e.stopPropagation();
+        } else {
+            handleLogInRequest(username, password);
+        }
+    };
+
+    const checkFormValidations = (username, password) => {
+        if (username.length <= 5) {
+            setIsUsernameValidated(true);
+            return true;
+        } else if (password.length <= 5) {
+            setIsPasswordValidated(true);
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const handleLogInRequest = async (username, password) => {
+        debugger;
+        console.log(username, password);
+        const response = await axios.put("api/log-in", {
+            username: username,
+            password: password,
+        });
+        console.log(response);
+    };
+
+    const clearForm = () => {
+        setUsername("");
+        setPassword("");
+    };
 
     return (
         <div className={classes.mainDiv}>
             <Modal id="login-modal" open={true} className={classes.modalStyles}>
                 <div className={classes.formDiv}>
-                    <form className={classes.formStyles}>
-                        <div>
-                            <h2>Sign In</h2>
+                    <form onSubmit={(e) => handleSubmit(e)} className={classes.formStyles}>
+                        <AlertMessage show={showAlert} statusCode={statusCode} responseMessage={responseMessage} />
+                        <div className={classes.formTitleDiv}>
+                            <p className={classes.formTitle}>Sign In</p>
                         </div>
                         <div className="form-row">
                             <TextField
@@ -30,6 +73,7 @@ const LogIn = () => {
                         <div className="form-row">
                             <TextField
                                 style={{ margin: "25px auto" }}
+                                type="password"
                                 id="password"
                                 label="Password"
                                 error={isPasswordValidated}
@@ -38,7 +82,12 @@ const LogIn = () => {
                                 onChange={(e) => setPassword(e.currentTarget.value)}
                             />
                         </div>
-                        <div className="register-option-container" style={{ margin: "0 auto 25px auto" }}>
+                        <div>
+                            <Button type="submit" className={classes.btnStyles} variant="outlined">
+                                Log In
+                            </Button>
+                        </div>
+                        <div className={classes.registerOptDiv}>
                             <span>Don't have an account?</span>
                             <a href="/register">Register here!</a>
                         </div>
@@ -56,10 +105,10 @@ const styles = makeStyles({
         margin: "0 auto 250px auto",
     },
     formDiv: {
-        border: "2px solid green",
-        width: "30%",
+        width: "25%",
         height: "30%",
         margin: "250px auto",
+        borderRadius: "rgb(179 178 178) 18px 8px 32px",
     },
     modalStyles: {
         border: "2px solid black",
@@ -68,8 +117,27 @@ const styles = makeStyles({
     formStyles: {
         width: "100%",
         height: "100%",
-        border: "2px solid red",
         backgroundColor: "white",
+    },
+    formTitleDiv: {
+        width: "15%",
+        margin: "auto",
+    },
+    formTitle: {
+        fontSize: "2rem",
+        borderBottom: "5px solid red",
+    },
+    btnStyles: {
+        color: "red",
+        border: "1px solid red",
+        width: "25%",
+        "&:hover": {
+            backgroundColor: "red",
+            color: "white",
+        },
+    },
+    registerOptDiv: {
+        margin: "25px auto 0 auto",
     },
 });
 
