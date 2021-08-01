@@ -3,7 +3,9 @@ import PropertyModal from "./PropertyModal";
 import { Avatar, makeStyles, IconButton, Collapse, Card, CardContent, Typography, Button } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 
-const UserPage = () => {
+const UserPage = ({ googleApiKey }) => {
+    const [firstName, setfirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [isIconClicked, setIsIconClicked] = useState(false);
     const [favorites, setFavorites] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -39,13 +41,11 @@ const UserPage = () => {
         fetch("api/favorites-properties")
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setSavedProperties(data.data);
             });
     };
 
     const handleIconOnClick = (e) => {
-        console.log(e);
         if (!isIconClicked) {
             e.currentTarget.children[0].style.color = "red";
             setIsIconClicked(true);
@@ -163,13 +163,10 @@ const UserPage = () => {
                     <Avatar className={classes.avatarStyles} src="../../static/images/house.jpg" />
                     <div className={classes.userInfoDiv}>
                         <div>
-                            <p>Full Name </p>
+                            <p>Full Name {firstName} </p>
                         </div>
                         <div>
-                            <p>Email</p>
-                        </div>
-                        <div>
-                            <p>Location</p>
+                            <p>Email {lastName}</p>
                         </div>
                     </div>
                 </div>
@@ -195,6 +192,7 @@ const UserPage = () => {
                         viewTourUrl={viewTourUrl}
                         handleClose={handleCloseModal}
                         imagesList={imagesList}
+                        googleApiKey={googleApiKey}
                     />
                     <div className={classes.collapseContainer}>
                         <Collapse in={favorites}>
