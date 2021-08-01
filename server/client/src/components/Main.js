@@ -7,7 +7,6 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import UserPage from "./UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
-import LogIn from "./User-Auth/Log-In/LogIn";
 
 class Main extends Component {
     constructor(props) {
@@ -22,10 +21,12 @@ class Main extends Component {
 
         this.handleIsLoading = this.handleIsLoading.bind(this);
         this.handleLogIn = this.handleLogIn.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
+        this.handleRegistration = this.handleRegistration.bind(this);
     }
 
     async componentDidMount() {
-        // debugger;
+        const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
         if (this.state.googleApiKey === "") {
             const response = await axios.get("api/api-key");
             this.setState({
@@ -33,6 +34,22 @@ class Main extends Component {
             });
         }
         this.handleIsLoading(this.state.googleApiKey);
+        if (localStorageUserId !== null) {
+            const response = await axios.put("api/verify-user", {
+                userId: localStorageUserId,
+            });
+            const username = response.data;
+            this.setState({
+                isLogged: true,
+                username: username,
+            });
+        } else {
+            localStorage.clear();
+            this.setState({
+                isLogged: false,
+                username: "",
+            });
+        }
     }
 
     handleIsLoading = (googleApiKey) => {
@@ -43,30 +60,51 @@ class Main extends Component {
         }
     };
 
+    handleRegistration = (username) => {
+        if (username) {
+            this.setState({
+                isLogged: true,
+            });
+        }
+    };
+
     handleLogIn = (userId, username) => {
-        console.log(username);
-        console.log(userId);
-        // if (userId) {
-        //     localStorage.setItem("userId", JSON.stringify(userId))
-        //     this.setState({
-        //         username:username,
-        //         userId: userId,
-        //         isLogged: true
-        //     })
-        // }
-        // return;
+        if (userId) {
+            localStorage.setItem("userId", JSON.stringify(userId));
+            this.setState({
+                username: username,
+                userId: userId,
+                isLogged: true,
+            });
+        }
+        return;
+    };
+
+    handleLogOut = () => {
+        localStorage.clear();
+        this.setState({
+            isLogged: false,
+            username: "",
+        });
     };
 
     render() {
         return (
             <div id=" main js">
-                <Navigation isLogged={this.state.isLogged} handleLogIn={this.handleLogIn} />
+                <Navigation
+                    isLogged={this.state.isLogged}
+                    handleLogIn={this.handleLogIn}
+                    handleLogOut={this.handleLogOut}
+                />
                 <Switch>
                     <Route exact path="/" render={() => <Home googleApiKey={this.state.googleApiKey} />} />
                     <Route exact path="/about" render={() => <About />} />
-                    <Route exact path="/account" render={() => <UserPage />} />
-                    <Route exact path="/register" render={() => <RegisterForm />} />
-                    <Route exact path="/login" render={() => <LogIn />} />
+                    <Route exact path="/account" render={() => <UserPage googleApiKey={this.state.googleApiKey} />} />
+                    <Route
+                        exact
+                        path="/register"
+                        render={() => <RegisterForm handleRegistrationOnMain={this.handleRegistration} />}
+                    />
                 </Switch>
                 <Footer />
             </div>
