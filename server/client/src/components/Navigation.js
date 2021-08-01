@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AppBar, makeStyles, BottomNavigation, BottomNavigationAction, Button } from "@material-ui/core";
-import {
-    Home,
-    BusinessCenter,
-    AccountBox,
-    AccountBoxOutlined,
-    AccountBoxRounded,
-    AccountBoxSharp,
-} from "@material-ui/icons";
+import { Home, BusinessCenter, AccountBox, Person } from "@material-ui/icons";
+import LogIn from "./User-Auth/Log-In/LogIn";
 
-function Navigation({ isLogged, handleLogIn }) {
+function Navigation({ isLogged, handleLogIn, handleLogOut }) {
     const [value, setValue] = useState("");
+    const [show, setShowLogInModal] = useState(false);
     const history = useHistory();
     const classes = styles();
 
     const handleChange = (event, newValue) => {
-        console.log(`event ${event} & newvalue ${newValue}`);
         setValue(newValue);
     };
 
@@ -25,9 +19,14 @@ function Navigation({ isLogged, handleLogIn }) {
         history.push(`${page}`);
     };
 
+    const handleClose = () => {
+        setShowLogInModal(false);
+    };
+
     return (
         <div id="navigation js">
             <AppBar position="static" className={classes.nav}>
+                <LogIn show={show} handleClose={handleClose} handleLogIn={handleLogIn} />
                 <div className={classes.navTabsDiv}>
                     <BottomNavigation
                         value={value}
@@ -49,14 +48,30 @@ function Navigation({ isLogged, handleLogIn }) {
                             label="About"
                             icon={<BusinessCenter value="/about" />}
                         />
-                        <BottomNavigationAction
-                            className={
-                                history.location.pathname == "/account" ? "Mui-selected" : classes.btnNavigationItems
-                            }
-                            onClick={redirectToPage}
-                            label="Account"
-                            icon={<AccountBox value="/account" />}
-                        />
+                        {isLogged ? (
+                            <BottomNavigationAction
+                                className={
+                                    history.location.pathname == "/account"
+                                        ? "Mui-selected"
+                                        : classes.btnNavigationItems
+                                }
+                                onClick={redirectToPage}
+                                label="Account"
+                                icon={<AccountBox value="/account" />}
+                            />
+                        ) : (
+                            <BottomNavigationAction
+                                id="log-in-btn"
+                                onClick={() => setShowLogInModal(true)}
+                                label="Log In"
+                                icon={<Person />}
+                            />
+                        )}
+                        {isLogged ? (
+                            <BottomNavigationAction onClick={() => handleLogOut()} label="Log Out" icon={<Person />} />
+                        ) : (
+                            <div></div>
+                        )}
                     </BottomNavigation>
                 </div>
             </AppBar>
