@@ -28,7 +28,7 @@ def user_Account(request):
 def get_properties_data(request):
     url = "{}/propertyExtendedSearch".format(MAIN_URL)
 
-    querystring = {"location": "santa monica, ca", "home_type": "Houses"}
+    querystring = {"location": "New York, ny", "home_type": "Houses"}
 
     headers = {
         'x-rapidapi-key': env("RAPIDAPI_KEY"),
@@ -64,16 +64,33 @@ def get_properties_data(request):
 @api_view(["POST"])
 def add_property(request):
 
-    user_data = request.data
+    USER_DETAIL = request.data
+    print(USER_DETAIL)
 
-    user = User.objects.filter(id=1).first()
+    USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
+    ZPID_FILTER = Property.objects.filter(
+        zpid=USER_DETAIL["zpid"], user_id=USER.id).first()
+    if ZPID_FILTER is None:
+        property_model = Property(user_id=USER.id, address=USER_DETAIL["address"], price=USER_DETAIL["cost"], property_type=USER_DETAIL["propertyType"], bathrooms=USER_DETAIL["bathrooms"], bedrooms=USER_DETAIL["bedrooms"],
+                                  lotAreaUnit=USER_DETAIL["lotAreaUnit"], lotAreaValue=USER_DETAIL["lotAreaUnitValue"], zpid=USER_DETAIL["zpid"], latitude=USER_DETAIL["latitude"], longitude=USER_DETAIL["longitude"], photo_main=USER_DETAIL["image"])
 
-    property_model = Property(user_id=user.id, address=user_data["address"], price=user_data["cost"], property_type=user_data["propertyType"], bathrooms=user_data["bathrooms"], bedrooms=user_data["bedrooms"],
-                              lotAreaUnit=user_data["lotAreaUnit"], lotAreaValue=user_data["lotAreaUnitValue"], zpid=user_data["zpid"], latitude=user_data["latitude"], longitude=user_data["longitude"], photo_main=user_data["image"])
+        property_model.save()
 
-    property_model.save()
+        return Response(201)
+    else:
+        return Response(500)
 
-    return Response({"data": "success"})
+
+@api_view(["POST"])
+def delete_property(request):
+    USER_DETAIL = request.data
+
+    USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
+    PROPERTY = Property.objects.filter(
+        zpid=USER_DETAIL["zpid"], user_id=USER.id)
+    print(USER, Property)
+    # if USER and PROPERTY:
+    return Response("ok")
 
 
 @api_view(["GET"])
@@ -161,10 +178,9 @@ def registration(request):
         USER = User(first_name=USER_DETAIL["firstName"], last_name=USER_DETAIL["lastName"],
                     username=USER_DETAIL["username"], password=hashed_password, email=request.data["email"])
         USER.save()
-        hashed_id = make_password(str(USER.id), salt=None, hasher="default")
 
         response = {
-            "id": hashed_id,
+            "id": USER.id,
             "message": "Success! You will be redirected to the Home Page shortly!",
             "status": 200
         }
@@ -180,28 +196,30 @@ def registration(request):
 @api_view(["PUT"])
 def log_in(request):
     USER_DETAIL = request.data
-    print(USER_DETAIL)
     USER = User.objects.filter(username=USER_DETAIL["username"]).first()
-    print(USER)
     IS_AUTHENTICATED = USER and check_password(
-        USER.password, USER_DETAIL["password"])
-    print(IS_AUTHENTICATED)
-    # if IS_AUTHENTICATED:
-    #     HASHED_ID = make_password(str(USER.id), salt=None, hasher="default")
-    #     response = {
-    #         "user_id": HASHED_ID,
-    #         "message": "You have signed in successfully! You will be redirected to Home page shortly!",
-    #         "status": 201
-    #     }
-    #     return Response(response)
-    # else:
-    # response = {
-    #     "message": "That username/password is not recognizable by our system! Try again or create an account!",
-    #     "status": 400
-    # }
-    # return Response(response)
-    response = {
-        "message": "That username/password is not recognizable by our system! Try again or create an account!",
-        "status": 400
-    }
+        USER_DETAIL["password"], USER.password)
+    if IS_AUTHENTICATED:
+        response = {
+            "user_id": USER.id,
+            "message": "You have signed in successfully! You will be redirected to Home page shortly!",
+            "status": 201
+        }
+        return Response(response)
+    else:
+        response = {
+            "message": "That username/password is not recognizable by our system! Try again or create an account!",
+            "status": 400
+        }
     return Response(response)
+
+
+@api_view(["PUT"])
+def verify_user(request):
+    print(request.data)
+    USER_DETAIL = request.data
+    USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
+    if (USER):
+        username = USER.username
+        return Response(username)
+    return Response("User not found on our server!")
