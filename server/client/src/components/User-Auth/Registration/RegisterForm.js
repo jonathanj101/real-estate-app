@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { TextField, makeStyles, Button } from "@material-ui/core";
 import AlertMessage from "../../Alert-Message/AlertMessage";
 
-const RegisterForm = () => {
+const RegisterForm = ({ handleRegistrationOnMain }) => {
     const [isFirstNameValidated, setIsFirstNameValidated] = useState(false);
     const [isLastNameValidated, setIsLastNameValidated] = useState(false);
     const [isUsernameValidated, setIsUsernameValidated] = useState(false);
@@ -70,7 +70,8 @@ const RegisterForm = () => {
             setStatusCode(statusCode);
             setResponseMessage(message);
             if (statusCode <= 201) {
-                localStorage.setItem("id", JSON.stringify(userId));
+                localStorage.setItem("userId", JSON.stringify(userId));
+                handleRegistrationOnMain(username);
                 redirectToHomePage();
             } else {
                 return;
