@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { Button, TextField, Modal, makeStyles } from "@material-ui/core";
 import AlertMessage from "../../Alert-Message/AlertMessage";
 
@@ -11,11 +12,13 @@ const LogIn = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [responseMessage, setResponseMessage] = useState("");
     const [statusCode, setStatusCode] = useState();
+    const history = useHistory();
     const classes = styles();
 
     const handleSubmit = (e) => {
+        debugger;
         e.preventDefault();
-        const checkValidations = checkValidations(username, password);
+        const checkValidations = checkFormValidations(username, password);
         if (checkValidations) {
             e.stopPropagation();
         } else {
@@ -35,6 +38,13 @@ const LogIn = () => {
         }
     };
 
+    const redirectToHomePage = () => {
+        setTimeout(() => {
+            history.push("/");
+            clearForm();
+        }, 3000);
+    };
+
     const handleLogInRequest = async (username, password) => {
         debugger;
         console.log(username, password);
@@ -43,6 +53,18 @@ const LogIn = () => {
             password: password,
         });
         console.log(response);
+        const userId = response.data.user_id;
+        const message = response.data.message;
+        const statusCode = response.data.status;
+        setShowAlert(true);
+        setResponseMessage(message);
+        setStatusCode(statusCode);
+        if (statusCode <= 201) {
+            localStorage.setItem("id", JSON.stringify(userId));
+            redirectToHomePage();
+        } else {
+            return;
+        }
     };
 
     const clearForm = () => {
