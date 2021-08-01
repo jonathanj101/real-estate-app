@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-    Card,
-    CardContent,
-    CardActions,
-    IconButton,
-    Collapse,
-    Typography,
-    CardMedia,
-    makeStyles,
-    Button,
-} from "@material-ui/core";
-import { Favorite, Share, ExpandMore } from "@material-ui/icons";
+import axios from "axios";
+import { Card, CardContent, CardActions, IconButton, CardMedia, makeStyles, Button } from "@material-ui/core";
+import { Favorite } from "@material-ui/icons";
 import PropertyModal from "./PropertyModal";
 
 const Properties = ({ googleApiKey }) => {
     const [propertiesList, setPropertiesList] = useState([]);
-    const [isIconClick, setIconClick] = useState(true);
     const [openModal, setOpenModal] = useState(false);
     const [address, setAddress] = useState("");
     const [bathrooms, setBathrooms] = useState("");
@@ -30,6 +20,7 @@ const Properties = ({ googleApiKey }) => {
     const [image, setImage] = useState("");
     const [zpid, setZpid] = useState("");
     const classes = styles();
+    const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
     const handleCloseModal = () => {
         setOpenModal(false);
@@ -52,11 +43,13 @@ const Properties = ({ googleApiKey }) => {
         fetch("api/show-properties")
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 setPropertiesList(data.data);
             });
     };
 
-    const addProperty = (
+    const addProperty = async (
+        e,
         address,
         bathrooms,
         bedrooms,
@@ -69,51 +62,54 @@ const Properties = ({ googleApiKey }) => {
         propertyType,
         zpid
     ) => {
-        fetch("api/add_property", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                address: address,
-                bathrooms: bathrooms,
-                bedrooms: bedrooms,
-                cost: cost,
-                image: image,
-                lotAreaUnit: lotAreaUnit,
-                lotAreaUnitValue: lotAreaValue,
-                latitude: latitude,
-                longitude: longitude,
-                propertyType: propertyType,
-                zpid: zpid,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => console.log(data));
-    };
-    // const deleteProperty = () => {};
+        debugger;
+        const heartIconOriginalColor = "rgba(0, 0, 0, 0.54)";
+        let heartIcon = e.currentTarget.children[0].style;
 
+        const response = await axios.post("api/add_property", {
+            userId: localStorageUserId,
+            address: address,
+            bathrooms: bathrooms,
+            bedrooms: bedrooms,
+            cost: cost,
+            image: image,
+            lotAreaUnit: lotAreaUnit,
+            lotAreaUnitValue: lotAreaValue,
+            latitude: latitude,
+            longitude: longitude,
+            propertyType: propertyType,
+            zpid: parseInt(zpid),
+        });
+        const statusCode = response.data;
+
+        if (statusCode <= 201) {
+            heartIcon.color = "red";
+            alert("Property saved!");
+        } else {
+            heartIcon.color = heartIconOriginalColor;
+            alert("You already have this property saved!");
+        }
+    };
     const handleSubmit = (
         e,
         address,
         bathrooms,
         bedrooms,
+        image,
         lotAreaUnit,
         lotAreaValue,
         longitude,
         latitude,
         price,
         property_type,
-        image,
         zpid
     ) => {
         debugger;
-        const iconColor = e.currentTarget.children[0].style.color;
-        if (isIconClick && iconColor == "red") {
-            e.currentTarget.children[0].style.color = "rgba(0, 0, 0, 0.54)";
-            setIconClick(false);
-        } else {
-            e.currentTarget.children[0].style.color = "red";
-            setIconClick(true);
+        const heartIconOriginalColor = "rgba(0, 0, 0, 0.54)";
+        let heartIcon = e.currentTarget.children[0].style;
+        if (heartIcon.color === "" || heartIcon.color === heartIconOriginalColor) {
             addProperty(
+                e,
                 address,
                 bathrooms,
                 bedrooms,
@@ -199,13 +195,13 @@ const Properties = ({ googleApiKey }) => {
                                 property.address,
                                 property.bathrooms,
                                 property.bedrooms,
-                                property.price,
+                                property.image,
                                 property.lotAreaUnit,
                                 property.lotAreaValue,
-                                property.longitude,
                                 property.latitude,
+                                property.longitude,
+                                property.price,
                                 property.property_type,
-                                property.image,
                                 property.zpid
                             );
                         }}
@@ -213,7 +209,6 @@ const Properties = ({ googleApiKey }) => {
                         <Favorite />
                     </IconButton>
                     <Button
-                        // style={{ margin: "auto" }}
                         onClick={() => {
                             updateStateForModal(
                                 property.address,
