@@ -67,12 +67,13 @@ const RegisterForm = () => {
             const message = response.data.message;
             const statusCode = response.data.status;
             setIsAlert(true);
+            setStatusCode(statusCode);
             setResponseMessage(message);
-            if (statusCode >= 400) {
-                setStatusCode(statusCode);
-            } else {
+            if (statusCode <= 201) {
                 localStorage.setItem("id", JSON.stringify(userId));
                 redirectToHomePage();
+            } else {
+                return;
             }
         } catch (error) {
             console.log(error);
