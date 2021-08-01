@@ -28,8 +28,6 @@ const PropertyModal = ({
     useEffect(() => {
         if (zpid !== undefined && zpid !== "") {
             fetchPropertyImages();
-        } else {
-            console.log("not reading it");
         }
     }, [zpid]);
 
