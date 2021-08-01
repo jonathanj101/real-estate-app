@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Button, TextField, Modal, makeStyles } from "@material-ui/core";
 import AlertMessage from "../../Alert-Message/AlertMessage";
 
-const LogIn = () => {
+const LogIn = ({ show, handleClose, handleLogIn }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isUsernameValidated, setIsUsernameValidated] = useState(false);
@@ -16,7 +16,7 @@ const LogIn = () => {
     const classes = styles();
 
     const handleSubmit = (e) => {
-        debugger;
+        // debugger;
         e.preventDefault();
         const checkValidations = checkFormValidations(username, password);
         if (checkValidations) {
@@ -41,18 +41,16 @@ const LogIn = () => {
     const redirectToHomePage = () => {
         setTimeout(() => {
             history.push("/");
+            handleClose();
             clearForm();
         }, 3000);
     };
 
     const handleLogInRequest = async (username, password) => {
-        debugger;
-        console.log(username, password);
         const response = await axios.put("api/log-in", {
             username: username,
             password: password,
         });
-        console.log(response);
         const userId = response.data.user_id;
         const message = response.data.message;
         const statusCode = response.data.status;
@@ -60,7 +58,7 @@ const LogIn = () => {
         setResponseMessage(message);
         setStatusCode(statusCode);
         if (statusCode <= 201) {
-            localStorage.setItem("id", JSON.stringify(userId));
+            handleLogIn(userId, username);
             redirectToHomePage();
         } else {
             return;
@@ -74,7 +72,7 @@ const LogIn = () => {
 
     return (
         <div className={classes.mainDiv}>
-            <Modal id="login-modal" open={true} className={classes.modalStyles}>
+            <Modal id="login-modal" open={show} onClose={handleClose} className={classes.modalStyles}>
                 <div className={classes.formDiv}>
                     <form onSubmit={(e) => handleSubmit(e)} className={classes.formStyles}>
                         <AlertMessage show={showAlert} statusCode={statusCode} responseMessage={responseMessage} />
@@ -124,11 +122,10 @@ const styles = makeStyles({
     mainDiv: {
         width: "100%",
         height: "100%",
-        margin: "0 auto 250px auto",
     },
     formDiv: {
         width: "25%",
-        height: "30%",
+        height: "40%",
         margin: "250px auto",
         borderRadius: "rgb(179 178 178) 18px 8px 32px",
     },
