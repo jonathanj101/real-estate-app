@@ -22,12 +22,6 @@ body {
     color: white;
 }
 
-/* .location-marker {
-    height: "500px";
-    font-size: "2rem";
-    color: "red";
-} */
-
 .location-icon {
     font-size: "2rem";
     color: "red";
@@ -45,4 +39,8 @@ body {
 #login-modal > div > form > .form-row > .MuiFormControl-root > .MuiInputBase-root > input {
     font-size: 2rem;
     width: 500px;
+}
+
+#log-in-btn.MuiBottomNavigationAction-root.Mui-selected {
+    color: black;
 }
