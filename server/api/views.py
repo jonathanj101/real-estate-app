@@ -182,19 +182,26 @@ def log_in(request):
     USER_DETAIL = request.data
     print(USER_DETAIL)
     USER = User.objects.filter(username=USER_DETAIL["username"]).first()
+    print(USER)
     IS_AUTHENTICATED = USER and check_password(
         USER.password, USER_DETAIL["password"])
-    if IS_AUTHENTICATED:
-        HASHED_ID = make_password(str(USER.id), salt=None, hasher="default")
-        response = {
-            "user_id": HASHED_ID,
-            "message": "You have signed in successfully! You will be redirected to Home page shortly!",
-            "status": 201
-        }
-        return Response(response)
-    else:
-        response = {
-            "message": "That username/password is not recognizable by our system! Try again or create an account!",
-            "status": 400
-        }
-        return
+    print(IS_AUTHENTICATED)
+    # if IS_AUTHENTICATED:
+    #     HASHED_ID = make_password(str(USER.id), salt=None, hasher="default")
+    #     response = {
+    #         "user_id": HASHED_ID,
+    #         "message": "You have signed in successfully! You will be redirected to Home page shortly!",
+    #         "status": 201
+    #     }
+    #     return Response(response)
+    # else:
+    # response = {
+    #     "message": "That username/password is not recognizable by our system! Try again or create an account!",
+    #     "status": 400
+    # }
+    # return Response(response)
+    response = {
+        "message": "That username/password is not recognizable by our system! Try again or create an account!",
+        "status": 400
+    }
+    return Response(response)
