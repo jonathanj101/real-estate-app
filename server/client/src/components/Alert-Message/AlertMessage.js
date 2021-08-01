@@ -1,11 +1,13 @@
 import React from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core";
 
 const AlertMessage = ({ show, statusCode, responseMessage }) => {
+    const classes = styles();
     return (
         <div>
             {show ? (
-                <Alert severity={statusCode <= 201 ? "success" : "error"}>
+                <Alert className={classes.alertMessageStyles} severity={statusCode <= 201 ? "success" : "error"}>
                     <AlertTitle>{statusCode <= 201 ? "Success!" : "Error!"}</AlertTitle>
                     {responseMessage}
                 </Alert>
@@ -15,5 +17,11 @@ const AlertMessage = ({ show, statusCode, responseMessage }) => {
         </div>
     );
 };
+
+const styles = makeStyles({
+    alertMessageStyles: {
+        justifyContent: "center",
+    },
+});
 
 export default AlertMessage;
