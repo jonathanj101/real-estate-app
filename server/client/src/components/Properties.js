@@ -53,12 +53,12 @@ const Properties = ({ googleApiKey }) => {
         address,
         bathrooms,
         bedrooms,
-        cost,
         image,
         lotAreaUnit,
         lotAreaValue,
         latitude,
         longitude,
+        cost,
         propertyType,
         zpid
     ) => {
@@ -98,8 +98,8 @@ const Properties = ({ googleApiKey }) => {
         image,
         lotAreaUnit,
         lotAreaValue,
-        longitude,
         latitude,
+        longitude,
         price,
         property_type,
         zpid
@@ -113,12 +113,12 @@ const Properties = ({ googleApiKey }) => {
                 address,
                 bathrooms,
                 bedrooms,
-                price,
                 image,
                 lotAreaUnit,
                 lotAreaValue,
                 latitude,
                 longitude,
+                price,
                 property_type,
                 zpid
             );
