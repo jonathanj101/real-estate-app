@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropertyModal from "./PropertyModal";
 import { Avatar, makeStyles, IconButton, Collapse, Card, CardContent, Typography, Button } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
+import axios from "axios";
 
 const UserPage = ({ googleApiKey }) => {
     const [firstName, setfirstName] = useState("");
@@ -24,6 +25,7 @@ const UserPage = ({ googleApiKey }) => {
     const [imagesList, setImagesList] = useState([]);
     const [isUpdated, setIsUpdated] = useState(false);
     const classes = styles();
+    const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
     useEffect(() => {
         fetchPropertyData();
@@ -41,6 +43,7 @@ const UserPage = ({ googleApiKey }) => {
         fetch("api/favorites-properties")
             .then((response) => response.json())
             .then((data) => {
+                console.log(data.data);
                 setSavedProperties(data.data);
             });
     };
@@ -73,9 +76,9 @@ const UserPage = ({ googleApiKey }) => {
         lotAreaUnit,
         lotAreaValue,
         price,
-        propertyType,
-        zpid
+        propertyType
     ) => {
+        setOpenModal(true);
         setIsUpdated(true);
         setAddress(address);
         setBathrooms(bathrooms);
@@ -86,7 +89,6 @@ const UserPage = ({ googleApiKey }) => {
         setLotAreaUnit(lotAreaUnit);
         setPrice(price);
         setPropertyType(propertyType);
-        setZpid(zpid);
     };
 
     const fetchViewTourUrl = () => {
@@ -119,37 +121,52 @@ const UserPage = ({ googleApiKey }) => {
             });
     };
 
+    const deleteProperty = async (zpid) => {
+        console.log(zpid);
+        const response = await axios.post("api/delete-property", {
+            userId: localStorageUserId,
+            zpid: parseInt(zpid),
+        });
+        console.log(response);
+    };
+
     const propertiesList = savedProperties.map((property, num) => {
         return (
-            <Card
-                key={num}
-                className={classes.cardStyles}
-                onClick={() => {
-                    getPropertyData(
-                        property.address,
-                        property.bathrooms,
-                        property.bedrooms,
-                        property.latitude,
-                        property.longitude,
-                        property.lotAreaUnit,
-                        property.lotAreaValue,
-                        property.price,
-                        property.property_type,
-                        property.zpid
-                    );
-                }}
-            >
+            <Card key={num} className={classes.cardStyles}>
                 <CardContent>
                     <Typography>{property.address}</Typography>
                     <Typography>${property.price}</Typography>
                 </CardContent>
                 <CardContent>
                     <Button
+                        className={classes.btnStyles}
+                        variant="outlined"
+                        color="primary"
                         onClick={() => {
-                            setOpenModal(true);
+                            getPropertyData(
+                                property.address,
+                                property.bathrooms,
+                                property.bedrooms,
+                                property.latitude,
+                                property.longitude,
+                                property.lotAreaUnit,
+                                property.lotAreaValue,
+                                property.price,
+                                property.property_type
+                            );
                         }}
                     >
                         More Info
+                    </Button>
+                    <Button
+                        className={classes.btnStyles}
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => {
+                            deleteProperty(property.zpid);
+                        }}
+                    >
+                        Remove
                     </Button>
                 </CardContent>
             </Card>
@@ -244,10 +261,13 @@ const styles = makeStyles({
     },
     cardStyles: {
         display: "flex",
-        justifyContent: "space-evenly",
-        width: "85%",
+        justifyContent: "space-between",
+        width: "50%",
         border: "1px solid black",
         margin: "10px auto",
+    },
+    btnStyles: {
+        margin: "0 5px",
     },
 });
 
