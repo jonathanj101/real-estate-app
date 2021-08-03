@@ -24,6 +24,7 @@ const PropertyModal = ({
     const [propertyImagesForHomePage, setHomePagePropertyImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const classes = styles();
+    console.log(viewTourUrl);
 
     useEffect(() => {
         if (zpid !== undefined && zpid !== "") {
