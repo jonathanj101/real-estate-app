@@ -65,11 +65,10 @@ def get_properties_data(request):
 def add_property(request):
 
     USER_DETAIL = request.data
-    print(USER_DETAIL)
 
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
     ZPID_FILTER = Property.objects.filter(
-        zpid=USER_DETAIL["zpid"], user_id=USER.id).first()
+        zpid=int(USER_DETAIL["zpid"]), user_id=USER.id).first()
     if ZPID_FILTER is None:
         property_model = Property(user_id=USER.id, address=USER_DETAIL["address"], price=USER_DETAIL["cost"], property_type=USER_DETAIL["propertyType"], bathrooms=USER_DETAIL["bathrooms"], bedrooms=USER_DETAIL["bedrooms"],
                                   lotAreaUnit=USER_DETAIL["lotAreaUnit"], lotAreaValue=USER_DETAIL["lotAreaUnitValue"], zpid=USER_DETAIL["zpid"], latitude=USER_DETAIL["latitude"], longitude=USER_DETAIL["longitude"], photo_main=USER_DETAIL["image"])
@@ -84,13 +83,10 @@ def add_property(request):
 @api_view(["POST"])
 def delete_property(request):
     USER_DETAIL = request.data
-    print(USER_DETAIL)
 
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
     PROPERTY = Property.objects.filter(
-        zpid=USER_DETAIL["zpid"], user_id=USER.id).first()
-    print(USER)
-    print(PROPERTY)
+        zpid=int(USER_DETAIL["zpid"]), user_id=USER.id).first()
     if USER and PROPERTY:
         PROPERTY.delete()
         return Response({"status": 201})
@@ -107,7 +103,7 @@ def favorites_properties(request):
 
 @api_view(["POST"])
 def get_virtual_tour_url(request):
-    zpid = request.data["zpid"]
+    zpid = int(request.data["zpid"])
 
     url = "{}/property".format(MAIN_URL)
     headers = {
@@ -133,7 +129,7 @@ def get_property_images(request):
         "x-rapidapi-key": env("RAPIDAPI_KEY"),
         "x-rapidapi-host": env("RAPIDAPI_HOST")
     }
-    querystring = {"zpid": request.data["zpid"]}
+    querystring = {"zpid": int(request.data["zpid"])}
 
     request = requests.get(
         url=url, headers=headers, params=querystring)
