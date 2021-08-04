@@ -22,30 +22,31 @@ const UserPage = ({ googleApiKey }) => {
     const [propertyType, setPropertyType] = useState("");
     const [zpid, setZpid] = useState("");
     const [viewTourUrl, setViewTourUrl] = useState("");
-    const [imagesList, setImagesList] = useState([]);
-    const [isUpdated, setIsUpdated] = useState(false);
+    const [isMoreInfoClicked, setIsMoreInfoClicked] = useState(false);
+    const [savedPropertyUpdated, setSavedPropertyUpdated] = useState(false);
     const classes = styles();
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
     useEffect(() => {
-        fetchPropertyData();
-    }, []);
+        debugger;
+        if (savedPropertyUpdated) {
+            fetchPropertyData();
+            setSavedPropertyUpdated(false);
+        } else {
+            fetchPropertyData();
+        }
+    }, [savedPropertyUpdated]);
 
     useEffect(() => {
-        if (isUpdated) {
+        if (isMoreInfoClicked) {
             fetchViewTourUrl();
-            setIsUpdated(false);
-            fetchImages();
+            setIsMoreInfoClicked(false);
         }
-    }, [isUpdated]);
+    }, [isMoreInfoClicked]);
 
-    const fetchPropertyData = () => {
-        fetch("api/favorites-properties")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.data);
-                setSavedProperties(data.data);
-            });
+    const fetchPropertyData = async () => {
+        const response = await axios.get("api/favorites-properties");
+        setSavedProperties(response.data.data);
     };
 
     const handleIconOnClick = (e) => {
@@ -76,10 +77,11 @@ const UserPage = ({ googleApiKey }) => {
         lotAreaUnit,
         lotAreaValue,
         price,
-        propertyType
+        propertyType,
+        zpid
     ) => {
         setOpenModal(true);
-        setIsUpdated(true);
+        setIsMoreInfoClicked(true);
         setAddress(address);
         setBathrooms(bathrooms);
         setBedrooms(bedrooms);
@@ -89,45 +91,25 @@ const UserPage = ({ googleApiKey }) => {
         setLotAreaUnit(lotAreaUnit);
         setPrice(price);
         setPropertyType(propertyType);
+        setZpid(zpid);
     };
 
-    const fetchViewTourUrl = () => {
-        fetch("api/test_virtual", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                zpid: zpid,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setViewTourUrl(data.data);
-            });
-    };
-
-    const fetchImages = () => {
-        fetch("api/get-images", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                zpid: zpid,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setImagesList(data.data);
-            });
+    const fetchViewTourUrl = async () => {
+        const response = await axios.post("api/test_virtual", {
+            zpid: zpid,
+        });
+        setViewTourUrl(response.data.data);
     };
 
     const deleteProperty = async (zpid) => {
-        console.log(zpid);
         const response = await axios.post("api/delete-property", {
             userId: localStorageUserId,
-            zpid: parseInt(zpid),
+            zpid: zpid,
         });
-        console.log(response);
+        const statusCode = response.data.status;
+        if (statusCode <= 201) {
+            setSavedPropertyUpdated(true);
+        }
     };
 
     const propertiesList = savedProperties.map((property, num) => {
@@ -152,7 +134,8 @@ const UserPage = ({ googleApiKey }) => {
                                 property.lotAreaUnit,
                                 property.lotAreaValue,
                                 property.price,
-                                property.property_type
+                                property.property_type,
+                                property.zpid
                             );
                         }}
                     >
@@ -208,7 +191,6 @@ const UserPage = ({ googleApiKey }) => {
                         open={openModal}
                         viewTourUrl={viewTourUrl}
                         handleClose={handleCloseModal}
-                        imagesList={imagesList}
                         googleApiKey={googleApiKey}
                     />
                     <div className={classes.collapseContainer}>
