@@ -17,6 +17,7 @@ const Properties = ({ googleApiKey }) => {
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
     const [viewTourUrl, setViewTourUrl] = useState("");
+    const [isMoreInfoClicked, setIsMoreInfoClicked] = useState(false);
     const [image, setImage] = useState("");
     const [zpid, setZpid] = useState("");
     const classes = styles();
@@ -36,16 +37,27 @@ const Properties = ({ googleApiKey }) => {
     };
 
     useEffect(() => {
-        fetchProperties();
-    }, []);
+        if (isMoreInfoClicked) {
+            fetchViewTourUrl(zpid);
+            setIsMoreInfoClicked(false);
+        }
+        if (propertiesList.length === 0) {
+            fetchProperties();
+        } else {
+            return;
+        }
+    }, [isMoreInfoClicked]);
 
-    const fetchProperties = () => {
-        fetch("api/show-properties")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setPropertiesList(data.data);
-            });
+    const fetchProperties = async () => {
+        const response = await axios.get("api/show-properties");
+        setPropertiesList(response.data.data);
+    };
+
+    const fetchViewTourUrl = async (zpid) => {
+        const response = await axios.post("api/test_virtual", {
+            zpid: zpid,
+        });
+        setViewTourUrl(response.data.data);
     };
 
     const addProperty = async (
@@ -78,7 +90,7 @@ const Properties = ({ googleApiKey }) => {
             latitude: latitude,
             longitude: longitude,
             propertyType: propertyType,
-            zpid: parseInt(zpid),
+            zpid: zpid,
         });
         const statusCode = response.data;
 
@@ -104,7 +116,6 @@ const Properties = ({ googleApiKey }) => {
         property_type,
         zpid
     ) => {
-        debugger;
         const heartIconOriginalColor = "rgba(0, 0, 0, 0.54)";
         let heartIcon = e.currentTarget.children[0].style;
         if (heartIcon.color === "" || heartIcon.color === heartIconOriginalColor) {
@@ -138,7 +149,6 @@ const Properties = ({ googleApiKey }) => {
         latitude,
         longitude
     ) => {
-        console.log(image);
         setOpenModal(true);
         setAddress(address);
         setBathrooms(bathrooms);
@@ -224,7 +234,7 @@ const Properties = ({ googleApiKey }) => {
                                 property.longitude
                             );
                             setOpenModal(true);
-                            console.log(address);
+                            setIsMoreInfoClicked(true);
                         }}
                     >
                         More Info
@@ -250,7 +260,6 @@ const Properties = ({ googleApiKey }) => {
                     price={price}
                     propertyType={propertyType}
                     viewTourUrl={viewTourUrl}
-                    image={image}
                     zpid={zpid}
                     latitude={latitude}
                     longitude={longitude}
