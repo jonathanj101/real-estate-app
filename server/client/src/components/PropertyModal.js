@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Card, CardContent, Typography, Button, makeStyles } from "@material-ui/core";
 import Loading from "./LoadingComponent/Loading";
 import GoogleMap from "./Map/Google-Map/GoogleMap";
+import axios from "axios";
 
 const PropertyModal = ({
     open,
@@ -16,34 +17,25 @@ const PropertyModal = ({
     price,
     propertyType,
     viewTourUrl,
-    imagesList,
-    image,
     zpid,
     googleApiKey,
 }) => {
     const [propertyImagesForHomePage, setHomePagePropertyImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const classes = styles();
-    console.log(viewTourUrl);
-
     useEffect(() => {
         if (zpid !== undefined && zpid !== "") {
-            fetchPropertyImages();
+            fetchPropertyImages(zpid);
         }
     }, [zpid]);
 
-    const fetchPropertyImages = async () => {
+    const fetchPropertyImages = async (zpid) => {
         try {
             setIsLoading(true);
-            const response = await fetch("api/get-images", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    zpid: zpid,
-                }),
+            const response = await axios.post("api/get-images", {
+                zpid: zpid,
             });
-            const data = await response.json();
-            setHomePagePropertyImages(data.data);
+            setHomePagePropertyImages(response.data.data);
             setIsLoading(false);
         } catch (error) {
             console.log(error);
@@ -81,9 +73,15 @@ const PropertyModal = ({
                                 <Typography variant="h5">
                                     {lotAreaValue} {lotAreaUnit}
                                 </Typography>
-                                <Button target="_blank" href={viewTourUrl}>
-                                    view tour
-                                </Button>
+                                <div className={classes.tourBtnDiv}>
+                                    {viewTourUrl === null ? (
+                                        <Button>No Tour Available</Button>
+                                    ) : (
+                                        <Button target="_blank" href={viewTourUrl}>
+                                            view tour
+                                        </Button>
+                                    )}
+                                </div>
                             </CardContent>
                         </div>
                         <div style={{ width: "100%" }}>
@@ -112,6 +110,11 @@ const styles = makeStyles({
     imagesStyles: {
         height: "300px",
         width: "inherit",
+    },
+    tourBtnDiv: {
+        width: "50%",
+        margin: "auto",
+        textAlign: "center",
     },
 });
 
