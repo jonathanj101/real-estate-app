@@ -8,8 +8,6 @@ import LocationMarker from "../Location-Marker/LocationMarker";
 const GoogleMap = ({ googleApiKey, isLoading, latitude, longitude }) => {
     const [center, setCenter] = useState({ lat: latitude, lng: longitude });
     const [zoom, setZoom] = useState(11);
-
-    console.log(googleApiKey, isLoading, latitude, longitude);
     const classes = styles();
     return (
         <div className={classes.map}>
