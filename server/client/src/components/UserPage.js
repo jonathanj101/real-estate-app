@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropertyModal from "./PropertyModal";
+// import Pagination from "./Pagination/Pagination";
 import { Avatar, makeStyles, IconButton, Collapse, Card, CardContent, Typography, Button } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import axios from "axios";
+import PaginationComponent from "./Pagination/Pagination";
 
 const UserPage = ({ googleApiKey }) => {
     const [firstName, setfirstName] = useState("");
@@ -24,11 +26,13 @@ const UserPage = ({ googleApiKey }) => {
     const [viewTourUrl, setViewTourUrl] = useState("");
     const [isMoreInfoClicked, setIsMoreInfoClicked] = useState(false);
     const [savedPropertyUpdated, setSavedPropertyUpdated] = useState(false);
+    const [savedPropertyArrayPerPage] = useState(6);
+    const [currentPage, setCurrentPage] = useState(1);
     const classes = styles();
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
     useEffect(() => {
-        debugger;
+        // debugger;
         if (savedPropertyUpdated) {
             fetchPropertyData();
             setSavedPropertyUpdated(false);
@@ -112,6 +116,17 @@ const UserPage = ({ googleApiKey }) => {
         }
     };
 
+    const handlePageChange = (pageNumber) => {
+        console.log(pageNumber, currentPage);
+        setCurrentPage(pageNumber);
+    };
+
+    const indexOflastItem = currentPage * savedPropertyArrayPerPage;
+    const indexOfFirstItem = indexOflastItem - savedPropertyArrayPerPage;
+    const currentProperties = savedProperties.slice(indexOfFirstItem, indexOflastItem);
+
+    console.log(currentPage, savedPropertyArrayPerPage, indexOfFirstItem, indexOflastItem, currentProperties);
+
     const propertiesList = savedProperties.map((property, num) => {
         return (
             <Card key={num} className={classes.cardStyles}>
@@ -155,7 +170,6 @@ const UserPage = ({ googleApiKey }) => {
             </Card>
         );
     });
-
     return (
         <div className={classes.mainDiv}>
             <div className={classes.container}>
@@ -195,7 +209,16 @@ const UserPage = ({ googleApiKey }) => {
                     />
                     <div className={classes.collapseContainer}>
                         <Collapse in={favorites}>
-                            <div className={classes.propertiesListContainer}>{propertiesList}</div>
+                            <div className="onTop" className={classes.propertiesListContainer}>
+                                {propertiesList}
+                            </div>
+                            <PaginationComponent
+                                savedPropertiesLength={savedProperties.length}
+                                handlePageChange={handlePageChange}
+                                savedPropertyArrayPerPage={savedPropertyArrayPerPage}
+                                currentProperties={currentProperties}
+                                currentPage={currentPage}
+                            />
                         </Collapse>
                     </div>
                 </div>
