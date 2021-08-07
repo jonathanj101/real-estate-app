@@ -2,22 +2,21 @@ import React from "react";
 // import { DataGrid } from "@material-ui/data-grid";
 import { Pagination, PaginationItem } from "@material-ui/lab";
 
-const PaginationComponent = ({ savedPropertiesLength, handlePageChange, savedPropertyArrayPerPage, currentPage }) => {
-    // debugger;
-    console.log(savedPropertiesLength, savedPropertyArrayPerPage, handlePageChange);
+const PaginationComponent = ({
+    savedPropertiesLength,
+    handlePageChange,
+    propertiesPerPage,
+    currentPage,
+    pageCount,
+}) => {
     return (
-        <div
-        // style={{ height: "400px", width: "100%" }}
-        >
-            {/* <DataGrid pagination /> */}
+        <div>
             <Pagination
-                count={Math.ceil(savedPropertiesLength / 6)}
+                count={pageCount}
+                onChange={handlePageChange}
                 page={currentPage}
-                onChange={(event, value) => handlePageChange(value)}
-                // renderItem={(item) => {
-                //     // console.log(item)
-                //     <PaginationItem />;
-                // }}
+                showFirstButton
+                showLastButton
             />
         </div>
     );
