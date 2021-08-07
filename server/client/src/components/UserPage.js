@@ -5,6 +5,7 @@ import { Avatar, makeStyles, IconButton, Collapse, Card, CardContent, Typography
 import { Favorite } from "@material-ui/icons";
 import axios from "axios";
 import PaginationComponent from "./Pagination/Pagination";
+import usePagination from "./Pagination/usePagination";
 
 const UserPage = ({ googleApiKey }) => {
     const [firstName, setfirstName] = useState("");
@@ -26,8 +27,8 @@ const UserPage = ({ googleApiKey }) => {
     const [viewTourUrl, setViewTourUrl] = useState("");
     const [isMoreInfoClicked, setIsMoreInfoClicked] = useState(false);
     const [savedPropertyUpdated, setSavedPropertyUpdated] = useState(false);
-    const [savedPropertyArrayPerPage] = useState(6);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [propertiesPerPage] = useState(6);
+    // const [currentPage, setCurrentPage] = useState(1);
     const classes = styles();
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
@@ -116,18 +117,22 @@ const UserPage = ({ googleApiKey }) => {
         }
     };
 
-    const handlePageChange = (pageNumber) => {
-        console.log(pageNumber, currentPage);
-        setCurrentPage(pageNumber);
-    };
+    // const handlePageChange = (pageNumber) => {
+    //     console.log(pageNumber);
+    //     setCurrentPage(pageNumber);
+    // };
 
-    const indexOflastItem = currentPage * savedPropertyArrayPerPage;
-    const indexOfFirstItem = indexOflastItem - savedPropertyArrayPerPage;
-    const currentProperties = savedProperties.slice(indexOfFirstItem, indexOflastItem);
+    // const indexOflastItem = currentPage * propertiesPerPage;
+    // const indexOfFirstItem = indexOflastItem - propertiesPerPage;
+    // const currentProperties = savedProperties.slice(indexOfFirstItem, indexOflastItem);
 
-    console.log(currentPage, savedPropertyArrayPerPage, indexOfFirstItem, indexOflastItem, currentProperties);
+    const { currentPage, getCurrentData, setCurrentPage, pageCount } = usePagination(
+        savedProperties,
+        propertiesPerPage
+    );
+    console.log(getCurrentData());
 
-    const propertiesList = savedProperties.map((property, num) => {
+    const propertiesList = getCurrentData().map((property, num) => {
         return (
             <Card key={num} className={classes.cardStyles}>
                 <CardContent>
@@ -170,6 +175,7 @@ const UserPage = ({ googleApiKey }) => {
             </Card>
         );
     });
+
     return (
         <div className={classes.mainDiv}>
             <div className={classes.container}>
@@ -214,10 +220,12 @@ const UserPage = ({ googleApiKey }) => {
                             </div>
                             <PaginationComponent
                                 savedPropertiesLength={savedProperties.length}
-                                handlePageChange={handlePageChange}
-                                savedPropertyArrayPerPage={savedPropertyArrayPerPage}
-                                currentProperties={currentProperties}
+                                propertiesPerPage={propertiesPerPage}
+                                handlePageChange={(_, page) => setCurrentPage(page)}
                                 currentPage={currentPage}
+                                pageCount={pageCount}
+
+                                // currentPage={currentPage}
                             />
                         </Collapse>
                     </div>
