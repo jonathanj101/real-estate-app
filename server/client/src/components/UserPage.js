@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PropertyModal from "./PropertyModal";
-// import Pagination from "./Pagination/Pagination";
-import { Avatar, makeStyles, IconButton, Collapse, Card, CardContent, Typography, Button } from "@material-ui/core";
+import { makeStyles, IconButton, Collapse, Card, CardContent, Typography, Button } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";
 import axios from "axios";
 import PaginationComponent from "./Pagination/Pagination";
 import usePagination from "./Pagination/usePagination";
 
 const UserPage = ({ googleApiKey }) => {
-    const [firstName, setfirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const [isIconClicked, setIsIconClicked] = useState(false);
     const [favorites, setFavorites] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -28,7 +25,6 @@ const UserPage = ({ googleApiKey }) => {
     const [isMoreInfoClicked, setIsMoreInfoClicked] = useState(false);
     const [savedPropertyUpdated, setSavedPropertyUpdated] = useState(false);
     const [propertiesPerPage] = useState(6);
-    // const [currentPage, setCurrentPage] = useState(1);
     const classes = styles();
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
@@ -117,20 +113,10 @@ const UserPage = ({ googleApiKey }) => {
         }
     };
 
-    // const handlePageChange = (pageNumber) => {
-    //     console.log(pageNumber);
-    //     setCurrentPage(pageNumber);
-    // };
-
-    // const indexOflastItem = currentPage * propertiesPerPage;
-    // const indexOfFirstItem = indexOflastItem - propertiesPerPage;
-    // const currentProperties = savedProperties.slice(indexOfFirstItem, indexOflastItem);
-
     const { currentPage, getCurrentData, setCurrentPage, pageCount } = usePagination(
         savedProperties,
         propertiesPerPage
     );
-    console.log(getCurrentData());
 
     const propertiesList = getCurrentData().map((property, num) => {
         return (
@@ -179,18 +165,7 @@ const UserPage = ({ googleApiKey }) => {
     return (
         <div className={classes.mainDiv}>
             <div className={classes.container}>
-                <div className={classes.userSubCont}>
-                    <Avatar className={classes.avatarStyles} src="../../static/images/house.jpg" />
-                    <div className={classes.userInfoDiv}>
-                        <div>
-                            <p>Full Name {firstName} </p>
-                        </div>
-                        <div>
-                            <p>Email {lastName}</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
+                <div className={classes.subContainer}>
                     <div className={classes.favoritesContainer}>
                         <h1>Saved Properties</h1>
                         <IconButton aria-label="show more" aria-expanded={favorites} onClick={toggle}>
@@ -219,13 +194,9 @@ const UserPage = ({ googleApiKey }) => {
                                 {propertiesList}
                             </div>
                             <PaginationComponent
-                                savedPropertiesLength={savedProperties.length}
-                                propertiesPerPage={propertiesPerPage}
                                 handlePageChange={(_, page) => setCurrentPage(page)}
                                 currentPage={currentPage}
                                 pageCount={pageCount}
-
-                                // currentPage={currentPage}
                             />
                         </Collapse>
                     </div>
@@ -245,21 +216,12 @@ const styles = makeStyles({
         height: "inherit",
         border: "2px solid blue",
     },
-    userSubCont: {
-        display: "flex",
-        border: "2px solid black",
-    },
-    userInfoDiv: {
-        width: "50%",
-        border: "2px solid black",
-        fontSize: " 2rem",
-    },
-    avatarStyles: {
-        width: "250px",
-        height: "250px",
+    subContainer: {
+        marginTop: "100px",
     },
     favoritesContainer: {
         display: "flex",
+        justifyContent: "center",
     },
     collapseContainer: {
         width: "90%",
@@ -268,6 +230,7 @@ const styles = makeStyles({
     },
     propertiesListContainer: {
         width: "100%",
+        height: "600px",
     },
     image: {
         height: "200px",
