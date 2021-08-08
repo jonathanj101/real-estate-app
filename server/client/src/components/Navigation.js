@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { AppBar, makeStyles, BottomNavigation, BottomNavigationAction, Button } from "@material-ui/core";
-import { Home, BusinessCenter, AccountBox, Person } from "@material-ui/icons";
+import { Home, BusinessCenter, AccountBox, Person, Search } from "@material-ui/icons";
 import LogIn from "./User-Auth/Log-In/LogIn";
 
 function Navigation({ isLogged, handleLogIn, handleLogOut }) {
@@ -39,6 +39,14 @@ function Navigation({ isLogged, handleLogIn, handleLogOut }) {
                             onClick={redirectToPage}
                             label="Home"
                             icon={<Home value="/" />}
+                        />
+                        <BottomNavigationAction
+                            className={
+                                history.location.pathname == "/search" ? "Mui-selected" : classes.btnNavigationItems
+                            }
+                            onClick={redirectToPage}
+                            label="Search"
+                            icon={<Search value="/search" />}
                         />
                         <BottomNavigationAction
                             className={
