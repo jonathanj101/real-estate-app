@@ -44,3 +44,7 @@ body {
 #log-in-btn.MuiBottomNavigationAction-root.Mui-selected {
     color: black;
 }
+
+#paginate-mainDiv > #paginate > ul.MuiPagination-ul {
+    justify-content: center;
+}
