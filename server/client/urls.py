@@ -7,4 +7,5 @@ urlpatterns = [
     path("account", index),
     path("register", index),
     path("login", index),
+    path("search", index),
 ]
