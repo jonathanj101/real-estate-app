@@ -7,6 +7,8 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import UserPage from "./UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
+import SearchResults from "./Search/SearchResults";
+import SearchComponent from "./Search/SearchComponent";
 
 class Main extends Component {
     constructor(props) {
@@ -104,6 +106,11 @@ class Main extends Component {
                         exact
                         path="/register"
                         render={() => <RegisterForm handleRegistrationOnMain={this.handleRegistration} />}
+                    />
+                    <Route
+                        exact
+                        path="/search"
+                        render={() => <SearchResults googleApiKey={this.state.googleApiKey} />}
                     />
                 </Switch>
                 <Footer />
