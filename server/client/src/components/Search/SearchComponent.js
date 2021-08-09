@@ -2,35 +2,56 @@ import React, { useState } from "react";
 import { FormControl, Input, InputAdornment, makeStyles } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 
-function SearchComponent() {
+function SearchComponent({ getSearchQuery }) {
     const [location, setLocation] = useState("");
-    const [propertyType, setPropertyType] = useState("");
+    const [searchQueryError, setQueryError] = useState(false);
     const classes = styles();
 
-    const handleSubmit = () => {};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const isValidated = checkFormValidations(location);
+        if (isValidated) {
+            console.log("ok");
+            clearForm();
+        } else {
+            console.log("nope");
+        }
+    };
+
+    const checkFormValidations = (location) => {
+        const split = location.split(",")[1];
+        if (location.includes(",") && split.length === 2) {
+            setQueryError(false);
+            return true;
+        }
+        setQueryError(true);
+        return false;
+    };
+
+    const clearForm = () => {
+        setLocation("");
+    };
 
     return (
         <div className={classes.mainDiv}>
-            <FormControl className={classes.formControlStyles}>
-                <Input
-                    id="search-value"
-                    placeholder="e.g: New York City, NY - House"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <Search />
-                        </InputAdornment>
-                    }
-                    value={location}
-                    onChange={(e) => {
-                        const includesDash = e.currentTarget.value.includes("-");
-                        setLocation(e.currentTarget.value);
-                        if (includesDash) {
-                            const split = e.currentTarget.value.split("-")[1];
-                            setPropertyType(split);
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <FormControl className={classes.formControlStyles}>
+                    <Input
+                        id="search-value"
+                        placeholder="e.g: New York City, NY"
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <Search />
+                            </InputAdornment>
                         }
-                    }}
-                />
-            </FormControl>
+                        value={location}
+                        onChange={(e) => {
+                            setLocation(e.currentTarget.value);
+                        }}
+                        error={searchQueryError}
+                    />
+                </FormControl>
+            </form>
         </div>
     );
 }
