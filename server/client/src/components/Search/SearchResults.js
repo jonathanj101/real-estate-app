@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FormControl, FormGroup, FormLabel, FormControlLabel, Checkbox } from "@material-ui/core";
 import SearchComponent from "./SearchComponent";
+import GoogleMap from "../Map/Google-Map/GoogleMap";
+import axios from "axios";
+import Loading from "../LoadingComponent/Loading";
 
-const SearchResults = ({ googleApiKey }) => {
+const SearchResults = () => {
     const [isHouses, setIsHouses] = useState(false);
     const [isApartments, setIsApartments] = useState(false);
+    const [propertiesData, setPropertiesData] = useState([]);
+    const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
     const getSearchQuery = (query) => {
         console.log(query);
@@ -21,9 +26,9 @@ const SearchResults = ({ googleApiKey }) => {
     return (
         <div>
             <SearchComponent getSearchQuery={getSearchQuery} />
-            <div id="container" style={{ border: "3px solid black", width: "100%", height: "1000px", display: "flex" }}>
-                <div id="google-map-div" style={{ border: "3px solid red", width: "75%" }}>
-                    <div id="filters" style={{ width: "100%", borderBottom: "1px solid grey", height: "50px" }}>
+            <div id="container" style={{ width: "100%", height: "1000px", display: "flex" }}>
+                <div id="google-map-div" style={{ width: "75%" }}>
+                    <div id="filters" style={{ width: "100%", border: "1px solid grey", height: "50px" }}>
                         <FormControl
                             style={{ width: "50%", display: "flex", justifyContent: "center", margin: "auto" }}
                         >
@@ -40,9 +45,10 @@ const SearchResults = ({ googleApiKey }) => {
                                     label="Apartments"
                                 />
                             </FormGroup>
-                            {/* <FormGroup> */}
-                            {/* </FormGroup> */}
                         </FormControl>
+                    </div>
+                    <div style={{ height: "950px" }}>
+                        <GoogleMap propertiesData={propertiesData} latitude={40.84} longitude={-73.94} />
                     </div>
                 </div>
                 <div id="properties-results-container" style={{ border: "3px solid green", width: "50%" }}>
