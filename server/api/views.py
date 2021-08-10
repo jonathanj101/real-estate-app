@@ -25,6 +25,12 @@ def user_Account(request):
 
 
 @api_view(["GET"])
+def search_properties(request, location):
+    print(location)
+    return Response("ok")
+
+
+@api_view(["GET"])
 def get_properties_data(request):
     url = "{}/propertyExtendedSearch".format(MAIN_URL)
 
