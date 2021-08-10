@@ -4,7 +4,7 @@ import { Card, CardContent, CardActions, IconButton, CardMedia, makeStyles, Butt
 import { Favorite } from "@material-ui/icons";
 import PropertyModal from "./PropertyModal";
 
-const Properties = ({ googleApiKey }) => {
+const Properties = () => {
     const [propertiesList, setPropertiesList] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [address, setAddress] = useState("");
@@ -249,7 +249,6 @@ const Properties = ({ googleApiKey }) => {
             <div className={classes.cardMainDiv}>
                 <div className={classes.cardDivStyles}>{cardBody}</div>
                 <PropertyModal
-                    googleApiKey={googleApiKey}
                     open={openModal}
                     handleClose={handleCloseModal}
                     address={address}
