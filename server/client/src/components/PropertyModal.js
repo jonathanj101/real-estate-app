@@ -18,7 +18,6 @@ const PropertyModal = ({
     propertyType,
     viewTourUrl,
     zpid,
-    googleApiKey,
 }) => {
     const [propertyImagesForHomePage, setHomePagePropertyImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -86,12 +85,7 @@ const PropertyModal = ({
                         </div>
                         <div style={{ width: "100%" }}>
                             <CardContent style={{ height: "100%", width: "100%", padding: "0" }}>
-                                <GoogleMap
-                                    googleApiKey={googleApiKey}
-                                    isLoading={isLoading}
-                                    latitude={latitude}
-                                    longitude={longitude}
-                                />
+                                <GoogleMap latitude={latitude} longitude={longitude} />
                             </CardContent>
                         </div>
                     </div>
