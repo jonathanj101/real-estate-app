@@ -14,14 +14,10 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            googleApiKey: "",
-            isLoading: true,
             userId: "",
             username: "",
             isLogged: false,
         };
-
-        this.handleIsLoading = this.handleIsLoading.bind(this);
         this.handleLogIn = this.handleLogIn.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
         this.handleRegistration = this.handleRegistration.bind(this);
@@ -29,13 +25,6 @@ class Main extends Component {
 
     async componentDidMount() {
         const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
-        if (this.state.googleApiKey === "") {
-            const response = await axios.get("api/api-key");
-            this.setState({
-                googleApiKey: response.data.data,
-            });
-        }
-        this.handleIsLoading(this.state.googleApiKey);
         if (localStorageUserId !== null) {
             const response = await axios.put("api/verify-user", {
                 userId: localStorageUserId,
@@ -53,14 +42,6 @@ class Main extends Component {
             });
         }
     }
-
-    handleIsLoading = (googleApiKey) => {
-        if (googleApiKey !== "") {
-            this.setState({
-                isLoading: false,
-            });
-        }
-    };
 
     handleRegistration = (username) => {
         if (username) {
@@ -99,19 +80,15 @@ class Main extends Component {
                     handleLogOut={this.handleLogOut}
                 />
                 <Switch>
-                    <Route exact path="/" render={() => <Home googleApiKey={this.state.googleApiKey} />} />
+                    <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/about" render={() => <About />} />
-                    <Route exact path="/account" render={() => <UserPage googleApiKey={this.state.googleApiKey} />} />
+                    <Route exact path="/account" render={() => <UserPage />} />
                     <Route
                         exact
                         path="/register"
                         render={() => <RegisterForm handleRegistrationOnMain={this.handleRegistration} />}
                     />
-                    <Route
-                        exact
-                        path="/search"
-                        render={() => <SearchResults googleApiKey={this.state.googleApiKey} />}
-                    />
+                    <Route exact path="/search" render={() => <SearchResults />} />
                 </Switch>
                 <Footer />
             </div>
