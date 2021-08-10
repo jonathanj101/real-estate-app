@@ -1,10 +1,10 @@
 import React from "react";
 import Properties from "../components/Properties";
 
-function Home({ googleApiKey }) {
+function Home() {
     return (
         <div id="home js">
-            <Properties googleApiKey={googleApiKey} />
+            <Properties />
         </div>
     );
 }
