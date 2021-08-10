@@ -5,10 +5,39 @@ import { makeStyles } from "@material-ui/core";
 import Loading from "../../LoadingComponent/Loading";
 import LocationMarker from "../Location-Marker/LocationMarker";
 
-const GoogleMap = ({ googleApiKey, isLoading, latitude, longitude }) => {
+const GoogleMap = ({ latitude, longitude }) => {
     const [center, setCenter] = useState({ lat: latitude, lng: longitude });
     const [zoom, setZoom] = useState(11);
+    const [googleApiKey, setGoogleApiKey] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     const classes = styles();
+
+    // const [locations] = useState([
+    //     { longitude: -73.862117, latitude: 40.816562 },
+    //     {
+    //         longitude: -73.772164,
+    //         latitude: 40.718848,
+    //     },
+    // ]);
+
+    // const markers = locations.map((prop) => {
+    // testing multiple properties to display
+    //     console.log(prop);
+    //     return <LocationMarker lat={prop.latitude} lng={prop.longitude} />;
+    // });
+
+    useEffect(() => {
+        if (googleApiKey === "") {
+            fetchApi();
+        }
+    }, [googleApiKey]);
+
+    const fetchApi = async () => {
+        const response = await axios.get("api/api-key");
+        setGoogleApiKey(response.data.data);
+        setIsLoading(false);
+    };
+
     return (
         <div className={classes.map}>
             {isLoading ? (
