@@ -6,7 +6,7 @@ import axios from "axios";
 import PaginationComponent from "./Pagination/Pagination";
 import usePagination from "./Pagination/usePagination";
 
-const UserPage = ({ googleApiKey }) => {
+const UserPage = () => {
     const [isIconClicked, setIsIconClicked] = useState(false);
     const [favorites, setFavorites] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -186,7 +186,6 @@ const UserPage = ({ googleApiKey }) => {
                         open={openModal}
                         viewTourUrl={viewTourUrl}
                         handleClose={handleCloseModal}
-                        googleApiKey={googleApiKey}
                     />
                     <div className={classes.collapseContainer}>
                         <Collapse in={favorites}>
