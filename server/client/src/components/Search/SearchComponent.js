@@ -3,7 +3,7 @@ import axios from "axios";
 import { FormControl, Input, InputAdornment, makeStyles } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 
-function SearchComponent() {
+const SearchComponent = ({ setPropertiesData, setLatitude, setLongitude }) => {
     const [locationValidation, setLocationValidation] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -11,11 +11,10 @@ function SearchComponent() {
     const classes = styles();
 
     const handleSubmit = (e) => {
-        debugger;
+        // debugger;
         e.preventDefault();
         const isValidated = checkFormValidations(locationValidation);
         if (isValidated) {
-            console.log("ok");
             searchRequest(city, state);
             clearForm();
         } else {
@@ -24,13 +23,16 @@ function SearchComponent() {
     };
 
     const searchRequest = async (city, state) => {
-        console.log(city, state);
         const response = await axios.get(`api/search/${city},${state}`);
-        console.log(response);
+        // console.log(response.data.props);
+        setPropertiesData(response.data.props);
+        console.log(response.data.props[0].latitude);
+        console.log(response.data.props[0].longitude);
+        setLatitude(response.data.props[0].latitude);
+        setLongitude(response.data.props[0].longitude);
     };
 
     const checkFormValidations = (location) => {
-        debugger;
         const split = location.split(",")[1];
         if (location.includes(",") && split.length === 2) {
             setQueryError(false);
@@ -72,7 +74,7 @@ function SearchComponent() {
             </form>
         </div>
     );
-}
+};
 
 const styles = makeStyles({
     mainDiv: {
