@@ -22,6 +22,7 @@ const PropertyModal = ({
     const [propertyImagesForHomePage, setHomePagePropertyImages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const classes = styles();
+    // console.log(latitude, longitude);
     useEffect(() => {
         if (zpid !== undefined && zpid !== "") {
             fetchPropertyImages(zpid);
