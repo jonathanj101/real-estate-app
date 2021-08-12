@@ -18,7 +18,6 @@ const Properties = () => {
     const [longitude, setLongitude] = useState("");
     const [viewTourUrl, setViewTourUrl] = useState("");
     const [isMoreInfoClicked, setIsMoreInfoClicked] = useState(false);
-    const [image, setImage] = useState("");
     const [zpid, setZpid] = useState("");
     const classes = styles();
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
@@ -50,6 +49,7 @@ const Properties = () => {
 
     const fetchProperties = async () => {
         const response = await axios.get("api/show-properties");
+        console.log(response.data.data);
         setPropertiesList(response.data.data);
     };
 
@@ -74,7 +74,6 @@ const Properties = () => {
         propertyType,
         zpid
     ) => {
-        debugger;
         const heartIconOriginalColor = "rgba(0, 0, 0, 0.54)";
         let heartIcon = e.currentTarget.children[0].style;
 
@@ -158,7 +157,6 @@ const Properties = () => {
         setPropertyType(property_type);
         setViewTourUrl("ok");
         setPrice(price);
-        setImage(image);
         setZpid(zpid);
         setLatitude(latitude);
         setLongitude(longitude);
