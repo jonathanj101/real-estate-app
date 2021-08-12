@@ -26,8 +26,21 @@ def user_Account(request):
 
 @api_view(["GET"])
 def search_properties(request, location):
-    print(location)
-    return Response("ok")
+
+    url = "{}/propertyExtendedSearch".format(MAIN_URL)
+
+    querystring = {"location": location}
+
+    headers = {
+        'x-rapidapi-key': env("RAPIDAPI_KEY"),
+        'x-rapidapi-host': env("RAPIDAPI_HOST")
+    }
+
+    request = requests.get(url=url, headers=headers, params=querystring)
+
+    response = request.json()
+
+    return Response(response)
 
 
 @api_view(["GET"])
@@ -71,13 +84,14 @@ def get_properties_data(request):
 def add_property(request):
 
     USER_DETAIL = request.data
+    print(USER_DETAIL)
 
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
     ZPID_FILTER = Property.objects.filter(
         zpid=int(USER_DETAIL["zpid"]), user_id=USER.id).first()
     if ZPID_FILTER is None:
         property_model = Property(user_id=USER.id, address=USER_DETAIL["address"], price=USER_DETAIL["cost"], property_type=USER_DETAIL["propertyType"], bathrooms=USER_DETAIL["bathrooms"], bedrooms=USER_DETAIL["bedrooms"],
-                                  lotAreaUnit=USER_DETAIL["lotAreaUnit"], lotAreaValue=USER_DETAIL["lotAreaUnitValue"], zpid=USER_DETAIL["zpid"], latitude=USER_DETAIL["latitude"], longitude=USER_DETAIL["longitude"], photo_main=USER_DETAIL["image"])
+                                  lotAreaUnit=USER_DETAIL["lotAreaUnit"], lotAreaValue=USER_DETAIL["lotAreaUnitValue"], livingArea=USER_DETAIL["livingArea"], zpid=USER_DETAIL["zpid"], latitude=USER_DETAIL["latitude"], longitude=USER_DETAIL["longitude"], photo_main=USER_DETAIL["image"])
 
         property_model.save()
 
@@ -110,6 +124,7 @@ def favorites_properties(request):
 @api_view(["POST"])
 def get_virtual_tour_url(request):
     zpid = int(request.data["zpid"])
+    print(request.data)
 
     url = "{}/property".format(MAIN_URL)
     headers = {
@@ -125,6 +140,7 @@ def get_virtual_tour_url(request):
     virtual_tour_url = response["resoFacts"]["virtualTour"]
 
     return Response({"data": virtual_tour_url})
+    # return Response({"data": "virtual_tour_url"})
 
 
 @api_view(["POST"])
@@ -207,6 +223,12 @@ def verify_user(request):
     USER_DETAIL = request.data
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
     if (USER):
-        username = USER.username
-        return Response(username)
-    return Response("User not found on our server!")
+        response = {
+            "status": 201,
+            "username": USER.username
+        }
+        return Response(response)
+    response = {
+        "status": 500
+    }
+    return Response(response)
