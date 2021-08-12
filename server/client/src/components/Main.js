@@ -8,7 +8,6 @@ import About from "../pages/About";
 import UserPage from "./UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
 import SearchResults from "./Search/SearchResults";
-import SearchComponent from "./Search/SearchComponent";
 
 class Main extends Component {
     constructor(props) {
@@ -29,11 +28,18 @@ class Main extends Component {
             const response = await axios.put("api/verify-user", {
                 userId: localStorageUserId,
             });
-            const username = response.data;
-            this.setState({
-                isLogged: true,
-                username: username,
-            });
+            if (response.data.status <= 201) {
+                const username = response.data;
+                this.setState({
+                    isLogged: true,
+                    username: username,
+                });
+            } else {
+                localStorage.clear();
+                this.setState({
+                    isLogged: false,
+                });
+            }
         } else {
             localStorage.clear();
             this.setState({
