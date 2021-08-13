@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Card, CardContent, Typography, Button, makeStyles } from "@material-ui/core";
 import Loading from "./LoadingComponent/Loading";
-import GoogleMap from "./Map/Google-Map/GoogleMap";
+import GoogleMapModal from "./Map/Google-Map/GoogleMapModal";
 import axios from "axios";
 
 const PropertyModal = ({
@@ -86,7 +86,8 @@ const PropertyModal = ({
                         </div>
                         <div style={{ width: "100%" }}>
                             <CardContent style={{ height: "100%", width: "100%", padding: "0" }}>
-                                <GoogleMap latitude={latitude} longitude={longitude} />
+                                {/* <GoogleMap latitude={latitude} longitude={longitude} /> */}
+                                <GoogleMapModal latitude={latitude} longitude={longitude} />
                             </CardContent>
                         </div>
                     </div>
