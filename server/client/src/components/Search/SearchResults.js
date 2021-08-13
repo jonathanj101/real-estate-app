@@ -163,20 +163,19 @@ const SearchResults = () => {
         longitude,
         livingArea
     ) => {
-        console.log(zpid);
         setOpenModal(true);
-        // setAddress(address);
-        // setBathrooms(bathrooms);
-        // setBedrooms(bedrooms);
-        // setLivingArea(livingArea);
-        // setLotAreaUnit(lotAreaUnit);
-        // setLotAreaValue(lotAreaValue);
-        // setPropertyType(property_type);
-        // setViewTourUrl("ok");
-        // setPrice(price);
-        // setZpid(zpid);
-        // setLatitude(latitude);
-        // setLongitude(longitude);
+        setAddress(address);
+        setBathrooms(bathrooms);
+        setBedrooms(bedrooms);
+        setLivingArea(livingArea);
+        setLotAreaUnit(lotAreaUnit);
+        setLotAreaValue(lotAreaValue);
+        setPropertyType(property_type);
+        setViewTourUrl("ok");
+        setPrice(price);
+        setZpid(zpid);
+        setLatitude(latitude);
+        setLongitude(longitude);
     };
 
     const propertiesDataComponent = propertiesData.map((property, num) => {
