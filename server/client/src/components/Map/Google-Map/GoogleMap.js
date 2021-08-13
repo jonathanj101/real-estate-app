@@ -10,16 +10,16 @@ const GoogleMap = ({ propertiesData, latitude, longitude }) => {
     const [lat, setLat] = useState(40.718848);
     const [long, setLong] = useState(-73.862117);
     const [zoom, setZoom] = useState(11);
-    const [propertyDataNotEmpty, setPropertyDataNotEmpty] = useState(false);
+    const [propertyDataNotEmpty, setPropertyDataNotEmpty] = useState(true);
     const [googleApiKey, setGoogleApiKey] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const classes = styles();
-    console.log(propertiesData);
+    console.log(propertiesData, latitude, longitude);
 
     useEffect(() => {
         debugger;
         if (propertiesData !== undefined && propertiesData.length !== 0) {
-            setPropertyDataNotEmpty(false);
+            setPropertyDataNotEmpty(true);
             setLat(propertiesData[0].latitude);
             setLong(propertiesData[0].longitude);
         } else {
@@ -43,6 +43,16 @@ const GoogleMap = ({ propertiesData, latitude, longitude }) => {
         }
     }, [googleApiKey]);
 
+    const idk = () => {
+        debugger;
+        if (propertyDataNotEmpty && propertiesData !== undefined && propertiesData !== 0) {
+            const markers = propertiesData.map((prop) => {
+                return <LocationMarker lat={prop.latitude} lng={prop.longitude} />;
+            });
+            return markers;
+        }
+    };
+
     // const markers = propertiesData.map((prop) => {
     //     return <LocationMarker lat={prop.latitude} lng={prop.longitude} />;
     // });
@@ -54,13 +64,18 @@ const GoogleMap = ({ propertiesData, latitude, longitude }) => {
     //     });
     // };
 
-    const Markers = () => {
-        if (propertyDataNotEmpty && propertiesData !== undefined && propertiesData !== 0) {
-            return propertiesData.map((prop) => {
-                return <LocationMarker lat={prop.latitude} lng={prop.longitude} />;
-            });
-        }
-    };
+    // const Markers = () => {
+    //     debugger;
+    //     if (propertyDataNotEmpty && propertiesData !== undefined && propertiesData !== 0) {
+    //         const marker = propertiesData.map((prop) => {
+    //             console.log(prop.latitude, prop.longitude);
+    //             return <LocationMarker lat={prop.latitude} lng={prop.longitude} />;
+    //         });
+    //         return marker;
+    //     } else {
+    //         return;
+    //     }
+    // };
 
     const fetchApi = async () => {
         const response = await axios.get("api/api-key");
@@ -75,22 +90,22 @@ const GoogleMap = ({ propertiesData, latitude, longitude }) => {
             ) : (
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: googleApiKey }}
-                    // center={{
-                    //     lat: lat === "" ? center.lat : lat,
-                    //     lng: long === "" ? center.lng : long,
-                    // }}
                     center={
                         propertiesData !== undefined && propertiesData.length !== 0
                             ? (center = { lat: propertiesData[0].latitude, lng: propertiesData[0].longitude })
-                            : (center = { lat: latitude, lng: longitude })
+                            : center
                     }
                     zoom={zoom}
                 >
                     {propertiesData !== undefined && propertiesData.length !== 0 ? (
-                        <Markers />
+                        // <Markers />
+                        idk()
                     ) : (
-                        // markers
-                        <LocationMarker lat={center.lat} lng={center.lng} text="my mareker" />
+                        <LocationMarker
+                            lat={latitude === "" ? center.lat : latitude}
+                            lng={longitude === "" ? center.lng : longitude}
+                            text="my mareker"
+                        />
                     )}
                 </GoogleMapReact>
             )}
