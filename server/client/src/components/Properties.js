@@ -49,7 +49,6 @@ const Properties = () => {
 
     const fetchProperties = async () => {
         const response = await axios.get("api/show-properties");
-        console.log(response.data.data);
         setPropertiesList(response.data.data);
     };
 
