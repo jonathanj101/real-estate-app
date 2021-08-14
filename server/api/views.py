@@ -54,8 +54,8 @@ def get_properties_data(request):
         'x-rapidapi-host': env("RAPIDAPI_HOST")
     }
 
-    response = requests.get(url=url, headers=headers, params=querystring)
-    resp = response.json()
+    request = requests.get(url=url, headers=headers, params=querystring)
+    response = request.json()
 
     def map_response(response):
         properties_data = []
@@ -76,8 +76,8 @@ def get_properties_data(request):
             properties_data.append(data)
         return properties_data
 
-    properties = map_response(resp["props"])
-    return Response({"data": properties})
+    properties = map_response(response["props"])
+    return Response({"data": response["props"]})
 
 
 @api_view(["POST"])
