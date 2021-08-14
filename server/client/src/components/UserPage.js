@@ -29,7 +29,6 @@ const UserPage = () => {
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
 
     useEffect(() => {
-        // debugger;
         if (savedPropertyUpdated) {
             fetchPropertyData();
             setSavedPropertyUpdated(false);
