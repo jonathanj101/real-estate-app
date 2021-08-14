@@ -249,8 +249,6 @@ const SearchResults = () => {
                                 property.longitude,
                                 property.livingArea
                             );
-                            // setOpenModal(true);
-                            console.log("more info clicked");
                             setIsMoreInfoClicked(true);
                         }}
                     >
