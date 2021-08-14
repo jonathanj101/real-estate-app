@@ -16,7 +16,6 @@ const LogIn = ({ show, handleClose, handleLogIn }) => {
     const classes = styles();
 
     const handleSubmit = (e) => {
-        // debugger;
         e.preventDefault();
         const checkValidations = checkFormValidations(username, password);
         if (checkValidations) {
