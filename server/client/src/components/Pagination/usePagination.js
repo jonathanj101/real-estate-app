@@ -1,6 +1,4 @@
 import { useState } from "react";
-// import PropTypes from 'prop-types';
-
 const usePagination = (data, itemsPerPage) => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemCount = data.length;
