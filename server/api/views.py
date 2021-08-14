@@ -57,26 +57,6 @@ def get_properties_data(request):
     request = requests.get(url=url, headers=headers, params=querystring)
     response = request.json()
 
-    def map_response(response):
-        properties_data = []
-        for key in response:
-            data = {
-                "address": key["address"],
-                "price": key["price"],
-                "property_type": key["propertyType"],
-                "bathrooms": key["bathrooms"],
-                "bedrooms": key["bedrooms"],
-                "lotAreaUnit": key["lotAreaUnit"],
-                "lotAreaValue": key["lotAreaValue"],
-                "zpid": key["zpid"],
-                "latitude": key["latitude"],
-                "longitude": key["longitude"],
-                "image": key["imgSrc"],
-            }
-            properties_data.append(data)
-        return properties_data
-
-    properties = map_response(response["props"])
     return Response({"data": response["props"]})
 
 
