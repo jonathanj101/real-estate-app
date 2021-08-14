@@ -11,23 +11,17 @@ const SearchComponent = ({ setPropertiesData, setLatitude, setLongitude }) => {
     const classes = styles();
 
     const handleSubmit = (e) => {
-        // debugger;
         e.preventDefault();
         const isValidated = checkFormValidations(locationValidation);
         if (isValidated) {
             searchRequest(city, state);
             clearForm();
-        } else {
-            console.log("nope");
         }
     };
 
     const searchRequest = async (city, state) => {
         const response = await axios.get(`api/search/${city},${state}`);
-        // console.log(response.data.props);
         setPropertiesData(response.data.props);
-        console.log(response.data.props[0].latitude);
-        console.log(response.data.props[0].longitude);
         setLatitude(response.data.props[0].latitude);
         setLongitude(response.data.props[0].longitude);
     };
@@ -77,9 +71,6 @@ const SearchComponent = ({ setPropertiesData, setLatitude, setLongitude }) => {
 };
 
 const styles = makeStyles({
-    mainDiv: {
-        // backgroundColor: "red",
-    },
     formControlStyles: {
         display: "flex",
         justifyContent: "center",
