@@ -33,7 +33,6 @@ const RegisterForm = ({ handleRegistrationOnMain }) => {
 
     const checkFormValidations = (firstName, lastName, username, password, email) => {
         const isEmailFormat = email.includes("@") && email.includes(".");
-        console.log(isEmailFormat);
         if (firstName.length <= 5) {
             setIsFirstNameValidated(true);
             return true;
