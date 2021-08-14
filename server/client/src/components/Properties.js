@@ -49,6 +49,7 @@ const Properties = () => {
 
     const fetchProperties = async () => {
         const response = await axios.get("api/show-properties");
+        console.log(response.data.data);
         setPropertiesList(response.data.data);
     };
 
@@ -71,11 +72,11 @@ const Properties = () => {
         longitude,
         cost,
         propertyType,
-        zpid
+        zpid,
+        livingArea
     ) => {
         const heartIconOriginalColor = "rgba(0, 0, 0, 0.54)";
         let heartIcon = e.currentTarget.children[0].style;
-
         const response = await axios.post("api/add_property", {
             userId: localStorageUserId,
             address: address,
@@ -89,6 +90,7 @@ const Properties = () => {
             longitude: longitude,
             propertyType: propertyType,
             zpid: zpid,
+            livingArea: livingArea,
         });
         const statusCode = response.data;
 
@@ -112,7 +114,8 @@ const Properties = () => {
         longitude,
         price,
         property_type,
-        zpid
+        zpid,
+        livingArea
     ) => {
         const heartIconOriginalColor = "rgba(0, 0, 0, 0.54)";
         let heartIcon = e.currentTarget.children[0].style;
@@ -129,7 +132,8 @@ const Properties = () => {
                 longitude,
                 price,
                 property_type,
-                zpid
+                zpid,
+                livingArea
             );
         }
     };
@@ -164,7 +168,7 @@ const Properties = () => {
     const cardBody = propertiesList.map((property, num) => {
         return (
             <Card key={num} className={classes.cardStyles}>
-                <CardMedia className={classes.image} image={property.image} />
+                <CardMedia className={classes.image} image={property.imgSrc} />
                 <CardContent style={{ padding: "10px" }}>
                     <div style={{ fontSize: "1rem", fontWeight: "bold" }}>
                         <div style={{ display: "flex" }}>
@@ -197,19 +201,21 @@ const Properties = () => {
                     <IconButton
                         aria-label="add to favorites"
                         onClick={(e) => {
+                            console.log(property);
                             handleSubmit(
                                 e,
                                 property.address,
                                 property.bathrooms,
                                 property.bedrooms,
-                                property.image,
+                                property.imgSrc,
                                 property.lotAreaUnit,
                                 property.lotAreaValue,
                                 property.latitude,
                                 property.longitude,
                                 property.price,
-                                property.property_type,
-                                property.zpid
+                                property.propertyType,
+                                property.zpid,
+                                property.livingArea
                             );
                         }}
                     >
@@ -221,14 +227,15 @@ const Properties = () => {
                                 property.address,
                                 property.bathrooms,
                                 property.bedrooms,
-                                property.image,
+                                property.imgSrc,
                                 property.lotAreaUnit,
                                 property.lotAreaValue,
                                 property.propertyType,
                                 property.price,
                                 property.zpid,
                                 property.latitude,
-                                property.longitude
+                                property.longitude,
+                                property.livingArea
                             );
                             setOpenModal(true);
                             setIsMoreInfoClicked(true);
