@@ -17,6 +17,11 @@ environ.Env.read_env()
 
 MAIN_URL = "https://zillow-com1.p.rapidapi.com"
 
+headers = {
+    'x-rapidapi-key': env("RAPIDAPI_KEY"),
+    'x-rapidapi-host': env("RAPIDAPI_HOST")
+}
+
 
 @api_view(["GET"])
 def user_Account(request):
@@ -31,16 +36,24 @@ def search_properties(request, location):
 
     querystring = {"location": location}
 
-    headers = {
-        'x-rapidapi-key': env("RAPIDAPI_KEY"),
-        'x-rapidapi-host': env("RAPIDAPI_HOST")
-    }
-
     request = requests.get(url=url, headers=headers, params=querystring)
 
     response = request.json()
 
-    return Response(response)
+    is_props = [prop for prop in response if prop == "props"]
+
+    data = {}
+    if is_props:
+        data = {
+            "props": response["props"],
+            "status": 201
+        }
+    else:
+        data = {
+            "status": 500
+        }
+
+    return Response(data)
 
 
 @api_view(["GET"])
@@ -48,11 +61,6 @@ def get_properties_data(request):
     url = "{}/propertyExtendedSearch".format(MAIN_URL)
 
     querystring = {"location": "New York, ny", "home_type": "Houses"}
-
-    headers = {
-        'x-rapidapi-key': env("RAPIDAPI_KEY"),
-        'x-rapidapi-host': env("RAPIDAPI_HOST")
-    }
 
     request = requests.get(url=url, headers=headers, params=querystring)
     response = request.json()
@@ -104,13 +112,8 @@ def favorites_properties(request):
 @api_view(["POST"])
 def get_virtual_tour_url(request):
     zpid = int(request.data["zpid"])
-    print(request.data)
 
     url = "{}/property".format(MAIN_URL)
-    headers = {
-        "x-rapidapi-key": env("RAPIDAPI_KEY"),
-        "x-rapidapi-host": env("RAPIDAPI_HOST")
-    }
 
     querystring = {"zpid": zpid}
 
@@ -120,17 +123,12 @@ def get_virtual_tour_url(request):
     virtual_tour_url = response["resoFacts"]["virtualTour"]
 
     return Response({"data": virtual_tour_url})
-    # return Response({"data": "virtual_tour_url"})
 
 
 @api_view(["POST"])
 def get_property_images(request):
     url = "{}/images".format(MAIN_URL)
 
-    headers = {
-        "x-rapidapi-key": env("RAPIDAPI_KEY"),
-        "x-rapidapi-host": env("RAPIDAPI_HOST")
-    }
     querystring = {"zpid": int(request.data["zpid"])}
 
     request = requests.get(
