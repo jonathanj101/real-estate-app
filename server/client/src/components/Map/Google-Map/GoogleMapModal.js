@@ -28,7 +28,7 @@ const GoogleMapModal = ({ latitude, longitude }) => {
             {isLoading ? (
                 <Loading />
             ) : (
-                <GoogleMapReact bootstrapURLKeys={{ key: googleApiKey }} center={center} zoom={11}>
+                <GoogleMapReact bootstrapURLKeys={{ key: googleApiKey }} center={center} zoom={12}>
                     <LocationMarker lat={latitude} lng={longitude} text="my mareker" />
                 </GoogleMapReact>
             )}
