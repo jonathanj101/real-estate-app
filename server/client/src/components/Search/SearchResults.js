@@ -20,8 +20,6 @@ import PropertyModal from "../PropertyModal";
 import axios from "axios";
 
 const SearchResults = () => {
-    const [isHouses, setIsHouses] = useState(false);
-    const [isApartments, setIsApartments] = useState(false);
     const [propertiesData, setPropertiesData] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [address, setAddress] = useState("");
@@ -39,15 +37,6 @@ const SearchResults = () => {
     const [zpid, setZpid] = useState("");
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
     const classes = styles();
-
-    const handleChange = (e) => {
-        const housesChecked = e.currentTarget.attributes.name.nodeValue === "houses";
-        if (housesChecked) {
-            setIsHouses(e.currentTarget.checked);
-        } else {
-            setIsApartments(e.currentTarget.checked);
-        }
-    };
 
     const handleCloseModal = () => {
         setOpenModal(!openModal);
@@ -160,14 +149,12 @@ const SearchResults = () => {
         price,
         zpid,
         latitude,
-        longitude,
-        livingArea
+        longitude
     ) => {
         setOpenModal(true);
         setAddress(address);
         setBathrooms(bathrooms);
         setBedrooms(bedrooms);
-        setLivingArea(livingArea);
         setLotAreaUnit(lotAreaUnit);
         setLotAreaValue(lotAreaValue);
         setPropertyType(property_type);
@@ -283,26 +270,7 @@ const SearchResults = () => {
             />
             <div id="container" style={{ width: "100%", height: "1000px", display: "flex" }}>
                 <div id="google-map-div" style={{ width: "75%" }}>
-                    <div id="filters" style={{ width: "100%", border: "1px solid grey", height: "50px" }}>
-                        <FormControl
-                            style={{ width: "50%", display: "flex", justifyContent: "center", margin: "auto" }}
-                        >
-                            <FormLabel style={{ margin: "auto" }}>Property Type</FormLabel>
-                            <FormGroup style={{ margin: "auto", display: "block" }}>
-                                <FormControlLabel
-                                    control={<Checkbox checked={isHouses} onChange={handleChange} name="houses" />}
-                                    label="Houses"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox checked={isApartments} onChange={handleChange} name="apartments" />
-                                    }
-                                    label="Apartments"
-                                />
-                            </FormGroup>
-                        </FormControl>
-                    </div>
-                    <div style={{ height: "950px" }}>
+                    <div style={{ height: "100%" }}>
                         <GoogleMap propertiesData={propertiesData} latitude={latitude} longitude={longitude} />
                     </div>
                 </div>
