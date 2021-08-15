@@ -24,13 +24,17 @@ const GoogleMap = ({ propertiesData }) => {
     };
 
     const mapPropertiesData = () => {
-        debugger;
         return propertiesData.map((prop) => {
             return <LocationMarker lat={prop.latitude} lng={prop.longitude} />;
         });
     };
 
-    const markers = propertiesData !== undefined && propertiesData.length !== 0 ? mapPropertiesData() : <div></div>;
+    const markers =
+        propertiesData !== undefined && propertiesData.length !== 0 ? (
+            mapPropertiesData()
+        ) : (
+            <LocationMarker lat={center.lat} lng={center.lng} />
+        );
 
     return (
         <div className={classes.map}>
@@ -49,13 +53,9 @@ const GoogleMap = ({ propertiesData }) => {
                                 ? propertiesData[0].longitude
                                 : center.lng,
                     }}
-                    zoom={11}
+                    zoom={10}
                 >
-                    {propertiesData !== undefined && propertiesData.length !== 0 ? (
-                        markers
-                    ) : (
-                        <LocationMarker lat={center.lat} lng={center.lng} />
-                    )}
+                    {markers}
                 </GoogleMapReact>
             )}
         </div>
