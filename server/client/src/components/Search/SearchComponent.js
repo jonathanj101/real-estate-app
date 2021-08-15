@@ -21,9 +21,14 @@ const SearchComponent = ({ setPropertiesData, setLatitude, setLongitude }) => {
 
     const searchRequest = async (city, state) => {
         const response = await axios.get(`api/search/${city},${state}`);
-        setPropertiesData(response.data.props);
-        setLatitude(response.data.props[0].latitude);
-        setLongitude(response.data.props[0].longitude);
+        const statusCode = response.data.status;
+        if (statusCode <= 201) {
+            setPropertiesData(response.data.props);
+            setLatitude(response.data.props[0].latitude);
+            setLongitude(response.data.props[0].longitude);
+        } else {
+            setQueryError(true);
+        }
     };
 
     const checkFormValidations = (location) => {
