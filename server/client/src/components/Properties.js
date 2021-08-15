@@ -32,7 +32,6 @@ const Properties = () => {
         setPropertyType("");
         setViewTourUrl("ok");
         setPrice("");
-        setImage("");
     };
 
     useEffect(() => {
@@ -49,7 +48,6 @@ const Properties = () => {
 
     const fetchProperties = async () => {
         const response = await axios.get("api/show-properties");
-        console.log(response.data.data);
         setPropertiesList(response.data.data);
     };
 
@@ -201,7 +199,6 @@ const Properties = () => {
                     <IconButton
                         aria-label="add to favorites"
                         onClick={(e) => {
-                            console.log(property);
                             handleSubmit(
                                 e,
                                 property.address,
