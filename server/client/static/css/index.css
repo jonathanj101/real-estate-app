@@ -48,3 +48,8 @@ body {
 #paginate-mainDiv > #paginate > ul.MuiPagination-ul {
     justify-content: center;
 }
+
+#error-page-btn:hover {
+    color: white !important;
+    background-color: red;
+}
