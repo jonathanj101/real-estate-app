@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { TextField, makeStyles, Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import AlertMessage from "../../Alert-Message/AlertMessage";
+import styles from "./RegisterFormStyles";
 
 const RegisterForm = ({ handleRegistrationOnMain }) => {
     const [isFirstNameValidated, setIsFirstNameValidated] = useState(false);
@@ -176,14 +177,5 @@ const RegisterForm = ({ handleRegistrationOnMain }) => {
         </div>
     );
 };
-
-const styles = makeStyles({
-    mainDiv: {
-        width: "100%",
-        height: "100%",
-        margin: "0 auto 250px auto",
-        textAlign: "center",
-    },
-});
 
 export default RegisterForm;
