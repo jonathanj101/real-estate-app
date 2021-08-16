@@ -8,6 +8,8 @@ import About from "../pages/About/About";
 import UserPage from "./User-Page/UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
 import SearchResults from "./Search/Search-Results/SearchResults";
+import ErrorPage from "./Error-Page/ErrorPage";
+import ProtectRoute from "./ProtectRoute";
 
 class Main extends Component {
     constructor(props) {
@@ -88,13 +90,20 @@ class Main extends Component {
                 <Switch>
                     <Route exact path="/" render={() => <Home />} />
                     <Route exact path="/about" render={() => <About />} />
-                    <Route exact path="/account" render={() => <UserPage />} />
+                    <ProtectRoute
+                        exact
+                        path="/account"
+                        isUserAuthenticated={this.state.isLogged}
+                        component={() => <UserPage />}
+                    />
+                    {/* <Route exact path="/account" render={() => <UserPage />} /> */}
                     <Route
                         exact
                         path="/register"
                         render={() => <RegisterForm handleRegistrationOnMain={this.handleRegistration} />}
                     />
                     <Route exact path="/search" render={() => <SearchResults />} />
+                    <Route exact path="*" render={() => <ErrorPage />} />
                 </Switch>
                 <Footer />
             </div>
