@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import { HourglassFullTwoTone } from "@material-ui/icons";
+import styles from "./LoadingStyles";
 
 const Loading = () => {
     const classes = styles();
@@ -10,18 +10,5 @@ const Loading = () => {
         </div>
     );
 };
-
-const styles = makeStyles({
-    iconDiv: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-    },
-    icon: {
-        fontSize: "5rem",
-    },
-});
 
 export default Loading;
