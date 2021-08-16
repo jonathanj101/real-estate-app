@@ -8,4 +8,5 @@ urlpatterns = [
     path("register", index),
     path("login", index),
     path("search", index),
+    path("page-not-found", index)
 ]
