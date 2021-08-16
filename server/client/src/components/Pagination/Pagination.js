@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
+import styles from "./PaginationStyles";
 
 const PaginationComponent = ({ handlePageChange, currentPage, pageCount }) => {
     const classes = styles();
@@ -19,12 +19,5 @@ const PaginationComponent = ({ handlePageChange, currentPage, pageCount }) => {
         </div>
     );
 };
-
-const styles = makeStyles({
-    mainDiv: {
-        width: "50%",
-        margin: "auto",
-    },
-});
 
 export default PaginationComponent;
