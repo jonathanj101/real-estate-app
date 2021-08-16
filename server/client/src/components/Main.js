@@ -4,7 +4,7 @@ import axios from "axios";
 import Navigation from "./Navigation/Navigation";
 import Footer from "./Footer/Footer";
 import Home from "../pages/Home";
-import About from "../pages/About";
+import About from "../pages/About/About";
 import UserPage from "./User-Page/UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
 import SearchResults from "./Search/Search-Results/SearchResults";
