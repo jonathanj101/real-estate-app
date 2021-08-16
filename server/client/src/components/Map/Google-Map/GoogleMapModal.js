@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core";
 import GoogleMapReact from "google-map-react";
+import axios from "axios";
 import LocationMarker from "../Location-Marker/LocationMarker";
 import Loading from "../../LoadingComponent/Loading";
-import axios from "axios";
+import styles from "./GoogleMapStyles";
 
 const GoogleMapModal = ({ latitude, longitude }) => {
     const [center] = useState({ lat: latitude, lng: longitude });
@@ -35,12 +35,5 @@ const GoogleMapModal = ({ latitude, longitude }) => {
         </div>
     );
 };
-const styles = makeStyles({
-    map: {
-        height: "100%",
-        width: "100%",
-        position: "relative",
-    },
-});
 
 export default GoogleMapModal;
