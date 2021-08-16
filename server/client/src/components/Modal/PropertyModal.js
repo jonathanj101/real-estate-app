@@ -3,7 +3,7 @@ import { Modal, Card, CardContent, Typography, Button } from "@material-ui/core"
 import axios from "axios";
 import Loading from "../LoadingComponent/Loading";
 import GoogleMapModal from "../Map/Google-Map/GoogleMapModal";
-import styles from "./PropertiesModalStyles";
+import styles from "./PropertyModalStyles";
 
 const PropertyModal = ({
     open,
