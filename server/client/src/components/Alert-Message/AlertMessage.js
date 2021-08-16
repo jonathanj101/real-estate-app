@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core";
+import styles from "./AlertStyles";
 
 const AlertMessage = ({ show, statusCode, responseMessage }) => {
     const classes = styles();
@@ -17,11 +17,5 @@ const AlertMessage = ({ show, statusCode, responseMessage }) => {
         </div>
     );
 };
-
-const styles = makeStyles({
-    alertMessageStyles: {
-        justifyContent: "center",
-    },
-});
 
 export default AlertMessage;
