@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import axios from "axios";
-import Navigation from "./Navigation";
-import Footer from "./Footer";
+import Navigation from "./Navigation/Navigation";
+import Footer from "./Footer/Footer";
 import Home from "../pages/Home";
 import About from "../pages/About";
-import UserPage from "./UserPage";
+import UserPage from "./User-Page/UserPage";
 import RegisterForm from "./User-Auth/Registration/RegisterForm";
-import SearchResults from "./Search/SearchResults";
+import SearchResults from "./Search/Search-Results/SearchResults";
 
 class Main extends Component {
     constructor(props) {
