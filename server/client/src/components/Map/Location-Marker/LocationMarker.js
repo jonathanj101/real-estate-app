@@ -1,9 +1,10 @@
 import React from "react";
-import { Icon, makeStyles } from "@material-ui/core";
-import { LocationOn, Room } from "@material-ui/icons";
+import { Icon } from "@material-ui/core";
+import { Room } from "@material-ui/icons";
+import styles from "./LocationMarkerStyles";
 
 const LocationMarker = () => {
-    const classes = style();
+    const classes = styles();
     return (
         <div className="location-marker">
             <Icon>
@@ -12,12 +13,5 @@ const LocationMarker = () => {
         </div>
     );
 };
-
-const style = makeStyles({
-    iconStyles: {
-        color: "red",
-        fontSize: "1.5rem",
-    },
-});
 
 export default LocationMarker;
