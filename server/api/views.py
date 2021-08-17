@@ -24,12 +24,6 @@ headers = {
 
 
 @api_view(["GET"])
-def user_Account(request):
-    print("user account route")
-    return Response("user accout route")
-
-
-@api_view(["GET"])
 def search_properties(request, location):
 
     url = "{}/propertyExtendedSearch".format(MAIN_URL)
@@ -72,7 +66,6 @@ def get_properties_data(request):
 def add_property(request):
 
     USER_DETAIL = request.data
-    print(USER_DETAIL)
 
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
     ZPID_FILTER = Property.objects.filter(
@@ -197,7 +190,6 @@ def log_in(request):
 
 @api_view(["PUT"])
 def verify_user(request):
-    print(request.data)
     USER_DETAIL = request.data
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
     if (USER):

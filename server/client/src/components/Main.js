@@ -96,7 +96,6 @@ class Main extends Component {
                         isUserAuthenticated={this.state.isLogged}
                         component={() => <UserPage />}
                     />
-                    {/* <Route exact path="/account" render={() => <UserPage />} /> */}
                     <Route
                         exact
                         path="/register"
