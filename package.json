@@ -4,11 +4,8 @@
   "description": "Django real estate app",
   "private": true,
   "scripts": {
-    "heroku-prebuild": "NODE_ENV=production cd client/ && npm install &&  run build && cd .."
+    "heroku-prebuild": "NODE_ENV=production cd client && npm install &&  run build && cd .."
   },
-  "cacheDirectories": [
-    "frontend/node_modules"
-  ],
   "engines": {
     "node": "14.15.4",
     "npm": "6.14.10"
