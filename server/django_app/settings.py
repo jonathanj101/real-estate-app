@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import environ
+import django_heroku
+import dotenv
+import dj_database_url
 import os
 
 env = environ.Env()
@@ -31,7 +34,8 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["real-estate-app-django.herokuapp.com", ]
+ALLOWED_HOSTS = ["real-estate-app-django.herokuapp.com",
+                 "localhost"]
 
 
 # Application definition
@@ -98,7 +102,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -135,6 +138,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+print(f"static rooot {STATIC_ROOT}")
+
 STATIC_URL = '/static/'
 
 
@@ -149,3 +155,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000"
 ]
+
+django_heroku.settings(locals())
