@@ -4,7 +4,7 @@
   "description": "Django real estate app",
   "private": true,
   "scripts": {
-    "heroku-prebuild": "npm i --prefix client && npm install &&  run build && cd .."
+    "heroku-prebuild": "npm i --prefix client && npm install && npm run build && cd .."
   },
   "engines": {
     "node": "14.15.4",
