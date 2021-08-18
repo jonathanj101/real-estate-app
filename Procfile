@@ -1,2 +1,2 @@
 release: python server/manage.py migrate
-web: gunicorn django_app.wsgi
+web: gunicorn --chdir server django_app.wsgi
