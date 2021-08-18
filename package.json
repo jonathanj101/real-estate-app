@@ -3,6 +3,6 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "heroku-prebuild": "npm i --prefix client && npm run dev --prefix client"
+      "heroku-prebuild": "npm i --prefix client && npm run postintall --prefix client"
     }
   }
