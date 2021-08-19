@@ -53,7 +53,7 @@ const Properties = () => {
     };
 
     const fetchViewTourUrl = async (zpid) => {
-        const response = await axios.post("api/test_virtual", {
+        const response = await axios.post("api/get-virtual-tour", {
             zpid: zpid,
         });
         setViewTourUrl(response.data.data);
