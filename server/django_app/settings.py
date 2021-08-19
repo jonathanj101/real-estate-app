@@ -142,7 +142,6 @@ USE_TZ = True
 REACT_APP_PATH = os.path.join(BASE_DIR, "client")
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-print(f"static rooot {STATIC_ROOT}")
 
 STATIC_URL = '/static/'
 
