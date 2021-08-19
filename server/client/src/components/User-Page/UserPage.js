@@ -96,7 +96,7 @@ const UserPage = () => {
     };
 
     const fetchViewTourUrl = async () => {
-        const response = await axios.post("api/test_virtual", {
+        const response = await axios.post("api/get-virtual-tour", {
             zpid: zpid,
         });
         setViewTourUrl(response.data.data);
