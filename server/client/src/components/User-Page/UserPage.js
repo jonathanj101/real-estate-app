@@ -28,7 +28,6 @@ const UserPage = () => {
     const [propertiesPerPage] = useState(6);
     const classes = styles();
     const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
-
     useEffect(() => {
         if (savedPropertyUpdated) {
             fetchPropertyData();
@@ -46,7 +45,9 @@ const UserPage = () => {
     }, [isMoreInfoClicked]);
 
     const fetchPropertyData = async () => {
-        const response = await axios.get("api/favorites-properties");
+        const response = await axios.put("api/favorites-properties", {
+            userId: localStorageUserId,
+        });
         setSavedProperties(response.data.data);
     };
 
