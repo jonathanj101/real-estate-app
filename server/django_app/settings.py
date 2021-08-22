@@ -13,22 +13,23 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import environ
 import django_heroku
-import dotenv
+from dotenv import load_dotenv
 import dj_database_url
 import os
-
-env = environ.Env()
-
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(os.path.join(BASE_DIR, "django_app", ".env"))
 
+env = environ.Env()
+
+environ.Env.read_env(os.path.join(BASE_DIR, "django_app", ".env"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -92,14 +93,23 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# if os.path.isfile(dotenv_file):
+#     load_dotenv(dotenv_file)
+
 DATABASES = {
     'default': {
-        'ENGINE': env("ENGINE"),
-        'NAME': env("NAME"),
-        'USER': env("USER"),
-        'PASSWORD': env("PASSWORD"),
-        'HOST': env("HOST"),
-        'PORT': env("PORT"),
+        'ENGINE': os.environ['ENGINE'],
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['USER1'],
+        'PASSWORD': os.environ["PASSWORD1"],
+        'HOST': os.environ["HOST1"],
+        'PORT': "",
+        # 'ENGINE': "django.db.backends.postgresql",
+        # 'NAME': "django_test_unix",
+        # 'USER': "jonathan",
+        # 'PASSWORD': "1209lmc",
+        # 'HOST': "localhost",
+        # 'PORT': "5433",
     }
 }
 
