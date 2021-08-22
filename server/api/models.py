@@ -19,7 +19,7 @@ class User(models.Model):
 class Property(models.Model):
     user = models.ForeignKey(User, default="",
                              on_delete=models.DO_NOTHING)
-    address = models.CharField(max_length=100, null=False, unique=True)
+    address = models.CharField(max_length=100, null=False, unique=False)
     price = models.IntegerField()
     property_type = models.CharField(max_length=30)
     bathrooms = models.IntegerField()
