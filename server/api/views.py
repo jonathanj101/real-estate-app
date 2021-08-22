@@ -68,8 +68,10 @@ def add_property(request):
     USER_DETAIL = request.data
 
     USER = User.objects.filter(id=USER_DETAIL["userId"]).first()
+    print(USER)
     ZPID_FILTER = Property.objects.filter(
         zpid=int(USER_DETAIL["zpid"]), user_id=USER.id).first()
+    print(ZPID_FILTER)
     if ZPID_FILTER is None:
         property_model = Property(user_id=USER.id, address=USER_DETAIL["address"], price=USER_DETAIL["cost"], property_type=USER_DETAIL["propertyType"], bathrooms=USER_DETAIL["bathrooms"], bedrooms=USER_DETAIL["bedrooms"],
                                   lotAreaUnit=USER_DETAIL["lotAreaUnit"], lotAreaValue=USER_DETAIL["lotAreaUnitValue"], livingArea=USER_DETAIL["livingArea"], zpid=USER_DETAIL["zpid"], latitude=USER_DETAIL["latitude"], longitude=USER_DETAIL["longitude"], photo_main=USER_DETAIL["image"])
@@ -94,10 +96,13 @@ def delete_property(request):
     return Response({"status": 500})
 
 
-@api_view(["GET"])
+@api_view(["PUT"])
 def favorites_properties(request):
-    user = User.objects.filter(id=1).first()
-    property_model = Property.objects.filter(user_id=1).all()
+    user_detail = request.data
+    user = User.objects.filter(id=user_detail["userId"]).first()
+    property_model = Property.objects.filter(
+        user_id=user_detail["userId"]).all()
+    print(property_model)
     serializer = PropertySerializer(property_model, many=True)
     return Response({"data": serializer.data})
 
