@@ -22,20 +22,24 @@ class Main extends Component {
         this.handleLogIn = this.handleLogIn.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
         this.handleRegistration = this.handleRegistration.bind(this);
+        this.isUserAuthenticated = this.isUserAuthenticated.bind(this);
     }
 
     async componentDidMount() {
+        debugger;
         const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
         if (localStorageUserId !== null) {
             const response = await axios.put("api/verify-user", {
                 userId: localStorageUserId,
             });
             if (response.data.status <= 201) {
-                const username = response.data;
+                const username = response.data.username;
                 this.setState({
                     isLogged: true,
                     username: username,
                 });
+                console.log(this.state.isLogged);
+                // this.isUserAuthenticated();
             } else {
                 localStorage.clear();
                 this.setState({
@@ -50,6 +54,18 @@ class Main extends Component {
             });
         }
     }
+
+    isUserAuthenticated = (isLogged) => {
+        debugger;
+        // const isLogged = this.state.isLogged;
+        if (isLogged) {
+            console.log("both are true");
+            return true;
+        } else {
+            console.log(isLogged);
+            return false;
+        }
+    };
 
     handleRegistration = (username) => {
         if (username) {
@@ -93,7 +109,8 @@ class Main extends Component {
                     <ProtectRoute
                         exact
                         path="/account"
-                        isUserAuthenticated={this.state.isLogged}
+                        // isUserAuthenticated={this.state.isLogged}
+                        isUserAuthenticated={this.isUserAuthenticated(this.state.isLogged)}
                         component={() => <UserPage />}
                     />
                     <Route
