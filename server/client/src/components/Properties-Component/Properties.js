@@ -180,9 +180,9 @@ const Properties = () => {
 
     const cardBody = propertiesList.map((property, num) => {
         return (
-            <Card key={num} className={classes.cardStyles}>
+            <Card key={num} className={classes.cardStyles} id="property_card">
                 <CardMedia className={classes.image} image={property.imgSrc} />
-                <CardContent style={{ padding: "10px" }}>
+                <CardContent style={{ padding: "10px" }} id="property_card_content">
                     <div style={{ fontSize: "1rem", fontWeight: "bold" }}>
                         <div style={{ display: "flex" }}>
                             <h2>$</h2>
@@ -210,7 +210,7 @@ const Properties = () => {
                         </div>
                     </div>
                 </CardContent>
-                <CardActions>
+                <CardActions id="property_card_actions">
                     <IconButton
                         aria-label="add to favorites"
                         onClick={(e) => {
@@ -261,9 +261,11 @@ const Properties = () => {
     });
 
     return (
-        <div id="cards js" style={{ height: "inherit" }}>
+        <div id="properties_component" style={{ height: "inherit" }}>
             <div className={classes.cardMainDiv}>
-                <div className={classes.cardDivStyles}>{cardBody}</div>
+                <div id="card_main_div" className={classes.cardDivStyles}>
+                    {cardBody}
+                </div>
                 <PropertyModal
                     open={openModal}
                     handleClose={handleCloseModal}
