@@ -25,6 +25,7 @@ load_dotenv(os.path.join(BASE_DIR, "django_app", ".env"))
 env = environ.Env()
 
 environ.Env.read_env(os.path.join(BASE_DIR, "django_app", ".env"))
+print(os.environ["NAME"])
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -99,11 +100,17 @@ WSGI_APPLICATION = 'django_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ['ENGINE'],
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['USER1'],
-        'PASSWORD': os.environ["PASSWORD1"],
-        'HOST': os.environ["HOST1"],
-        'PORT': "",
+        'NAME': os.environ['NAME'],
+        'USER': os.environ['USER'],
+        'PASSWORD': os.environ["PASSWORD"],
+        'HOST': os.environ["HOST"],
+        'PORT': os.environ["PORT1"],
+        # 'ENGINE': os.environ['ENGINE'],
+        # 'NAME': os.environ['DB_NAME'],
+        # 'USER': os.environ['USER1'],
+        # 'PASSWORD': os.environ["PASSWORD1"],
+        # 'HOST': os.environ["HOST1"],
+        # 'PORT': os.evnrion,
         # 'ENGINE': "django.db.backends.postgresql",
         # 'NAME': "django_test_unix",
         # 'USER': "jonathan",
@@ -112,6 +119,7 @@ DATABASES = {
         # 'PORT': "5433",
     }
 }
+print(DATABASES)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
