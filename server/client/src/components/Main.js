@@ -26,7 +26,7 @@ class Main extends Component {
     }
 
     async componentDidMount() {
-        debugger;
+        // debugger;
         const localStorageUserId = JSON.parse(localStorage.getItem("userId"));
         if (localStorageUserId !== null) {
             const response = await axios.put("api/verify-user", {
@@ -56,7 +56,7 @@ class Main extends Component {
     }
 
     isUserAuthenticated = (isLogged) => {
-        debugger;
+        // debugger;
         // const isLogged = this.state.isLogged;
         if (isLogged) {
             console.log("both are true");
