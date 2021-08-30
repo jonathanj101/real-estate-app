@@ -56,16 +56,21 @@ const PropertyModal = ({
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <Card style={{ height: "95%" }}>
-                    <div style={{ height: "100%", display: "flex", flexDirection: "row-reverse" }}>
-                        <div style={{ width: "30%" }}>
-                            <CardContent style={{ height: "75%" }}>
+                <Card id="property_modal_card" style={{ height: "95%" }}>
+                    <div
+                        id="modal_card_content_div"
+                        style={{ height: "100%", display: "flex", flexDirection: "row-reverse" }}
+                    >
+                        <div id="modal_card_content_right" style={{ width: "30%" }}>
+                            <CardContent id="modal_property_images" style={{ height: "75%" }}>
                                 <div className={classes.imagesListDiv}>
                                     {isLoading ? <Loading /> : imagesListComponent}
                                 </div>
                             </CardContent>
-                            <CardContent>
-                                <Typography variant="h3">${price}</Typography>
+                            <CardContent id="modal_card_content_property_info">
+                                <Typography variant="h3" id="modal_property_price">
+                                    ${price}
+                                </Typography>
                                 <Typography variant="h5">{address}</Typography>
                                 <Typography variant="h5">
                                     {bathrooms} ba | {bedrooms} bds
@@ -74,7 +79,7 @@ const PropertyModal = ({
                                 <Typography variant="h5">
                                     {lotAreaValue} {lotAreaUnit}
                                 </Typography>
-                                <div className={classes.tourBtnDiv}>
+                                <div id="more_info_btn_div" className={classes.tourBtnDiv}>
                                     {viewTourUrl === null ? (
                                         <Button>No Tour Available</Button>
                                     ) : (
@@ -85,7 +90,7 @@ const PropertyModal = ({
                                 </div>
                             </CardContent>
                         </div>
-                        <div style={{ width: "100%" }}>
+                        <div id="property_modal_map" style={{ width: "100%" }}>
                             <CardContent style={{ height: "100%", width: "100%", padding: "0" }}>
                                 <GoogleMapModal latitude={latitude} longitude={longitude} />
                             </CardContent>
