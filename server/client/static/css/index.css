@@ -56,9 +56,54 @@ body {
 
 /*  media queries */
 
+@media screen and (max-width: 1600px) {
+    #card_main_div > #property_card {
+        width: 30%;
+    }
+}
 @media screen and (max-width: 1200px) {
     #card_main_div > #property_card {
-        width: 15%;
+        width: 30%;
+    }
+    #card_main_div > #property_card {
+        width: 60%;
+    }
+    #property_modal_card {
+        height: 75% !important;
+    }
+    #modal_card_content_div {
+        height: 100% !important;
+    }
+
+    #modal_card_content_right {
+        width: 100% !important;
+    }
+
+    #modal_card_content_right > .MuiCardContent-root {
+        padding: 0;
+    }
+    #modal_card_content_right > #modal_property_images {
+        height: 65% !important;
+    }
+    #modal_card_content_right > #modal_card_content_property_info > .MuiTypography-root.MuiTypography-h5 {
+        font-size: 2rem;
+    }
+    #modal_card_content_property_info {
+        text-align: center;
+    }
+
+    #modal_card_content_property_info > #more_info_btn_div {
+        width: fit-content;
+    }
+    #modal_card_content_property_info > #more_info_btn_div > button {
+        font-size: 0.75rem;
+    }
+    #modal_card_content_property_info > #modal_property_price {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    #property_modal_map {
+        width: 100% !important;
     }
 }
 @media screen and (max-width: 1000px) {
@@ -67,10 +112,88 @@ body {
     #card_main_div > #property_card {
         width: 45%;
     }
+    #card_main_div > #property_card {
+        width: 60%;
+    }
+    #modal_card_content_div {
+        height: 100% !important;
+    }
+
+    #modal_card_content_right {
+        width: 50% !important;
+    }
+
+    #modal_card_content_right > .MuiCardContent-root {
+        padding: 0;
+    }
+    #modal_card_content_right > #modal_card_content_property_info > .MuiTypography-root.MuiTypography-h3,
+    .MuiTypography-root.MuiTypography-h5 {
+        font-size: 1.5rem;
+    }
+    #modal_card_content_right > #modal_card_content_property_info > .MuiTypography-root.MuiTypography-h5 {
+        font-size: 1rem;
+    }
+    #modal_card_content_property_info {
+        text-align: center;
+    }
+
+    #modal_card_content_property_info > #more_info_btn_div {
+        width: fit-content;
+    }
+    #modal_card_content_property_info > #more_info_btn_div > button {
+        font-size: 0.75rem;
+    }
+    #modal_card_content_property_info > #modal_property_price {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    #property_modal_map {
+        width: 50% !important;
+    }
 }
 @media screen and (max-width: 600px) {
     #card_main_div > #property_card {
         width: 60%;
+    }
+    #property_modal_card {
+        height: 50% !important;
+        margin: 50% auto !important;
+    }
+    #modal_card_content_div {
+        height: 100% !important;
+    }
+
+    #modal_card_content_right {
+        width: 50% !important;
+        height: 50% !important;
+    }
+
+    #modal_card_content_right > .MuiCardContent-root {
+        padding: 0;
+    }
+    #modal_card_content_right > #modal_card_content_property_info > .MuiTypography-root.MuiTypography-h3,
+    .MuiTypography-root.MuiTypography-h5 {
+        font-size: 1.5rem;
+    }
+    #modal_card_content_right > #modal_card_content_property_info > .MuiTypography-root.MuiTypography-h5 {
+        font-size: 1rem;
+    }
+    #modal_card_content_property_info {
+        text-align: center;
+    }
+
+    #modal_card_content_property_info > #more_info_btn_div {
+        width: fit-content;
+    }
+    #modal_card_content_property_info > #more_info_btn_div > button {
+        font-size: 0.75rem;
+    }
+    #modal_card_content_property_info > #modal_property_price {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    #property_modal_map {
+        width: 50% !important;
     }
 }
 @media screen and (max-width: 400px) {
