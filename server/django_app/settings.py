@@ -105,18 +105,7 @@ DATABASES = {
         'PASSWORD': os.environ["PASSWORD"],
         'HOST': os.environ["HOST"],
         'PORT': os.environ["PORT1"],
-        # 'ENGINE': os.environ['ENGINE'],
-        # 'NAME': os.environ['DB_NAME'],
-        # 'USER': os.environ['USER1'],
-        # 'PASSWORD': os.environ["PASSWORD1"],
-        # 'HOST': os.environ["HOST1"],
-        # 'PORT': os.evnrion,
-        # 'ENGINE': "django.db.backends.postgresql",
-        # 'NAME': "django_test_unix",
-        # 'USER': "jonathan",
-        # 'PASSWORD': "1209lmc",
-        # 'HOST': "localhost",
-        # 'PORT': "5433",
+
     }
 }
 print(DATABASES)
